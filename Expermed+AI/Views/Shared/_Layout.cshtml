@@ -1,0 +1,36 @@
+﻿<!doctype html>
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="light" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+<head>
+    @await Html.PartialAsync("_title_meta")
+    @RenderSection("styles", required: false)
+    @await Html.PartialAsync("_head_css")
+</head>
+<body>
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+        @await Html.PartialAsync("_menu")
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+                    @await Html.PartialAsync("_page_title")
+
+                    @RenderBody()
+                </div>
+            </div>
+            @await Html.PartialAsync("_footer")
+        </div>
+
+    </div>
+    <!-- END layout-wrapper -->
+@*     @Html.Partial("_customizer")
+ *@
+    @Html.Partial("_vendor_scripts")
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
