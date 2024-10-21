@@ -9,5 +9,11 @@ namespace Expermed_AI.Controllers
         {
             return View();
         }
+
+        [ActionName("NewUser")]
+        public IActionResult NewUser()
+        {
+            return View();
+        }
     }
 }
