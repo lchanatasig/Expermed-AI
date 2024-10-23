@@ -15,5 +15,10 @@ namespace Expermed_AI.Controllers
         {
             return View();
         }
+        [ActionName("UpdateUser")]
+        public IActionResult UpdateUser()
+        {
+            return View();
+        }
     }
 }

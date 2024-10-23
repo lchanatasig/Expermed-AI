@@ -5,22 +5,23 @@
         <!-- Dark Logo-->
         <a href="@Url.Action("Index", "Dashboard")" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="~/assets/images/logo-sm.png" alt="" height="22">
+                <img src="~/assets/images/LogoAzulE.png" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="~/assets/images/logo-dark.png" alt="" height="17">
+                <img src="~/assets/images/LogoLogin.png" alt="" height="30">
             </span>
         </a>
         <!-- Light Logo-->
         <a href="@Url.Action("Index", "Dashboard")" class="logo logo-light">
             <span class="logo-sm">
-                <img src="~/assets/images/logo-sm.png" alt="" height="22">
+                <img src="~/assets/images/LogoAzulE.png" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="~/assets/images/logo-light.png" alt="" height="17">
+                <img src="~/assets/images/LogoLogin.png" alt="" height="30">
             </span>
         </a>
-        <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
+        <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
+            id="vertical-hover">
             <i class="ri-record-circle-line"></i>
         </button>
     </div>
@@ -33,90 +34,118 @@
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="@Url.Action("Home", "Dashboard")" data-bs-toggle="collapse" role="button"
-                       aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="@Url.Action("Home", "Dashboard")" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i data-feather="home" class="icon-dual"></i> <span data-key="t-dashboards">Home</span>
                     </a>
-                 
-                </li> <!-- end Dashboard Menu -->
+
+                </li> <!-- end Users Menu -->
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarApps" data-bs-toggle="collapse"
-                       role="button" aria-expanded="false" aria-controls="sidebarApps">
+                    <a class="nav-link menu-link" href="#sidebarApps" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarApps">
                         <i data-feather="users" class="icon-dual"></i> <span>Users</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarApps">
                         <ul class="nav nav-sm flex-column">
-                          
+
                             <li class="nav-item">
-                                <a href="@Url.Action("UserList", "Users")" class="nav-link" data-key="t-user"> User List </a>
+                                <a href="@Url.Action("UserList", "Users")" class="nav-link" data-key="t-user"> User List
+                                </a>
                             </li>
-                                   <li class="nav-item">
-                                <a href="@Url.Action("NewUser", "Users")" class="nav-link" data-key="t-user"> Create New User </a>
+                            <li class="nav-item">
+                                <a href="@Url.Action("NewUser", "Users")" class="nav-link" data-key="t-user"> Create New
+                                    User </a>
                             </li>
-                            
+
                         </ul>
                     </div>
                 </li>
 
                 <!--Appointments Menu-->
-                       <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarAppointment" data-bs-toggle="collapse"
-                       role="button" aria-expanded="false" aria-controls="sidebarAppointment">
-                        <i data-feather="users" class="icon-dual"></i> <span>Appointments</span>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarAppointment" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarAppointment">
+                        <i data-feather="list" class="icon-dual"></i> <span>Medical Appointments</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarAppointment">
                         <ul class="nav nav-sm flex-column">
-                          
+
                             <li class="nav-item">
-                                <a href="@Url.Action("UserList", "Users")" class="nav-link" data-key="t-user"> User List </a>
+                                <a href="@Url.Action("AppointmentList", "Appointment")" class="nav-link"data-key="t-user"> Appointment list </a>
                             </li>
-                                   <li class="nav-item">
-                                <a href="@Url.Action("UserList", "Users")" class="nav-link" data-key="t-user"> Create New User </a>
+                            <li class="nav-item">
+                                <a href="@Url.Action("UserList", "Users")" class="nav-link" data-key="t-user"> Create
+                                    New Appointment </a>
                             </li>
-                            
+
                         </ul>
                     </div>
                 </li>
+                <!--Consultation Menu-->
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarConsultation" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarConsultation">
+                        <i data-feather="list" class="icon-dual"></i> <span>Medical Consultation</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarConsultation">
+                        <ul class="nav nav-sm flex-column">
 
-                 <!-- end Dashboard Menu -->
+                            <li class="nav-item">
+                                <a href="@Url.Action("ConsultationList", "Consultation")" class="nav-link"
+                                    data-key="t-user"> Consultation list </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("UserList", "Users")" class="nav-link" data-key="t-user"> Create
+                                    New Consultation </a>
+                            </li>
 
-                <li class="menu-title"><i class="ri-more-fill"></i> <span>Appointments</span></li>
+                        </ul>
+                    </div>
+                </li>
+                <!-- end Dashboard Menu -->
+
+                <li class="menu-title"><i class="ri-more-fill"></i> <span>Medical Consultation</span></li>
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarAuth" data-bs-toggle="collapse" role="button"
-                       aria-expanded="false" aria-controls="sidebarAuth">
-                        <i data-feather="users" class="icon-dual"></i> <span data-key="t-authentication">Authentication</span>
+                        aria-expanded="false" aria-controls="sidebarAuth">
+                        <i data-feather="users" class="icon-dual"></i> <span
+                            data-key="t-authentication">Authentication</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarAuth">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="#sidebarSignIn" class="nav-link" data-bs-toggle="collapse" role="button"
-                                   aria-expanded="false" aria-controls="sidebarSignIn" data-key="t-signin">
+                                    aria-expanded="false" aria-controls="sidebarSignIn" data-key="t-signin">
                                     Sign In
                                 </a>
                                 <div class="collapse menu-dropdown" id="sidebarSignIn">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
-                                            <a href="@Url.Action("SignInBasic", "Authentication")" class="nav-link" data-key="t-basic"> Basic </a>
+                                            <a href="@Url.Action("SignInBasic", "Authentication")" class="nav-link"
+                                                data-key="t-basic"> Basic </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("SignInCover", "Authentication")" class="nav-link" data-key="t-cover"> Cover </a>
+                                            <a href="@Url.Action("SignInCover", "Authentication")" class="nav-link"
+                                                data-key="t-cover"> Cover </a>
                                         </li>
                                     </ul>
                                 </div>
                             </li>
                             <li class="nav-item">
                                 <a href="#sidebarSignUp" class="nav-link" data-bs-toggle="collapse" role="button"
-                                   aria-expanded="false" aria-controls="sidebarSignUp" data-key="t-signup">
+                                    aria-expanded="false" aria-controls="sidebarSignUp" data-key="t-signup">
                                     Sign Up
                                 </a>
                                 <div class="collapse menu-dropdown" id="sidebarSignUp">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
-                                            <a href="@Url.Action("SignUpBasic", "Authentication")" class="nav-link" data-key="t-basic"> Basic </a>
+                                            <a href="@Url.Action("SignUpBasic", "Authentication")" class="nav-link"
+                                                data-key="t-basic"> Basic </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("SignUpCover", "Authentication")" class="nav-link" data-key="t-cover"> Cover </a>
+                                            <a href="@Url.Action("SignUpCover", "Authentication")" class="nav-link"
+                                                data-key="t-cover"> Cover </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -124,34 +153,39 @@
 
                             <li class="nav-item">
                                 <a href="#sidebarResetPass" class="nav-link" data-bs-toggle="collapse" role="button"
-                                   aria-expanded="false" aria-controls="sidebarResetPass" data-key="t-password-reset">
+                                    aria-expanded="false" aria-controls="sidebarResetPass" data-key="t-password-reset">
                                     Password Reset
                                 </a>
                                 <div class="collapse menu-dropdown" id="sidebarResetPass">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
-                                            <a href="@Url.Action("PasswordResetBasic", "Authentication")" class="nav-link" data-key="t-basic"> Basic </a>
+                                            <a href="@Url.Action("PasswordResetBasic", "Authentication")"
+                                                class="nav-link" data-key="t-basic"> Basic </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("PasswordResetCover", "Authentication")" class="nav-link" data-key="t-cover"> Cover </a>
+                                            <a href="@Url.Action("PasswordResetCover", "Authentication")"
+                                                class="nav-link" data-key="t-cover"> Cover </a>
                                         </li>
                                     </ul>
                                 </div>
                             </li>
 
                             <li class="nav-item">
-                                <a href="#sidebarchangePass" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false"
-                                    aria-controls="sidebarchangePass" data-key="t-password-create">
+                                <a href="#sidebarchangePass" class="nav-link" data-bs-toggle="collapse" role="button"
+                                    aria-expanded="false" aria-controls="sidebarchangePass"
+                                    data-key="t-password-create">
                                     Password Create
                                 </a>
                                 <div class="collapse menu-dropdown" id="sidebarchangePass">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
-                                            <a href="@Url.Action("PasswordChangeBasic", "Authentication")" class="nav-link" data-key="t-basic">
+                                            <a href="@Url.Action("PasswordChangeBasic", "Authentication")"
+                                                class="nav-link" data-key="t-basic">
                                                 Basic </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("PasswordChangeCover", "Authentication")" class="nav-link" data-key="t-cover">
+                                            <a href="@Url.Action("PasswordChangeCover", "Authentication")"
+                                                class="nav-link" data-key="t-cover">
                                                 Cover </a>
                                         </li>
                                     </ul>
@@ -160,16 +194,18 @@
 
                             <li class="nav-item">
                                 <a href="#sidebarLockScreen" class="nav-link" data-bs-toggle="collapse" role="button"
-                                   aria-expanded="false" aria-controls="sidebarLockScreen" data-key="t-lock-screen">
+                                    aria-expanded="false" aria-controls="sidebarLockScreen" data-key="t-lock-screen">
                                     Lock Screen
                                 </a>
                                 <div class="collapse menu-dropdown" id="sidebarLockScreen">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
-                                            <a href="@Url.Action("LockScreenBasic", "Authentication")" class="nav-link" data-key="t-basic"> Basic </a>
+                                            <a href="@Url.Action("LockScreenBasic", "Authentication")" class="nav-link"
+                                                data-key="t-basic"> Basic </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("LockScreenCover", "Authentication")" class="nav-link" data-key="t-cover"> Cover </a>
+                                            <a href="@Url.Action("LockScreenCover", "Authentication")" class="nav-link"
+                                                data-key="t-cover"> Cover </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -177,73 +213,86 @@
 
                             <li class="nav-item">
                                 <a href="#sidebarLogout" class="nav-link" data-bs-toggle="collapse" role="button"
-                                   aria-expanded="false" aria-controls="sidebarLogout" data-key="t-logout">
+                                    aria-expanded="false" aria-controls="sidebarLogout" data-key="t-logout">
                                     Logout
                                 </a>
                                 <div class="collapse menu-dropdown" id="sidebarLogout">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
-                                            <a href="@Url.Action("LogoutBasic", "Authentication")" class="nav-link" data-key="t-basic"> Basic </a>
+                                            <a href="@Url.Action("LogoutBasic", "Authentication")" class="nav-link"
+                                                data-key="t-basic"> Basic </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("LogoutCover", "Authentication")" class="nav-link" data-key="t-cover"> Cover </a>
+                                            <a href="@Url.Action("LogoutCover", "Authentication")" class="nav-link"
+                                                data-key="t-cover"> Cover </a>
                                         </li>
                                     </ul>
                                 </div>
                             </li>
                             <li class="nav-item">
                                 <a href="#sidebarSuccessMsg" class="nav-link" data-bs-toggle="collapse" role="button"
-                                   aria-expanded="false" aria-controls="sidebarSuccessMsg" data-key="t-success-message">
+                                    aria-expanded="false" aria-controls="sidebarSuccessMsg"
+                                    data-key="t-success-message">
                                     Success Message
                                 </a>
                                 <div class="collapse menu-dropdown" id="sidebarSuccessMsg">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
-                                            <a href="@Url.Action("SuccessMessageBasic", "Authentication")" class="nav-link" data-key="t-basic"> Basic </a>
+                                            <a href="@Url.Action("SuccessMessageBasic", "Authentication")"
+                                                class="nav-link" data-key="t-basic"> Basic </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("SuccessMessageCover", "Authentication")" class="nav-link" data-key="t-cover"> Cover </a>
+                                            <a href="@Url.Action("SuccessMessageCover", "Authentication")"
+                                                class="nav-link" data-key="t-cover"> Cover </a>
                                         </li>
                                     </ul>
                                 </div>
                             </li>
                             <li class="nav-item">
                                 <a href="#sidebarTwoStep" class="nav-link" data-bs-toggle="collapse" role="button"
-                                   aria-expanded="false" aria-controls="sidebarTwoStep" data-key="t-two-step-verification">
+                                    aria-expanded="false" aria-controls="sidebarTwoStep"
+                                    data-key="t-two-step-verification">
                                     Two Step Verification
                                 </a>
                                 <div class="collapse menu-dropdown" id="sidebarTwoStep">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
-                                            <a href="@Url.Action("TwoStepVerificationBasic", "Authentication")" class="nav-link" data-key="t-basic"> Basic </a>
+                                            <a href="@Url.Action("TwoStepVerificationBasic", "Authentication")"
+                                                class="nav-link" data-key="t-basic"> Basic </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("TwoStepVerificationCover", "Authentication")" class="nav-link" data-key="t-cover"> Cover </a>
+                                            <a href="@Url.Action("TwoStepVerificationCover", "Authentication")"
+                                                class="nav-link" data-key="t-cover"> Cover </a>
                                         </li>
                                     </ul>
                                 </div>
                             </li>
                             <li class="nav-item">
                                 <a href="#sidebarErrors" class="nav-link" data-bs-toggle="collapse" role="button"
-                                   aria-expanded="false" aria-controls="sidebarErrors" data-key="t-errors">
+                                    aria-expanded="false" aria-controls="sidebarErrors" data-key="t-errors">
                                     Errors
                                 </a>
                                 <div class="collapse menu-dropdown" id="sidebarErrors">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
-                                            <a href="@Url.Action("Errors404Basic", "Authentication")" class="nav-link" data-key="t-404-basic"> 404 Basic </a>
+                                            <a href="@Url.Action("Errors404Basic", "Authentication")" class="nav-link"
+                                                data-key="t-404-basic"> 404 Basic </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("Errors404Cover", "Authentication")" class="nav-link" data-key="t-404-cover"> 404 Cover </a>
+                                            <a href="@Url.Action("Errors404Cover", "Authentication")" class="nav-link"
+                                                data-key="t-404-cover"> 404 Cover </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("Errors404Alt", "Authentication")" class="nav-link" data-key="t-404-alt"> 404 Alt </a>
+                                            <a href="@Url.Action("Errors404Alt", "Authentication")" class="nav-link"
+                                                data-key="t-404-alt"> 404 Alt </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("Errors500", "Authentication")" class="nav-link" data-key="t-500"> 500 </a>
+                                            <a href="@Url.Action("Errors500", "Authentication")" class="nav-link"
+                                                data-key="t-500"> 500 </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("Offline", "Authentication")" class="nav-link" data-key="t-offline-page"> Offline Page </a>
+                                            <a href="@Url.Action("Offline", "Authentication")" class="nav-link"
+                                                data-key="t-offline-page"> Offline Page </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -254,26 +303,29 @@
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarPages" data-bs-toggle="collapse" role="button"
-                       aria-expanded="false" aria-controls="sidebarPages">
+                        aria-expanded="false" aria-controls="sidebarPages">
                         <i data-feather="command" class="icon-dual"></i> <span data-key="t-pages">Pages</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarPages">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="@Url.Action("Starter", "Pages")" class="nav-link" data-key="t-starter"> Starter </a>
+                                <a href="@Url.Action("Starter", "Pages")" class="nav-link" data-key="t-starter"> Starter
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#sidebarProfile" class="nav-link" data-bs-toggle="collapse" role="button"
-                                   aria-expanded="false" aria-controls="sidebarProfile" data-key="t-profile">
+                                    aria-expanded="false" aria-controls="sidebarProfile" data-key="t-profile">
                                     Profile
                                 </a>
                                 <div class="collapse menu-dropdown" id="sidebarProfile">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
-                                            <a href="@Url.Action("ProfileSimple", "Pages")" class="nav-link" data-key="t-simple-page"> Simple Page </a>
+                                            <a href="@Url.Action("ProfileSimple", "Pages")" class="nav-link"
+                                                data-key="t-simple-page"> Simple Page </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("ProfileSettings", "Pages")" class="nav-link" data-key="t-settings"> Settings </a>
+                                            <a href="@Url.Action("ProfileSettings", "Pages")" class="nav-link"
+                                                data-key="t-settings"> Settings </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -282,34 +334,43 @@
                                 <a href="@Url.Action("Team", "Pages")" class="nav-link" data-key="t-team"> Team </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Timeline", "Pages")" class="nav-link" data-key="t-timeline"> Timeline </a>
+                                <a href="@Url.Action("Timeline", "Pages")" class="nav-link" data-key="t-timeline">
+                                    Timeline </a>
                             </li>
                             <li class="nav-item">
                                 <a href="@Url.Action("FAQs", "Pages")" class="nav-link" data-key="t-faqs"> FAQs </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Pricing", "Pages")" class="nav-link" data-key="t-pricing"> Pricing </a>
+                                <a href="@Url.Action("Pricing", "Pages")" class="nav-link" data-key="t-pricing"> Pricing
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Gallery", "Pages")" class="nav-link" data-key="t-gallery"> Gallery </a>
+                                <a href="@Url.Action("Gallery", "Pages")" class="nav-link" data-key="t-gallery"> Gallery
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Maintenance", "Pages")" class="nav-link" data-key="t-maintenance"> Maintenance </a>
+                                <a href="@Url.Action("Maintenance", "Pages")" class="nav-link" data-key="t-maintenance">
+                                    Maintenance </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("ComingSoon", "Pages")" class="nav-link" data-key="t-coming-soon"> Coming Soon </a>
+                                <a href="@Url.Action("ComingSoon", "Pages")" class="nav-link" data-key="t-coming-soon">
+                                    Coming Soon </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Sitemap", "Pages")" class="nav-link" data-key="t-sitemap"> Sitemap </a>
+                                <a href="@Url.Action("Sitemap", "Pages")" class="nav-link" data-key="t-sitemap"> Sitemap
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("SearchResults", "Pages")" class="nav-link" data-key="t-search-results"> Search Results </a>
-                            </li>
-                             <li class="nav-item">
-                                <a href="@Url.Action("PrivacyPolicy", "Pages")" class="nav-link" data-key="t-privacy-policy">Privacy Policy </a>
+                                <a href="@Url.Action("SearchResults", "Pages")" class="nav-link"
+                                    data-key="t-search-results"> Search Results </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("TermConditions", "Pages")" class="nav-link" data-key="t-term-conditions">Term & Conditions </a>
+                                <a href="@Url.Action("PrivacyPolicy", "Pages")" class="nav-link"
+                                    data-key="t-privacy-policy">Privacy Policy </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("TermConditions", "Pages")" class="nav-link"
+                                    data-key="t-term-conditions">Term & Conditions </a>
                             </li>
                         </ul>
                     </div>
@@ -317,18 +378,20 @@
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarLanding" data-bs-toggle="collapse" role="button"
-                       aria-expanded="false" aria-controls="sidebarLanding">
+                        aria-expanded="false" aria-controls="sidebarLanding">
                         <i class="ri-rocket-line"></i> <span data-key="t-landing">Landing</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarLanding">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="@Url.Action("Index", "Landing")" class="nav-link" data-key="t-one-page"> One Page </a>
+                                <a href="@Url.Action("Index", "Landing")" class="nav-link" data-key="t-one-page"> One
+                                    Page </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("NFTLanding", "Landing")" class="nav-link" data-key="t-nft-landing"> NFT Landing</a>
+                                <a href="@Url.Action("NFTLanding", "Landing")" class="nav-link"
+                                    data-key="t-nft-landing"> NFT Landing</a>
                             </li>
-                              <li class="nav-item">
+                            <li class="nav-item">
                                 <a href="@Url.Action("Job", "Landing")" class="nav-link" data-key="t-job">Job</a>
                             </li>
                         </ul>
@@ -339,7 +402,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarUI" data-bs-toggle="collapse" role="button"
-                       aria-expanded="false" aria-controls="sidebarUI">
+                        aria-expanded="false" aria-controls="sidebarUI">
                         <i data-feather="package" class="icon-dual"></i> <span data-key="t-base-ui">Base UI</span>
                     </a>
                     <div class="collapse menu-dropdown mega-dropdown-menu" id="sidebarUI">
@@ -347,84 +410,109 @@
                             <div class="col-lg-4">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Alerts", "BaseUI")" class="nav-link" data-key="t-alerts">Alerts</a>
+                                        <a href="@Url.Action("Alerts", "BaseUI")" class="nav-link"
+                                            data-key="t-alerts">Alerts</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Badges", "BaseUI")" class="nav-link" data-key="t-badges">Badges</a>
+                                        <a href="@Url.Action("Badges", "BaseUI")" class="nav-link"
+                                            data-key="t-badges">Badges</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Buttons", "BaseUI")" class="nav-link" data-key="t-buttons">Buttons</a>
+                                        <a href="@Url.Action("Buttons", "BaseUI")" class="nav-link"
+                                            data-key="t-buttons">Buttons</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Colors", "BaseUI")" class="nav-link" data-key="t-colors">Colors</a>
+                                        <a href="@Url.Action("Colors", "BaseUI")" class="nav-link"
+                                            data-key="t-colors">Colors</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Cards", "BaseUI")" class="nav-link" data-key="t-cards">Cards</a>
+                                        <a href="@Url.Action("Cards", "BaseUI")" class="nav-link"
+                                            data-key="t-cards">Cards</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Carousel", "BaseUI")" class="nav-link" data-key="t-carousel">Carousel</a>
+                                        <a href="@Url.Action("Carousel", "BaseUI")" class="nav-link"
+                                            data-key="t-carousel">Carousel</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Dropdowns", "BaseUI")" class="nav-link" data-key="t-dropdowns">Dropdowns</a>
+                                        <a href="@Url.Action("Dropdowns", "BaseUI")" class="nav-link"
+                                            data-key="t-dropdowns">Dropdowns</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Grid", "BaseUI")" class="nav-link" data-key="t-grid">Grid</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-lg-4">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Images", "BaseUI")" class="nav-link" data-key="t-images">Images</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Tabs", "BaseUI")" class="nav-link" data-key="t-tabs">Tabs</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("AccordionCollapse", "BaseUI")" class="nav-link" data-key="t-accordion-collapse">Accordion & Collapse</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Modals", "BaseUI")" class="nav-link" data-key="t-modals">Modals</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Offcanvas", "BaseUI")" class="nav-link" data-key="t-offcanvas">Offcanvas</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Placeholders", "BaseUI")" class="nav-link" data-key="t-placeholders">Placeholders</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Progress", "BaseUI")" class="nav-link" data-key="t-progress">Progress</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Notifications", "BaseUI")" class="nav-link" data-key="t-notifications">Notifications</a>
+                                        <a href="@Url.Action("Grid", "BaseUI")" class="nav-link"
+                                            data-key="t-grid">Grid</a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="col-lg-4">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Mediaobject", "BaseUI")" class="nav-link" data-key="t-media-object">Media object</a>
+                                        <a href="@Url.Action("Images", "BaseUI")" class="nav-link"
+                                            data-key="t-images">Images</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="@Url.Action("EmbedVideo", "BaseUI")" class="nav-link" data-key="t-embed-video">Embed Video</a>
+                                        <a href="@Url.Action("Tabs", "BaseUI")" class="nav-link"
+                                            data-key="t-tabs">Tabs</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Typography", "BaseUI")" class="nav-link" data-key="t-typography">Typography</a>
+                                        <a href="@Url.Action("AccordionCollapse", "BaseUI")" class="nav-link"
+                                            data-key="t-accordion-collapse">Accordion & Collapse</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Lists", "BaseUI")" class="nav-link" data-key="t-lists">Lists</a>
+                                        <a href="@Url.Action("Modals", "BaseUI")" class="nav-link"
+                                            data-key="t-modals">Modals</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Links", "BaseUI")" class="nav-link"><span data-key="t-links">Links</span> <span class="badge badge-pill bg-success" data-key="t-new">New</span></a>
+                                        <a href="@Url.Action("Offcanvas", "BaseUI")" class="nav-link"
+                                            data-key="t-offcanvas">Offcanvas</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="@Url.Action("General", "BaseUI")" class="nav-link" data-key="t-general">General</a>
+                                        <a href="@Url.Action("Placeholders", "BaseUI")" class="nav-link"
+                                            data-key="t-placeholders">Placeholders</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Ribbons", "BaseUI")" class="nav-link" data-key="t-ribbons">Ribbons</a>
+                                        <a href="@Url.Action("Progress", "BaseUI")" class="nav-link"
+                                            data-key="t-progress">Progress</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Utilities", "BaseUI")" class="nav-link" data-key="t-utilities">Utilities</a>
+                                        <a href="@Url.Action("Notifications", "BaseUI")" class="nav-link"
+                                            data-key="t-notifications">Notifications</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-4">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Mediaobject", "BaseUI")" class="nav-link"
+                                            data-key="t-media-object">Media object</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("EmbedVideo", "BaseUI")" class="nav-link"
+                                            data-key="t-embed-video">Embed Video</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Typography", "BaseUI")" class="nav-link"
+                                            data-key="t-typography">Typography</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Lists", "BaseUI")" class="nav-link"
+                                            data-key="t-lists">Lists</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Links", "BaseUI")" class="nav-link"><span
+                                                data-key="t-links">Links</span> <span
+                                                class="badge badge-pill bg-success" data-key="t-new">New</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("General", "BaseUI")" class="nav-link"
+                                            data-key="t-general">General</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Ribbons", "BaseUI")" class="nav-link"
+                                            data-key="t-ribbons">Ribbons</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Utilities", "BaseUI")" class="nav-link"
+                                            data-key="t-utilities">Utilities</a>
                                     </li>
                                 </ul>
                             </div>
@@ -434,38 +522,46 @@
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarAdvanceUI" data-bs-toggle="collapse" role="button"
-                       aria-expanded="false" aria-controls="sidebarAdvanceUI">
+                        aria-expanded="false" aria-controls="sidebarAdvanceUI">
                         <i data-feather="layers" class="icon-dual"></i> <span data-key="t-advance-ui">Advance UI</span>
-                        
+
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarAdvanceUI">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="@Url.Action("SweetAlerts", "AdvanceUI")" class="nav-link" data-key="t-sweet-alerts">Sweet Alerts</a>
+                                <a href="@Url.Action("SweetAlerts", "AdvanceUI")" class="nav-link"
+                                    data-key="t-sweet-alerts">Sweet Alerts</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("NestableList", "AdvanceUI")" class="nav-link" data-key="t-nestable-list">Nestable List</a>
+                                <a href="@Url.Action("NestableList", "AdvanceUI")" class="nav-link"
+                                    data-key="t-nestable-list">Nestable List</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Scrollbar", "AdvanceUI")" class="nav-link" data-key="t-scrollbar">Scrollbar</a>
+                                <a href="@Url.Action("Scrollbar", "AdvanceUI")" class="nav-link"
+                                    data-key="t-scrollbar">Scrollbar</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Animation", "AdvanceUI")" class="nav-link" data-key="t-animation">Animation</a>
+                                <a href="@Url.Action("Animation", "AdvanceUI")" class="nav-link"
+                                    data-key="t-animation">Animation</a>
                             </li>
                             <li class="nav-item">
                                 <a href="@Url.Action("Tour", "AdvanceUI")" class="nav-link" data-key="t-tour">Tour</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("SwiperSlider", "AdvanceUI")" class="nav-link" data-key="t-swiper-slider">Swiper Slider</a>
+                                <a href="@Url.Action("SwiperSlider", "AdvanceUI")" class="nav-link"
+                                    data-key="t-swiper-slider">Swiper Slider</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Ratings", "AdvanceUI")" class="nav-link" data-key="t-ratings">Ratings</a>
+                                <a href="@Url.Action("Ratings", "AdvanceUI")" class="nav-link"
+                                    data-key="t-ratings">Ratings</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Highlight", "AdvanceUI")" class="nav-link" data-key="t-highlight">Highlight</a>
+                                <a href="@Url.Action("Highlight", "AdvanceUI")" class="nav-link"
+                                    data-key="t-highlight">Highlight</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("ScrollSpy", "AdvanceUI")" class="nav-link" data-key="t-scrollSpy">ScrollSpy</a>
+                                <a href="@Url.Action("ScrollSpy", "AdvanceUI")" class="nav-link"
+                                    data-key="t-scrollSpy">ScrollSpy</a>
                             </li>
                         </ul>
                     </div>
@@ -479,49 +575,61 @@
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarForms" data-bs-toggle="collapse" role="button"
-                       aria-expanded="false" aria-controls="sidebarForms">
+                        aria-expanded="false" aria-controls="sidebarForms">
                         <i data-feather="file-text" class="icon-dual"></i> <span data-key="t-forms">Forms</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarForms">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="@Url.Action("BasicElements", "Forms")" class="nav-link" data-key="t-basic-elements">Basic Elements</a>
+                                <a href="@Url.Action("BasicElements", "Forms")" class="nav-link"
+                                    data-key="t-basic-elements">Basic Elements</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("FormSelect", "Forms")" class="nav-link" data-key="t-form-select"> Form Select </a>
+                                <a href="@Url.Action("FormSelect", "Forms")" class="nav-link" data-key="t-form-select">
+                                    Form Select </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("CheckboxsRadios", "Forms")" class="nav-link" data-key="t-checkboxs-radios">Checkboxs & Radios</a>
+                                <a href="@Url.Action("CheckboxsRadios", "Forms")" class="nav-link"
+                                    data-key="t-checkboxs-radios">Checkboxs & Radios</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Pickers", "Forms")" class="nav-link" data-key="t-pickers"> Pickers </a>
+                                <a href="@Url.Action("Pickers", "Forms")" class="nav-link" data-key="t-pickers"> Pickers
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("InputMasks", "Forms")" class="nav-link" data-key="t-input-masks">Input Masks</a>
+                                <a href="@Url.Action("InputMasks", "Forms")" class="nav-link"
+                                    data-key="t-input-masks">Input Masks</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Advanced", "Forms")" class="nav-link" data-key="t-advanced">Advanced</a>
+                                <a href="@Url.Action("Advanced", "Forms")" class="nav-link"
+                                    data-key="t-advanced">Advanced</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("RangeSlider", "Forms")" class="nav-link" data-key="t-range-slider"> Range Slider </a>
+                                <a href="@Url.Action("RangeSlider", "Forms")" class="nav-link"
+                                    data-key="t-range-slider"> Range Slider </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Validation", "Forms")" class="nav-link" data-key="t-validation">Validation</a>
+                                <a href="@Url.Action("Validation", "Forms")" class="nav-link"
+                                    data-key="t-validation">Validation</a>
                             </li>
                             <li class="nav-item">
                                 <a href="@Url.Action("Wizard", "Forms")" class="nav-link" data-key="t-wizard">Wizard</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Editors", "Forms")" class="nav-link" data-key="t-editors">Editors</a>
+                                <a href="@Url.Action("Editors", "Forms")" class="nav-link"
+                                    data-key="t-editors">Editors</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("FileUploads", "Forms")" class="nav-link" data-key="t-file-uploads">File Uploads</a>
+                                <a href="@Url.Action("FileUploads", "Forms")" class="nav-link"
+                                    data-key="t-file-uploads">File Uploads</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("FormLayouts", "Forms")" class="nav-link" data-key="t-form-layouts">Form Layouts</a>
+                                <a href="@Url.Action("FormLayouts", "Forms")" class="nav-link"
+                                    data-key="t-form-layouts">Form Layouts</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Select2", "Forms")" class="nav-link" data-key="t-select2">Select2</a>
+                                <a href="@Url.Action("Select2", "Forms")" class="nav-link"
+                                    data-key="t-select2">Select2</a>
                             </li>
                         </ul>
                     </div>
@@ -529,22 +637,26 @@
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarTables" data-bs-toggle="collapse" role="button"
-                       aria-expanded="false" aria-controls="sidebarTables">
+                        aria-expanded="false" aria-controls="sidebarTables">
                         <i data-feather="database" class="icon-dual"></i> <span data-key="t-tables">Tables</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarTables">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="@Url.Action("BasicTables", "Tables")" class="nav-link" data-key="t-basic-tables">Basic Tables</a>
+                                <a href="@Url.Action("BasicTables", "Tables")" class="nav-link"
+                                    data-key="t-basic-tables">Basic Tables</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("GridJs", "Tables")" class="nav-link" data-key="t-grid-js">Grid Js</a>
+                                <a href="@Url.Action("GridJs", "Tables")" class="nav-link" data-key="t-grid-js">Grid
+                                    Js</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("ListJs", "Tables")" class="nav-link" data-key="t-list-js">List Js</a>
+                                <a href="@Url.Action("ListJs", "Tables")" class="nav-link" data-key="t-list-js">List
+                                    Js</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Datatables", "Tables")" class="nav-link" data-key="t-datatables">Datatables</a>
+                                <a href="@Url.Action("Datatables", "Tables")" class="nav-link"
+                                    data-key="t-datatables">Datatables</a>
                             </li>
                         </ul>
                     </div>
@@ -552,80 +664,102 @@
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarCharts" data-bs-toggle="collapse" role="button"
-                       aria-expanded="false" aria-controls="sidebarCharts">
+                        aria-expanded="false" aria-controls="sidebarCharts">
                         <i data-feather="pie-chart" class="icon-dual"></i> <span data-key="t-charts">Charts</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarCharts">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="#sidebarApexcharts" class="nav-link" data-bs-toggle="collapse" role="button"
-                                   aria-expanded="false" aria-controls="sidebarApexcharts" data-key="t-apexcharts">
+                                    aria-expanded="false" aria-controls="sidebarApexcharts" data-key="t-apexcharts">
                                     Apexcharts
                                 </a>
                                 <div class="collapse menu-dropdown" id="sidebarApexcharts">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
-                                            <a href="@Url.Action("ApexchartLine", "Charts")" class="nav-link" data-key="t-line"> Line </a>
+                                            <a href="@Url.Action("ApexchartLine", "Charts")" class="nav-link"
+                                                data-key="t-line"> Line </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("ApexchartArea", "Charts")" class="nav-link" data-key="t-area"> Area </a>
+                                            <a href="@Url.Action("ApexchartArea", "Charts")" class="nav-link"
+                                                data-key="t-area"> Area </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("ApexchartColumn", "Charts")" class="nav-link" data-key="t-column"> Column </a>
+                                            <a href="@Url.Action("ApexchartColumn", "Charts")" class="nav-link"
+                                                data-key="t-column"> Column </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("ApexchartBar", "Charts")" class="nav-link" data-key="t-bar"> Bar </a>
+                                            <a href="@Url.Action("ApexchartBar", "Charts")" class="nav-link"
+                                                data-key="t-bar"> Bar </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("ApexchartMixed", "Charts")" class="nav-link" data-key="t-mixed"> Mixed </a>
+                                            <a href="@Url.Action("ApexchartMixed", "Charts")" class="nav-link"
+                                                data-key="t-mixed"> Mixed </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("ApexchartTimeline", "Charts")" class="nav-link" data-key="t-timeline"> Timeline </a>
+                                            <a href="@Url.Action("ApexchartTimeline", "Charts")" class="nav-link"
+                                                data-key="t-timeline"> Timeline </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("Apexchartrangearea","Charts")" class="nav-link"><span data-key="t-range-area">Range Area</span> <span class="badge badge-pill bg-success" data-key="t-new">New</span></a>
+                                            <a href="@Url.Action("Apexchartrangearea","Charts")" class="nav-link"><span
+                                                    data-key="t-range-area">Range Area</span> <span
+                                                    class="badge badge-pill bg-success" data-key="t-new">New</span></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("ApexchartFunnel","Charts")" class="nav-link"><span data-key="t-funnel">Funnel</span> <span class="badge badge-pill bg-success" data-key="t-new">New</span></a>
+                                            <a href="@Url.Action("ApexchartFunnel","Charts")" class="nav-link"><span
+                                                    data-key="t-funnel">Funnel</span> <span
+                                                    class="badge badge-pill bg-success" data-key="t-new">New</span></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("ApexchartCandlstick", "Charts")" class="nav-link" data-key="t-candlstick"> Candlstick </a>
+                                            <a href="@Url.Action("ApexchartCandlstick", "Charts")" class="nav-link"
+                                                data-key="t-candlstick"> Candlstick </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("ApexchartBoxplot", "Charts")" class="nav-link" data-key="t-boxplot"> Boxplot </a>
+                                            <a href="@Url.Action("ApexchartBoxplot", "Charts")" class="nav-link"
+                                                data-key="t-boxplot"> Boxplot </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("ApexchartBubble", "Charts")" class="nav-link" data-key="t-bubble"> Bubble </a>
+                                            <a href="@Url.Action("ApexchartBubble", "Charts")" class="nav-link"
+                                                data-key="t-bubble"> Bubble </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("ApexchartScatter", "Charts")" class="nav-link" data-key="t-scatter"> Scatter </a>
+                                            <a href="@Url.Action("ApexchartScatter", "Charts")" class="nav-link"
+                                                data-key="t-scatter"> Scatter </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("ApexchartHeatmap", "Charts")" class="nav-link" data-key="t-heatmap"> Heatmap </a>
+                                            <a href="@Url.Action("ApexchartHeatmap", "Charts")" class="nav-link"
+                                                data-key="t-heatmap"> Heatmap </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("ApexchartTreemap", "Charts")" class="nav-link" data-key="t-treemap"> Treemap </a>
+                                            <a href="@Url.Action("ApexchartTreemap", "Charts")" class="nav-link"
+                                                data-key="t-treemap"> Treemap </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("ApexchartPie", "Charts")" class="nav-link" data-key="t-pie"> Pie </a>
+                                            <a href="@Url.Action("ApexchartPie", "Charts")" class="nav-link"
+                                                data-key="t-pie"> Pie </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("ApexchartRadialbar", "Charts")" class="nav-link" data-key="t-radialbar"> Radialbar </a>
+                                            <a href="@Url.Action("ApexchartRadialbar", "Charts")" class="nav-link"
+                                                data-key="t-radialbar"> Radialbar </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("ApexchartRadar", "Charts")" class="nav-link" data-key="t-radar"> Radar </a>
+                                            <a href="@Url.Action("ApexchartRadar", "Charts")" class="nav-link"
+                                                data-key="t-radar"> Radar </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("ApexchartPolarArea", "Charts")" class="nav-link" data-key="t-polar-area"> Polar Area </a>
+                                            <a href="@Url.Action("ApexchartPolarArea", "Charts")" class="nav-link"
+                                                data-key="t-polar-area"> Polar Area </a>
                                         </li>
                                     </ul>
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Chartjs", "Charts")" class="nav-link" data-key="t-chartjs"> Chartjs </a>
+                                <a href="@Url.Action("Chartjs", "Charts")" class="nav-link" data-key="t-chartjs">
+                                    Chartjs </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Echarts", "Charts")" class="nav-link" data-key="t-echarts"> Echarts </a>
+                                <a href="@Url.Action("Echarts", "Charts")" class="nav-link" data-key="t-echarts">
+                                    Echarts </a>
                             </li>
                         </ul>
                     </div>
@@ -633,7 +767,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarIcons" data-bs-toggle="collapse" role="button"
-                       aria-expanded="false" aria-controls="sidebarIcons">
+                        aria-expanded="false" aria-controls="sidebarIcons">
                         <i data-feather="archive" class="icon-dual"></i> <span data-key="t-icons">Icons</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarIcons">
@@ -642,19 +776,24 @@
                                 <a href="@Url.Action("Remix", "Icons")" class="nav-link" data-key="t-remix">Remix</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Boxicons", "Icons")" class="nav-link" data-key="t-boxicons">Boxicons</a>
+                                <a href="@Url.Action("Boxicons", "Icons")" class="nav-link"
+                                    data-key="t-boxicons">Boxicons</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("MaterialDesign", "Icons")" class="nav-link" data-key="t-material-design">Material Design</a>
+                                <a href="@Url.Action("MaterialDesign", "Icons")" class="nav-link"
+                                    data-key="t-material-design">Material Design</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("LineAwesome", "Icons")" class="nav-link" data-key="t-line-awesome">Line Awesome</a>
+                                <a href="@Url.Action("LineAwesome", "Icons")" class="nav-link"
+                                    data-key="t-line-awesome">Line Awesome</a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Feather", "Icons")" class="nav-link" data-key="t-feather">Feather</a>
+                                <a href="@Url.Action("Feather", "Icons")" class="nav-link"
+                                    data-key="t-feather">Feather</a>
                             </li>
-                             <li class="nav-item">
-                               <a href="@Url.Action("CryptoSVG", "Icons")" class="nav-link" data-key="t-crypto-svg">Crypto SVG</a>
+                            <li class="nav-item">
+                                <a href="@Url.Action("CryptoSVG", "Icons")" class="nav-link"
+                                    data-key="t-crypto-svg">Crypto SVG</a>
                             </li>
                         </ul>
                     </div>
@@ -662,7 +801,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarMaps" data-bs-toggle="collapse" role="button"
-                       aria-expanded="false" aria-controls="sidebarMaps">
+                        aria-expanded="false" aria-controls="sidebarMaps">
                         <i data-feather="map-pin" class="icon-dual"></i> <span data-key="t-maps">Maps</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarMaps">
@@ -687,9 +826,10 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarMultilevel" data-bs-toggle="collapse"
-                       role="button" aria-expanded="false" aria-controls="sidebarMultilevel">
-                        <i data-feather="share-2" class="icon-dual"></i> <span data-key="t-multi-level">Multi Level</span>
+                    <a class="nav-link menu-link" href="#sidebarMultilevel" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarMultilevel">
+                        <i data-feather="share-2" class="icon-dual"></i> <span data-key="t-multi-level">Multi
+                            Level</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarMultilevel">
                         <ul class="nav nav-sm flex-column">
@@ -698,7 +838,7 @@
                             </li>
                             <li class="nav-item">
                                 <a href="#sidebarAccount" class="nav-link" data-bs-toggle="collapse" role="button"
-                                   aria-expanded="false" aria-controls="sidebarAccount" data-key="t-level-1.2">
+                                    aria-expanded="false" aria-controls="sidebarAccount" data-key="t-level-1.2">
                                     Level 1.2
                                 </a>
                                 <div class="collapse menu-dropdown" id="sidebarAccount">
@@ -708,16 +848,19 @@
                                         </li>
                                         <li class="nav-item">
                                             <a href="#sidebarCrm" class="nav-link" data-bs-toggle="collapse"
-                                               role="button" aria-expanded="false" aria-controls="sidebarCrm" data-key="t-level-2.2">
+                                                role="button" aria-expanded="false" aria-controls="sidebarCrm"
+                                                data-key="t-level-2.2">
                                                 Level 2.2
                                             </a>
                                             <div class="collapse menu-dropdown" id="sidebarCrm">
                                                 <ul class="nav nav-sm flex-column">
                                                     <li class="nav-item">
-                                                        <a href="#" class="nav-link" data-key="t-level-3.1"> Level 3.1 </a>
+                                                        <a href="#" class="nav-link" data-key="t-level-3.1"> Level 3.1
+                                                        </a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a href="#" class="nav-link" data-key="t-level-3.2"> Level 3.2 </a>
+                                                        <a href="#" class="nav-link" data-key="t-level-3.2"> Level 3.2
+                                                        </a>
                                                     </li>
                                                 </ul>
                                             </div>
