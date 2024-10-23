@@ -60,7 +60,27 @@
                         </ul>
                     </div>
                 </li>
+    
+                 <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarPatients" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarPatients">
+                        <i data-feather="users" class="icon-dual"></i> <span>Patients</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarConsultation">
+                        <ul class="nav nav-sm flex-column">
 
+                            <li class="nav-item">
+                                <a href="@Url.Action("PatientsList", "Patients")" class="nav-link"
+                                    data-key="t-user"> Consultation list </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("NewPatient", "Patients")" class="nav-link" data-key="t-user"> Create
+                                    New Consultation </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
                 <!--Appointments Menu-->
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarAppointment" data-bs-toggle="collapse" role="button"
@@ -102,6 +122,7 @@
                         </ul>
                     </div>
                 </li>
+            
                 <!-- end Dashboard Menu -->
 
                 <li class="menu-title"><i class="ri-more-fill"></i> <span>Medical Consultation</span></li>
