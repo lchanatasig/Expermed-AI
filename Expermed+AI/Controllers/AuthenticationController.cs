@@ -9,5 +9,11 @@ namespace Expermed_AI.Controllers
         {
             return View();
         }
+
+        [ActionName("LogoutBasic")]
+        public IActionResult LogoutBasic()
+        {
+            return View();
+        }
     }
 }

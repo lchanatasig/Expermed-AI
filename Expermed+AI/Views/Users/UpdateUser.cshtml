@@ -274,12 +274,15 @@
                                   <div class="col-xxl-6">
                                     <div>
                                       <label for="exampleInputdate" class="form-label">Input Date</label>
-                                      <input type="date" class="form-control" id="exampleInputdate">
+                                      <input type="date" class="form-control" id="exampleInputdate"
+                                        data-provider="flatpickr" data-date-format="d.m.y" placeholder="Select a date">
                                     </div>
+
+
                                   </div><!--end col-->
                                   <div class="col-xxl-6">
                                     <div>
-                                      <label for="AppointmentHour" class="form-label">Hour of  Appointment</label>
+                                      <label for="AppointmentHour" class="form-label">Hour of Appointment</label>
                                       <input type="text" class="form-control" id="AppointmentHour" placeholder="">
                                     </div>
                                   </div><!--end col-->
@@ -295,7 +298,7 @@
                                   </div><!--end col-->
 
 
-                                  
+
                                 </div><!--end row-->
                               </form>
                             </div>
@@ -303,24 +306,59 @@
                         </div>
                       </div>
 
-                      <!--Modal AppointmentHour=->
-                  
-                   
 
+                      <!-- Modal para horas disponibles -->
+                      <div class="modal flip" id="myModalHour" tabindex="-1" aria-labelledby="myModalHourLabel"
+                        aria-modal="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="myModalHourLabel">
+                                <i class="ri-time-line"></i> Available Hours
+                              </h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <!-- Aquí puedes agregar el contenido para mostrar las horas disponibles -->
+                              <div class="row g-3">
+                                <!-- Ejemplo de botones de horas -->
+                                <div class="col-4">
+                                  <button class="btn btn-outline-primary w-100" onclick="selectHour('9:00 AM')">9:00
+                                    AM</button>
+                                </div>
+                                <div class="col-4">
+                                  <button class="btn btn-outline-primary w-100" onclick="selectHour('10:00 AM')">10:00
+                                    AM</button>
+                                </div>
+                                <div class="col-4">
+                                  <button class="btn btn-outline-primary w-100" onclick="selectHour('11:00 AM')">11:00
+                                    AM</button>
+                                </div>
+                                <!-- Puedes agregar más horas según necesites -->
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <!--end tab-pane-->
+                  </div>
                 </div>
-                <!--end tab-pane-->
               </div>
             </div>
+            <!--end col-->
           </div>
-        </div>
-        <!--end col-->
-      </div>
 
-      <!--end row-->
-    </div>
-  </div>
+          <!--end row-->
+        </div>
+      </div>
       @* @await Html.PartialAsync("_footer") *@
-  </div>
+    </div>
   </div>
   <!-- END layout-wrapper -->
   @* @await Html.PartialAsync("_customizer") *@
@@ -331,6 +369,24 @@
 
   <!-- App js -->
   <script src="~/assets/js/app.js"></script>
+
+  <script>
+    function selectHour(hour) {
+  // Colocar la hora seleccionada en el input
+  document.getElementById('AppointmentHour').value = hour;
+  
+  // Cerrar el modal de horas
+  var modalHour = bootstrap.Modal.getInstance(document.getElementById('myModalHour'));
+  modalHour.hide();
+  
+  // Volver a mostrar el modal principal
+  var modalGrid = bootstrap.Modal.getInstance(document.getElementById('exampleModalgrid'));
+  if (!modalGrid) {
+    modalGrid = new bootstrap.Modal(document.getElementById('exampleModalgrid'));
+  }
+  modalGrid.show();
+}
+  </script>
 </body>
 
 </html>

@@ -4,6 +4,12 @@ namespace Expermed_AI.Controllers
 {
     public class UsersController : Controller
     {
+        [ActionName("ProfileSimple")]
+        public IActionResult ProfileSimple()
+        {
+            return View();
+        }
+
         [ActionName("UserList")]
         public IActionResult UserList()
         {
