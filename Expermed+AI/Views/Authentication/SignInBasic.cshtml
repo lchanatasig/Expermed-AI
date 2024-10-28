@@ -57,35 +57,45 @@
                                     <p class="text-muted">Sign in to continue to Expermed.</p>
                                 </div>
                                 <div class="p-2 mt-4">
-                                    <form action="@Url.Action("Home", "Dashboard")">
 
-                                        <div class="mb-3">
-                                            <label for="username" class="form-label">Username</label>
-                                            <input type="text" class="form-control" id="username" placeholder="Enter username">
-                                        </div>
+                                    <form action="@Url.Action("SignInBasic", "Authentication")" method="post" id="loginForm">
 
-                                        <div class="mb-3">
-                                           
-                                            <label class="form-label" for="password-input">Password</label>
-                                            <div class="position-relative auth-pass-inputgroup mb-3">
-                                                <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="password-input">
-                                                <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
-                                            </div>
-                                        </div>
+    <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" id="loginUsuario" name="loginUsuario" placeholder="Enter username" required>
+    </div>
 
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="auth-remember-check">
-                                            <label class="form-check-label" for="auth-remember-check">Remember me</label>
-                                        </div>
+    <div class="mb-3">
+        <label class="form-label" for="password-input">Password</label>
+        <div class="position-relative auth-pass-inputgroup mb-3">
+            <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="claveUsuario" name="claveUsuario" required>
+            <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+        </div>
+    </div>
 
-                                        <div class="mt-4">
-                                            <button class="btn btn-soft-info waves-effect waves-ligh w-100" style="border-radius: 30px" type="submit">Sign In</button>
-                                            <!-- Soft Buttons -->
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="auth-remember-check">
+        <label class="form-check-label" for="auth-remember-check">Remember me</label>
+    </div>
 
-                                        </div>
+    <div class="mt-4">
+        <button class="btn btn-soft-info waves-effect waves-light w-100" style="border-radius: 30px" type="submit">Sign In</button>
+    </div>
 
-                                    
-                                    </form>
+  
+</form>
+<!-- Contenedor para las alertas -->
+<div id="alertContainer" style="display:none;">
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="successAlert" style="display:none;">
+        <strong>Éxito!</strong> <span id="successMessage"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert" style="display:none;">
+        <strong>Error!</strong> <span id="errorMessage"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
                                 </div>
                             </div>
                             <!-- end card body -->
@@ -125,6 +135,50 @@
     <script src="~/assets/js/pages/particles.app.js"></script>
     <!-- password-addon init -->
     <script src="~/assets/js/pages/password-addon.init.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $("#loginForm").submit(function(event) {
+        event.preventDefault(); // Evita que el formulario se envíe de la manera tradicional
+
+        // Captura los valores del formulario
+        var loginUsuario = $("#loginUsuario").val();
+        var claveUsuario = $("#claveUsuario").val();
+
+        // Realiza la solicitud AJAX
+        $.ajax({
+            url: '@Url.Action("SignInBasic", "Authentication")', // Cambia según tu ruta
+            type: 'POST',
+            data: {
+                loginUsuario: loginUsuario,
+                claveUsuario: claveUsuario
+            },
+            success: function(response) {
+                // Si la respuesta es exitosa
+                if (response.success) {
+                    // Redirigir a la vista "Home" en "DashBoard"
+                    window.location.href = response.redirectUrl; // Usa la URL de redirección
+                } else {
+                    // Si hay un error
+                    $("#errorMessage").text(response.message); // Muestra el mensaje de error
+                    $("#errorAlert").show(); // Muestra el contenedor de error
+                    $("#alertContainer").show(); // Muestra el contenedor de alertas
+                }
+            },
+            error: function(xhr) {
+                // Maneja errores del servidor
+                var errorResponse = xhr.responseJSON;
+                $("#errorMessage").text(errorResponse.message || "Ocurrió un error inesperado.");
+                $("#errorAlert").show(); // Muestra el contenedor de error
+                $("#alertContainer").show(); // Muestra el contenedor de alertas
+            }
+        });
+    });
+});
+
+</script>
+
 
 </body>
 </html>

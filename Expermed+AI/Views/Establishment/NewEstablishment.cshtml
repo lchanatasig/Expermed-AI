@@ -1,0 +1,147 @@
+﻿@{
+
+  ViewBag.Title = "Create Establishment";
+  ViewBag.pTitle = "Create Establishment";
+  ViewBag.pageTitle = "Create Establishment";
+  Layout = null;
+}
+
+
+<!doctype html>
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="light" data-sidebar-size="lg"
+  data-sidebar-image="none" data-preloader="disable">
+
+<head>
+  @await Html.PartialAsync("_title_meta")
+  @await Html.PartialAsync("_head_css")
+</head>
+
+<body>
+  <!-- Begin page -->
+  <div id="layout-wrapper">
+    @await Html.PartialAsync("_menu")
+
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+      <div class="page-content">
+        <div class="container-fluid">
+          
+
+          <div class="row">
+           
+            <!--end col-->
+
+            <div class="col-xxl-9">
+              <div class="card mt-xxl-n5">
+                <div class="card-header">
+                  <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" data-bs-toggle="tab" href="#establishmentDetails" role="tab">
+                        <i class="fas fa-home"></i> Establishment Details
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="card-body p-4">
+                  <div class="tab-content">
+                    <div class="tab-pane active" id="establishmentDetails" role="tabpanel">
+                      <form action="javascript:void(0);">
+                        <div class="row">
+                     
+
+                          <div class="col-lg-6">
+                            <div class="mb-3">
+                              <label for="establishmentNameInput" class="form-label">Establishment Name</label>
+                              <input type="text" class="form-control" id="establishmentNameInput" placeholder="Medic Place">
+                            </div>
+                          </div>
+
+                          
+
+                          <div class="col-lg-12">
+                            <div class="mb-3">
+                              <label for="addressInput" class="form-label">Establishment Address</label>
+                              <div class="input-group">
+                                   <input type="text" class="form-control" placeholder="Escribe la dirección..." id="addressInput"  aria-label="Escribe la dirección" aria-describedby="button-addon2">
+                <button class="btn btn-outline-primary icon-container" type="button" id="locationIcon" aria-label="Ubicación">
+                    <i class="fas fa-map-marker-alt"></i>
+                </button>
+            </div>
+            <div id="suggestions" style="display: none;"></div>
+            <div id="map"></div>
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="mb-3">
+                              <label for="emissionPointInput" class="form-label">Emission Point</label>
+                              <input type="text" class="form-control" id="emissionPointInput"
+                                placeholder="Enter your emission point 001">
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="mb-3">
+                              <label for="pointofsaleInput" class="form-label">Point of Sale</label>
+                              <input type="text" class="form-control" id="pointofsaleInput"
+                                placeholder="002">
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="mb-3">
+                              <label for="localityInput" class="form-label">Establishment Locality</label>
+                              <input type="text" class="form-control" id="localityInput" placeholder="Enter your locality">
+                            </div>
+                          </div>
+
+                          <div class="col-lg-12">
+                            <div class="hstack gap-2 justify-content-end">
+                              <button type="submit" class="btn btn-primary">
+                                <i class=" ri-home-7-line"></i> Create
+                              </button>
+
+                         
+                              <button type="button" class="btn btn-soft-secondary">
+                                <i class="ri-close-circle-line"></i> Cancel
+                              </button>
+                            </div>
+                          </div>
+                          <!--end col-->
+                        </div>
+                        <!--end row-->
+                      </form>
+             
+                    </div>
+                    <!--end tab-pane-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--end col-->
+          </div>
+
+          <!--end row-->
+        </div>
+      </div>
+     @await Html.PartialAsync("_footer") 
+    </div>
+  </div>
+  <!-- END layout-wrapper -->
+  @* @await Html.PartialAsync("_customizer") *@
+  @await Html.PartialAsync("_vendor_scripts")
+
+  <!-- profile-setting init js -->
+  <script src="~/assets/js/pages/profile-setting.init.js"></script>
+
+  <!-- App js -->
+  <script src="~/assets/js/app.js"></script>
+
+
+
+
+</body>
+
+</html>

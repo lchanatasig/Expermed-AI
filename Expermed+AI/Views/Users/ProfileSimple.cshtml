@@ -3,13 +3,33 @@
     Layout = null;
 }
 
+@using Microsoft.AspNetCore.Http
+@{
+    var usuarioId = ViewContext.HttpContext.Session.GetInt32("UsuarioId");
+    var perfilId = ViewContext.HttpContext.Session.GetInt32("PerfilId");
+    var usuarioNombre = ViewContext.HttpContext.Session.GetString("UsuarioNombre");
+    var usuarioApellido = ViewContext.HttpContext.Session.GetString("UsuarioApellido");
+    var usuarioEspecialidad = ViewContext.HttpContext.Session.GetString("UsuarioEspecialidad");
+    var especialidadId = ViewContext.HttpContext.Session.GetInt32("UsuarioIdEspecialidad");
+    var usuarioEstablecimiento = ViewContext.HttpContext.Session.GetString("UsuarioEstablecimiento");
+    var usuarioDireccion = ViewContext.HttpContext.Session.GetString("UsuarioDireccion");
+    var usuarioTelefono = ViewContext.HttpContext.Session.GetString("UsuarioTelefono");
+    var usuarioEmail = ViewContext.HttpContext.Session.GetString("UsuarioEmail");
+    var fotoPerfilBase64 = ViewContext.HttpContext.Session.GetString("UsuarioFotoPerfil");
+    var rutaImagenPorDefecto = Url.Content("~/assets/images/users/multi-user.jpg");
+
+    string fotoPerfilSrc = string.IsNullOrEmpty(fotoPerfilBase64)
+        ? rutaImagenPorDefecto
+        : $"data:image/jpeg;base64,{fotoPerfilBase64}";
+}
+
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="light" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 <head>
 
     <!-- swiper css -->
     <link rel="stylesheet" href="~/assets/libs/swiper/swiper-bundle.min.css">
- @await Html.PartialAsync("_title_meta")
+    @await Html.PartialAsync("_title_meta")
     @await Html.PartialAsync("_head_css")
 </head>
 <body>
@@ -34,28 +54,27 @@
                         <div class="row g-4">
                             <div class="col-auto">
                                 <div class="avatar-lg">
-                                    <img src="~/assets/images/users/avatar-1.jpg" alt="user-img"
+                                    <img src="@fotoPerfilSrc" alt="user-img"
                                          class="img-thumbnail rounded-circle" />
                                 </div>
                             </div>
                             <!--end col-->
                             <div class="col">
                                 <div class="p-2">
-                                    <h3 class="text-white mb-1">Anna Adame</h3>
-                                    <p class="text-white text-opacity-75">Owner & Founder</p>
+                                    <h3 class="text-white mb-1">@usuarioNombre @usuarioApellido</h3>
+                                    <p class="text-white text-opacity-75">@usuarioEspecialidad</p>
                                     <div class="hstack text-white-50 gap-1">
                                         <div class="me-2">
-                                            <i class="ri-map-pin-user-line me-1 text-white text-opacity-75 fs-16 align-middle"></i>California,
-                                            United States
+                                            <i class="ri-map-pin-user-line me-1 text-white text-opacity-75 fs-16 align-middle"></i>@usuarioDireccion
                                         </div>
                                         <div>
-                                            <i class="ri-building-line me-1 text-white text-opacity-75 fs-16 align-middle"></i>Themesbrand
+                                            <i class="ri-building-line me-1 text-white text-opacity-75 fs-16 align-middle"></i>@usuarioEstablecimiento
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!--end col-->
-                      
+
 
                         </div>
                         <!--end row-->
@@ -74,7 +93,7 @@
                                                 <i class="ri-airplay-fill d-inline-block d-md-none"></i> <span class="d-none d-md-inline-block">Overview</span>
                                             </a>
                                         </li>
-                                        
+
                                     </ul>
                                     <div class="flex-shrink-0">
                                         <a href="@Url.Action("UpdateUser", "Users")" class="btn btn-success">
@@ -87,7 +106,7 @@
                                     <div class="tab-pane active" id="overview-tab" role="tabpanel">
                                         <div class="row">
                                             <div class="col-xxl-3">
-                                              
+
 
                                                 <div class="card">
                                                     <div class="card-body">
@@ -97,26 +116,23 @@
                                                                 <tbody>
                                                                     <tr>
                                                                         <th class="ps-0" scope="row">Full Name :</th>
-                                                                        <td class="text-muted">Anna Adame</td>
+                                                                        <td class="text-muted">@usuarioNombre @usuarioApellido</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <th class="ps-0" scope="row">Mobile :</th>
-                                                                        <td class="text-muted">+(1) 987 6543</td>
+                                                                        <td class="text-muted">@usuarioTelefono</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <th class="ps-0" scope="row">E-mail :</th>
-                                                                        <td class="text-muted">daveadame@velzon.com</td>
+                                                                        <td class="text-muted">@usuarioEmail</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <th class="ps-0" scope="row">Location :</th>
                                                                         <td class="text-muted">
-                                                                            California, United States
+                                                                           @usuarioDireccion
                                                                         </td>
                                                                     </tr>
-                                                                    <tr>
-                                                                        <th class="ps-0" scope="row">Joining Date</th>
-                                                                        <td class="text-muted">24 Nov 2021</td>
-                                                                    </tr>
+                                                                 
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -126,11 +142,11 @@
                                                 <!--end card-->
                                             </div>
                                             <!--end col-->
-                                    
+
                                         </div>
                                         <!--end row-->
                                     </div>
-                                   
+
                                     <!--end tab-pane-->
                                 </div>
                                 <!--end tab-content-->
@@ -142,16 +158,15 @@
 
                 </div><!-- container-fluid -->
             </div><!-- End Page-content -->
-
-           <!-- @Html.Partial("~/Views/Shared/_footer.cshtml")-->
+            @await Html.PartialAsync("_footer")
         </div>
 
     </div>
     <!-- END layout-wrapper -->
- @*    @Html.Partial("~/Views/Shared/_customizer.cshtml")
+    @*    @Html.Partial("~/Views/Shared/_customizer.cshtml")
 
     @Html.Partial("~/Views/Shared/_vendor_scripts.cshtml") *@
-        @await Html.PartialAsync("_vendor_scripts")
+    @await Html.PartialAsync("_vendor_scripts")
 
 
     <!-- swiper js -->
