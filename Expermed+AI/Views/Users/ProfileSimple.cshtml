@@ -19,12 +19,14 @@
     var rutaImagenPorDefecto = Url.Content("~/assets/images/users/multi-user.jpg");
 
     string fotoPerfilSrc = string.IsNullOrEmpty(fotoPerfilBase64)
-        ? rutaImagenPorDefecto
-        : $"data:image/jpeg;base64,{fotoPerfilBase64}";
+    ? rutaImagenPorDefecto
+    : $"data:image/jpeg;base64,{fotoPerfilBase64}";
 }
 
 <!doctype html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="light" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="light" data-sidebar-size="lg"
+    data-sidebar-image="none" data-preloader="disable">
+
 <head>
 
     <!-- swiper css -->
@@ -32,6 +34,7 @@
     @await Html.PartialAsync("_title_meta")
     @await Html.PartialAsync("_head_css")
 </head>
+
 <body>
     <!-- Begin page -->
     <div id="layout-wrapper">
@@ -54,8 +57,7 @@
                         <div class="row g-4">
                             <div class="col-auto">
                                 <div class="avatar-lg">
-                                    <img src="@fotoPerfilSrc" alt="user-img"
-                                         class="img-thumbnail rounded-circle" />
+                                    <img src="@fotoPerfilSrc" alt="user-img" class="img-thumbnail rounded-circle" />
                                 </div>
                             </div>
                             <!--end col-->
@@ -65,10 +67,12 @@
                                     <p class="text-white text-opacity-75">@usuarioEspecialidad</p>
                                     <div class="hstack text-white-50 gap-1">
                                         <div class="me-2">
-                                            <i class="ri-map-pin-user-line me-1 text-white text-opacity-75 fs-16 align-middle"></i>@usuarioDireccion
+                                            <i
+                                                class="ri-map-pin-user-line me-1 text-white text-opacity-75 fs-16 align-middle"></i>@usuarioDireccion
                                         </div>
                                         <div>
-                                            <i class="ri-building-line me-1 text-white text-opacity-75 fs-16 align-middle"></i>@usuarioEstablecimiento
+                                            <i
+                                                class="ri-building-line me-1 text-white text-opacity-75 fs-16 align-middle"></i>@usuarioEstablecimiento
                                         </div>
                                     </div>
                                 </div>
@@ -89,8 +93,9 @@
                                         role="tablist">
                                         <li class="nav-item">
                                             <a class="nav-link fs-14 active" data-bs-toggle="tab" href="#overview-tab"
-                                               role="tab">
-                                                <i class="ri-airplay-fill d-inline-block d-md-none"></i> <span class="d-none d-md-inline-block">Overview</span>
+                                                role="tab">
+                                                <i class="ri-airplay-fill d-inline-block d-md-none"></i> <span
+                                                    class="d-none d-md-inline-block">Overview</span>
                                             </a>
                                         </li>
 
@@ -116,7 +121,8 @@
                                                                 <tbody>
                                                                     <tr>
                                                                         <th class="ps-0" scope="row">Full Name :</th>
-                                                                        <td class="text-muted">@usuarioNombre @usuarioApellido</td>
+                                                                        <td class="text-muted">@usuarioNombre
+                                                                            @usuarioApellido</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <th class="ps-0" scope="row">Mobile :</th>
@@ -129,10 +135,10 @@
                                                                     <tr>
                                                                         <th class="ps-0" scope="row">Location :</th>
                                                                         <td class="text-muted">
-                                                                           @usuarioDireccion
+                                                                            @usuarioDireccion
                                                                         </td>
                                                                     </tr>
-                                                                 
+
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -163,7 +169,7 @@
 
     </div>
     <!-- END layout-wrapper -->
-    @*    @Html.Partial("~/Views/Shared/_customizer.cshtml")
+    @* @Html.Partial("~/Views/Shared/_customizer.cshtml")
 
     @Html.Partial("~/Views/Shared/_vendor_scripts.cshtml") *@
     @await Html.PartialAsync("_vendor_scripts")
@@ -178,4 +184,5 @@
     <!-- App js -->
     <script src="~/assets/js/app.js"></script>
 </body>
+
 </html>

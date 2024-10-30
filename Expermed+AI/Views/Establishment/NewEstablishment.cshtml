@@ -27,10 +27,10 @@
     <div class="main-content">
       <div class="page-content">
         <div class="container-fluid">
-          
+
 
           <div class="row">
-           
+
             <!--end col-->
 
             <div class="col-xxl-9">
@@ -49,28 +49,30 @@
                     <div class="tab-pane active" id="establishmentDetails" role="tabpanel">
                       <form action="javascript:void(0);">
                         <div class="row">
-                     
+
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="establishmentNameInput" class="form-label">Establishment Name</label>
-                              <input type="text" class="form-control" id="establishmentNameInput" placeholder="Medic Place">
+                              <input type="text" class="form-control" id="establishmentNameInput"
+                                placeholder="Medic Place">
                             </div>
                           </div>
 
-                          
-
+                        
                           <div class="col-lg-12">
                             <div class="mb-3">
                               <label for="addressInput" class="form-label">Establishment Address</label>
                               <div class="input-group">
-                                   <input type="text" class="form-control" placeholder="Escribe la dirección..." id="addressInput"  aria-label="Escribe la dirección" aria-describedby="button-addon2">
-                <button class="btn btn-outline-primary icon-container" type="button" id="locationIcon" aria-label="Ubicación">
-                    <i class="fas fa-map-marker-alt"></i>
-                </button>
-            </div>
-            <div id="suggestions" style="display: none;"></div>
-            <div id="map"></div>
+                                <input type="text" class="form-control" placeholder="Escribe la dirección..."
+                                  id="addressInput" aria-label="Escribe la dirección" aria-describedby="button-addon2">
+                                <button class="btn btn-outline-primary icon-container" type="button" id="locationIcon"
+                                  aria-label="Ubicación">
+                                  <i class="fas fa-map-marker-alt"></i>
+                                </button>
+                              </div>
+                              <div id="suggestions" style="display: none;"></div>
+                              <div id="map"></div>
                             </div>
                           </div>
 
@@ -85,15 +87,15 @@
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="pointofsaleInput" class="form-label">Point of Sale</label>
-                              <input type="text" class="form-control" id="pointofsaleInput"
-                                placeholder="002">
+                              <input type="text" class="form-control" id="pointofsaleInput" placeholder="002">
                             </div>
                           </div>
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="localityInput" class="form-label">Establishment Locality</label>
-                              <input type="text" class="form-control" id="localityInput" placeholder="Enter your locality">
+                              <input type="text" class="form-control" id="localityInput"
+                                placeholder="Enter your locality">
                             </div>
                           </div>
 
@@ -103,7 +105,7 @@
                                 <i class=" ri-home-7-line"></i> Create
                               </button>
 
-                         
+
                               <button type="button" class="btn btn-soft-secondary">
                                 <i class="ri-close-circle-line"></i> Cancel
                               </button>
@@ -113,7 +115,7 @@
                         </div>
                         <!--end row-->
                       </form>
-             
+
                     </div>
                     <!--end tab-pane-->
                   </div>
@@ -126,7 +128,7 @@
           <!--end row-->
         </div>
       </div>
-     @await Html.PartialAsync("_footer") 
+      @await Html.PartialAsync("_footer")
     </div>
   </div>
   <!-- END layout-wrapper -->

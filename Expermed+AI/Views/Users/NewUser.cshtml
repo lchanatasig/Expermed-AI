@@ -12,6 +12,69 @@
     @await Html.PartialAsync("_head_css")
 </head>
 <body>
+    <style>
+        #suggestions {
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    z-index: 1000;
+    position: absolute;
+    width: 100%;
+}
+
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+    .suggestion-item:hover {
+        background-color: #f1f1f1;
+    }
+
+
+#map {
+    height: 400px; /* Ajustar la altura del mapa */
+    width: 100%; /* Ancho completo */
+    display: none; /* Ocultar el mapa inicialmente */
+}
+
+.share-menu {
+    display: none; /* Ocultar el menú de compartir inicialmente */
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1000;
+        align-items: center; /* Centrar el ícono verticalmente */
+
+}
+
+.share-buttons {
+    display: flex; /* Usar flexbox para alinear los botones */
+    gap: 10px; /* Espaciado entre botones */
+}
+
+.share-btn {
+    width: 40px; /* Ancho del botón */
+    height: 40px; /* Altura del botón */
+    border-radius: 50%; /* Bordes redondeados para hacer un círculo */
+    display: flex;
+    justify-content: center; /* Centrar el ícono horizontalmente */
+    align-items: center; /* Centrar el ícono verticalmente */
+    background-color: #f8f9fa; /* Fondo claro */
+    border: 1px solid #007bff; /* Borde azul */
+    color: #007bff; /* Color del ícono */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    transition: background-color 0.3s, color 0.3s; /* Transiciones para efectos de hover */
+}
+
+.share-btn:hover {
+    background-color: #007bff; /* Cambiar fondo al pasar el mouse */
+    color: white; /* Cambiar color del ícono al pasar el mouse */
+}
+
+    </style>
     <!-- Begin page -->
     <div id="layout-wrapper">
         @await Html.PartialAsync("_menu")
@@ -112,14 +175,48 @@
                                                     </div>
 
                                                     <div class="col-lg-12">
-                                                        <div class="mb-3">
-                                                            <label for="addressInput" class="form-label">Address</label>
-                                                            <div class="input-group">
-                                                                <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
-                                                                <button class="btn btn-outline-success" type="button" id="button-addon2"><i class="ri-map-pin-line"></i></button>
+                                                    <div class="mb-3">
+        <label for="addressInput" class="form-label">Address</label>
+        <div class="input-group">
+            <input type="text" class="form-control" id="direccionInput" aria-describedby="button-addon2" placeholder="Introduce una dirección">
+            <button class="btn btn-outline-primary icon-container" type="button" id="locationIcon" aria-label="Ubicación">
+                <i class="fas fa-map-marker-alt"></i>
+            </button>
+        </div>
+        <div id="suggestions" style="display: none;"></div>
+        <div id="map"></div>
+                            <button id="shareLocationBtn" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#shareLocationModal">Compartir Ubicación</button>
+                                                    </div>
+                                                    </div>
+
+                                        <div>
+                                            <input type="text" id="latInput" placeholder="Latitud" readonly>
+                                            <input type="text" id="lonInput" placeholder="Longitud" readonly>
+                                            <div id="shareMenu" class="share-menu">
+                                            <h5>Compartir Ubicación</h5>
+                                        
+                                        </div>
+
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="shareLocationModal" tabindex="-3" aria-labelledby="shareLocationModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog modal-flip modal-sm">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="shareLocationModalLabel">Compartir Ubicación</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="share-buttons">
+                                                                            <button id="shareLinkBtn" class="btn share-btn"><i class="ri-links-line"></i></button>
+                                                                            <button id="shareMessageBtn" class="btn share-btn"><i class="ri-whatsapp-line"></i></button>
+                                                                            <button id="shareEmailBtn" class="btn share-btn"><i class="ri-mail-send-line"></i></button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                        
+
 
                                                     <div class="col-lg-6">
                                                         <div class="mb-3">
@@ -247,7 +344,7 @@
                     <!--end row-->
                 </div>
             </div>
-      @*       @await Html.PartialAsync("_footer") *@
+           @await Html.PartialAsync("_footer")
         </div>
     </div>
     <!-- END layout-wrapper -->

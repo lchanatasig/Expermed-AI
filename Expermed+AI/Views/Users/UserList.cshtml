@@ -5,8 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@section styles{
-       <!--datatable css-->
+@section styles {
+    <!--datatable css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
     <!--datatable responsive css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
@@ -15,54 +15,60 @@
 }
 
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="card-title mb-0">User List</h5>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">User List</h5>
+            </div>
+            <div class="card-body">
+                <table id="alternative-pagination"
+                    class="table nowrap dt-responsive align-middle table-hover table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>User Id.</th>
+                            <th>User Name</th>
+                            <th>Document Number</th>
+                            <th>Email</th>
+                            <th>Establishment</th>
+                            <th>User status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01</td>
+                            <td>
+                                <div class="d-flex align-items-center fw-medium">
+                                    <img src="assets/images/svg/crypto-icons/btc.svg" alt="" class="avatar-xxs me-2">
+                                    <a href="javascript:void(0);" class="currency_name">Bitcoin (BTC)</a>
                                 </div>
-                                <div class="card-body">
-                                    <table id="alternative-pagination" class="table nowrap dt-responsive align-middle table-hover table-bordered" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>User Id.</th>
-                                                <th>User Name</th>
-                                                <th>Document Number</th>
-                                                <th>Email</th>
-                                                <th>Establishment</th>
-                                                <th>User status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>01</td>
-                                                <td>
-                                                    <div class="d-flex align-items-center fw-medium">
-                                                        <img src="assets/images/svg/crypto-icons/btc.svg" alt="" class="avatar-xxs me-2">
-                                                        <a href="javascript:void(0);" class="currency_name">Bitcoin (BTC)</a>
-                                                    </div>
-                                                </td>
-                                                <td>$47,071.60</td>
-                                                <td>BTC/USD</td>
-                                                <td>$28,722.76</td>
-                                              
-                                                <td><h6 class="text-success fs-13 mb-0"><i class="mdi mdi-trending-up align-middle me-1"></i>1.50%</h6></td>
-                                                <td>
-                                                 <a href="@Url.Action("UpdateUser", "Users")" class="btn btn-sm btn-soft-info">   <i class="ri-edit-line"></i> Review</a>
-                                                </td>
-                                            </tr>
-                                          
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                
+                            </td>
+                            <td>$47,071.60</td>
+                            <td>BTC/USD</td>
+                            <td>$28,722.76</td>
 
-@section scripts{
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+                            <td>
+                                <h6 class="text-success fs-13 mb-0"><i
+                                        class="mdi mdi-trending-up align-middle me-1"></i>1.50%</h6>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("UpdateUser", "Users")" class="btn btn-sm btn-soft-info"> <i
+                                        class="ri-edit-line"></i> Review</a>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <!--datatable js-->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
