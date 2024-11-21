@@ -1,4 +1,7 @@
-﻿@{
+﻿@model Expermed_AI.Models.User
+
+@{
+
 
   ViewBag.Title = "Update User";
   ViewBag.pTitle = "Update User";
@@ -99,7 +102,7 @@
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="documentNumberInput" class="form-label">Document number</label>
-                              <input type="text" class="form-control" id="documentNumberInput" placeholder="1759999999">
+                              <input type="text" class="form-control" id="documentNumberInput" placeholder="1759999999" value="@Model.UserDocumentNumber">
                             </div>
                           </div>
 
@@ -107,7 +110,7 @@
                             <div class="mb-3">
                               <label for="firstnameInput" class="form-label">First Name</label>
                               <input type="text" class="form-control" id="firstnameInput"
-                                placeholder="Enter your firstname">
+                                placeholder="Enter your firstname" value="@Model.UserNames">
                             </div>
                           </div>
 
@@ -115,7 +118,7 @@
                             <div class="mb-3">
                               <label for="lastnameInput" class="form-label">Last Name</label>
                               <input type="text" class="form-control" id="lastnameInput"
-                                placeholder="Enter your lastname">
+                                placeholder="Enter your lastname" value="@Model.UserSurnames">
                             </div>
                           </div>
 
@@ -124,7 +127,7 @@
         <label for="addressInput" class="form-label">Address</label>
         <div class="input-group">
             <!-- Input para ingresar la dirección -->
-            <input type="text" id="addressInput" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2" placeholder="Escribe una dirección">
+            <input type="text" id="addressInput" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2" placeholder="Escribe una dirección" value="@Model.UserAddress">
             <!-- Botón para mostrar el mapa -->
             <button class="btn btn-outline-success" type="button" id="button-addon2"><i class="ri-map-pin-line"></i></button>
         </div>
@@ -141,7 +144,7 @@
                             <div class="mb-3">
                               <label for="codeSenecytInput" class="form-label">Code Senecyt</label>
                               <input type="text" class="form-control" id="codeSenecytInput"
-                                placeholder="Enter your Senecyt code">
+                                placeholder="Enter your Senecyt code" value="@Model.UserSenecytcode">
                             </div>
                           </div>
 
@@ -149,14 +152,14 @@
                             <div class="mb-3">
                               <label for="phonenumberInput" class="form-label">Phone Number</label>
                               <input type="text" class="form-control" id="phonenumberInput"
-                                placeholder="Enter your phone number +(1) 987 6543">
+                                placeholder="Enter your phone number +(1) 987 6543" value="@Model.UserPhone">
                             </div>
                           </div>
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="emailInput" class="form-label">Email Address</label>
-                              <input type="email" class="form-control" id="emailInput" placeholder="Enter your email">
+                              <input type="email" class="form-control" id="emailInput" placeholder="Enter your email" value="@Model.UserEmail">
                             </div>
                           </div>
 
@@ -187,35 +190,30 @@
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="loginInput" class="form-label">Log-in</label>
-                              <input type="text" class="form-control" id="loginInput" placeholder="nickname">
+                              <input type="text" class="form-control" id="loginInput" placeholder="nickname" value="@Model.UserLogin">
                             </div>
                           </div>
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="passwordInput" class="form-label">Password</label>
-                              <input type="password" class="form-control" id="passwordInput" placeholder="********">
+                              <input type="password" class="form-control" id="passwordInput" placeholder="Set the old password, or replace it with a new one">
                             </div>
                           </div>
 
-                          <div class="col-lg-6">
-                            <div class="mb-3">
-                              <label for="usercodeInput" class="form-label">User Code</label>
-                              <input type="text" class="form-control" id="usercodeInput" placeholder="">
-                            </div>
-                          </div>
+                          
 
                           <div class="col-lg-4">
                             <div class="mb-3">
                               <label for="xkeyInput" class="form-label">X-KEY of the user in taxo</label>
-                              <input type="text" class="form-control" id="xkeyInput" placeholder="provided by taxo">
+                              <input type="text" class="form-control" id="xkeyInput" placeholder="provided by taxo" value="@Model.UserXkeytaxo">
                             </div>
                           </div>
 
                           <div class="col-lg-4">
                             <div class="mb-3">
                               <label for="xpassInput" class="form-label">X-PASS of the user in taxo</label>
-                              <input type="text" class="form-control" id="xpassInput" placeholder="provided by taxo">
+                              <input type="text" class="form-control" id="xpassInput" placeholder="provided by taxo" value="@Model.UserXpasstaxo">
                             </div>
                           </div>
 
@@ -224,7 +222,7 @@
                               <label for="sequentialBillingInput" class="form-label">Sequential user billing in
                                 taxo</label>
                               <input type="text" class="form-control" id="sequentialBillingInput"
-                                placeholder="provided by taxo">
+                                placeholder="provided by taxo" value="@Model.UserSequentialBilling">
                             </div>
                           </div>
 
@@ -245,7 +243,7 @@
                           <div class="col-lg-12">
                             <div class="hstack gap-2 justify-content-end">
                               <button type="submit" class="btn btn-primary">
-                                <i class="ri-user-add-line"></i> Create
+                                <i class="ri-user-add-line"></i> Update
                               </button>
 
                               <!-- Grids in modals -->

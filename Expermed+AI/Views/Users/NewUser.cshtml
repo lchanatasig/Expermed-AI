@@ -39,40 +39,11 @@
     display: none; /* Ocultar el mapa inicialmente */
 }
 
-.share-menu {
-    display: none; /* Ocultar el menú de compartir inicialmente */
-    position: absolute;
-    background: white;
-    border: 1px solid #ccc;
-    padding: 10px;
-    z-index: 1000;
-        align-items: center; /* Centrar el ícono verticalmente */
 
-}
 
-.share-buttons {
-    display: flex; /* Usar flexbox para alinear los botones */
-    gap: 10px; /* Espaciado entre botones */
-}
 
-.share-btn {
-    width: 40px; /* Ancho del botón */
-    height: 40px; /* Altura del botón */
-    border-radius: 50%; /* Bordes redondeados para hacer un círculo */
-    display: flex;
-    justify-content: center; /* Centrar el ícono horizontalmente */
-    align-items: center; /* Centrar el ícono verticalmente */
-    background-color: #f8f9fa; /* Fondo claro */
-    border: 1px solid #007bff; /* Borde azul */
-    color: #007bff; /* Color del ícono */
-    cursor: pointer; /* Cambia el cursor al pasar el mouse */
-    transition: background-color 0.3s, color 0.3s; /* Transiciones para efectos de hover */
-}
 
-.share-btn:hover {
-    background-color: #007bff; /* Cambiar fondo al pasar el mouse */
-    color: white; /* Cambiar color del ícono al pasar el mouse */
-}
+
 
     </style>
     <!-- Begin page -->
@@ -185,17 +156,10 @@
                                                            </div>
                                                             <div id="suggestions" style="display: none;"></div>
                                                             <div id="map"></div>
-                                                            <button id="shareLocationBtn" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#shareLocationModal">Compartir Ubicación</button>
                                                         </div>
                                                      </div>
 
-                                                     <div>
-                                                         <input type="text" id="latInput" placeholder="Latitud" readonly>
-                                                         <input type="text" id="lonInput" placeholder="Longitud" readonly>
-                                                         <div id="shareMenu" class="share-menu">
-                                                            <h5>Compartir Ubicación</h5>
-                                                         </div>
-                                                     </div>
+                                                   
                                                         <!-- Modal -->
                                                         <div class="modal fade" id="shareLocationModal" tabindex="-3" aria-labelledby="shareLocationModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog modal-flip modal-sm">

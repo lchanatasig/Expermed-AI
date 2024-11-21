@@ -38,7 +38,7 @@ namespace Expermed_AI.Services
             }
         }
 
-       
+
 
 
         // Método para obtener un usuario por su ID
@@ -46,19 +46,19 @@ namespace Expermed_AI.Services
         {
             try
             {
-                // Ejecuta el procedimiento almacenado sp_ListUserById con el parámetro userId
-                var user = await _dbContext.Users
+                var users = await _dbContext.Users
                     .FromSqlRaw("EXEC sp_ListUserById @user_id = {0}", userId)
-                    .FirstOrDefaultAsync();
+                    .ToListAsync();
 
-                return user;
+                return users.FirstOrDefault();
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al obtener el usuario por ID.");
-                throw;  // O manejar el error de forma más específica si es necesario
+                throw;
             }
         }
+
 
         // Método para activar o desactivar al usuario
         public async Task<(bool success, string message)> DesactiveOrActiveUserAsync(int userId, int status)
