@@ -21,6 +21,7 @@ namespace Expermed_AI
             builder.Services.AddHttpContextAccessor();
             // Registrar el servicio de autenticación
             builder.Services.AddScoped<AuthenticationServices>();
+            builder.Services.AddScoped<UsersService>();
             builder.Services.AddHttpClient(); // Registrar HttpClient
 
             // Agregar servicio de sesión

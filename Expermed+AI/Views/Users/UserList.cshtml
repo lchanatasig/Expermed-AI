@@ -1,17 +1,23 @@
-﻿@{
+﻿@model IEnumerable<Expermed_AI.Models.User>
+
+@{
     ViewBag.Title = "User List";
     ViewBag.pTitle = "User List";
     ViewBag.pageTitle = "User List";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
 }
 
-@section styles {
-    <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
-    <!--datatable responsive css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+
+@section styles {
+        <!--datatable css-->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+        <!--datatable responsive css-->
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
+
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 }
 
 
@@ -36,28 +42,47 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>01</td>
-                            <td>
-                                <div class="d-flex align-items-center fw-medium">
-                                    <img src="assets/images/svg/crypto-icons/btc.svg" alt="" class="avatar-xxs me-2">
-                                    <a href="javascript:void(0);" class="currency_name">Bitcoin (BTC)</a>
-                                </div>
-                            </td>
-                            <td>$47,071.60</td>
-                            <td>BTC/USD</td>
-                            <td>$28,722.76</td>
+                        @foreach (var user in Model)
+                        {
+                            <tr>
 
-                            <td>
-                                <h6 class="text-success fs-13 mb-0"><i
-                                        class="mdi mdi-trending-up align-middle me-1"></i>1.50%</h6>
-                            </td>
-                            <td>
-                                <a href="@Url.Action("UpdateUser", "Users")" class="btn btn-sm btn-soft-info"> <i
-                                        class="ri-edit-line"></i> Review</a>
-                            </td>
-                        </tr>
+                                <td>@user.UsersId</td>
+                                <td>
+                                    <div class="d-flex align-items-center fw-medium">
+                                        <img src="assets/images/svg/crypto-icons/btc.svg" alt="" class="avatar-xxs me-2">
+                                        <a href="javascript:void(0);" class="currency_name">@user.UserNames @user.UserSurnames</a>
+                                    </div>
+                                </td>
+                                <td>@user.UserDocumentNumber</td>
+                                <td>@user.UserEmail</td>
+                                <td>@user.UserEstablishment</td>
 
+                                    <td>
+                                    @if (user.UserStatus == 1)
+                                    {
+                        <form method="post" action="@Url.Action("ChangeUserStatus", "Users")">
+                            <input type="hidden" name="userId" value="@user.UsersId" />
+                            <input type="hidden" name="status" value="0" />
+                            <button class="btn btn-danger">Disable</button>
+                        </form>
+                                    }
+                                    else
+                                    {
+                        <form method="post" action="@Url.Action("ChangeUserStatus", "Users")">
+                            <input type="hidden" name="userId" value="@user.UsersId" />
+                            <input type="hidden" name="status" value="1" />
+                            <button class="btn btn-success">Enable</button>
+                        </form>
+                                    }
+            </td>
+                                  <td>
+        <a href="@Url.Action("UpdateUser", "Users", new { id = user.UsersId })" class="btn btn-sm btn-soft-info">
+            <i class="ri-edit-line"></i> Review
+        </a>
+    </td>
+
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
@@ -67,22 +92,50 @@
 
 
 @section scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-    <!--datatable js-->
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <!--datatable js-->
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+        <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
-    <script src="~/assets/js/pages/datatables.init.js"></script>
+        <script src="~/assets/js/pages/datatables.init.js"></script>
 
-    <!-- App js -->
-    <script src="~/assets/js/app.js"></script>
+        <!-- App js -->
+        <script src="~/assets/js/app.js"></script>
+
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <script>
+        Swal.fire({
+            title: '¡Success!',
+            text: '@successMessage',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            timer: 3000
+        });
+    </script>
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <script>
+        Swal.fire({
+            title: 'Success',
+            text: '@errorMessage',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            timer: 3000
+        });
+    </script>
+}
+
 }
