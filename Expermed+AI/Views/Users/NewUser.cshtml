@@ -3,7 +3,10 @@
        ViewBag.pTitle = "Create User";
     ViewBag.pageTitle = "Create User";
     Layout = null;
+
+
 }
+@model NewUserViewModel
 
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="light" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -52,14 +55,12 @@
                 <div class="container-fluid">
                     <div class="position-relative mx-n4 mt-n4">
                         <div class="profile-wid-bg profile-setting-img">
-                            <img src="~/assets/images/profile-bg.jpg" class="profile-wid-img" alt="">
+                            <img src="~/assets/images/auth-one-bg.jpg" class="profile-wid-img" alt="">
                             <div class="overlay-content">
                                 <div class="text-end p-3">
                                     <div class="p-0 ms-auto rounded-circle profile-photo-edit">
                                         <input id="profile-foreground-img-file-input" type="file" class="profile-foreground-img-file-input">
-                                        <label for="profile-foreground-img-file-input" class="profile-photo-edit btn btn-light">
-                                            <i class="ri-image-edit-line align-bottom me-1"></i> Change Cover
-                                        </label>
+                                      
                                     </div>
                                 </div>
                             </div>
@@ -67,6 +68,8 @@
                     </div>
 
                     <div class="row">
+<form id="newUser" name="newUser" method="POST" enctype="multipart/form-data">
+
                         <div class="col-xxl-3">
                             <div class="card mt-n5">
                                 <div class="card-body p-4">
@@ -104,19 +107,33 @@
                                 <div class="card-body p-4">
                                     <div class="tab-content">
                                          <div class="tab-pane active" id="personalDetails" role="tabpanel">
-                                             <form action="javascript:void(0);">
                                                  <div class="row">
-                                                     <div class="col-lg-6">
-                                                        <div class="mb-3">
-                                                            <label for="profileSelect" class="form-label">Select profile</label>
-                                                            <select class="form-select rounded-pill mb-3" aria-label="Default select example">
-                                                                <option selected>Search for services</option>
-                                                                <option value="1">Information Architecture</option>
-                                                                <option value="2">UI/UX Design</option>
-                                                                <option value="3">Back End Development</option>
-                                                            </select>
-                                                        </div>
-                                                     </div>
+                                                <div class="col-lg-6">
+    <div class="mb-3">
+        <label for="profileSelect" class="form-label">Select profile</label>
+        <select class="form-control" id="profileSelect" name="profileId" data-choices data-choices-sorting-false>
+            @foreach (var profile in Model.Profiles)
+            {
+                <option value="@profile.ProfileId">@profile.ProfileName</option>
+            }
+        </select>
+    </div>
+</div>
+
+<!-- Contenedor del select de médicos -->
+<div class="col-lg-6" id="doctorSelectContainer" style="display: none;"> <!-- Oculto por defecto -->
+    <div class="mb-3">
+        <label for="doctorSelect" class="form-label">Select the doctor to assign the assistant to</label>
+        <select class="form-control" id="doctorSelect"  data-choices data-choices-removeItem name="choices-multiple-remove-button" multiple>
+         
+            @foreach (var medic in Model.Users)
+            {
+                <option value="@medic.UsersId">Dr(a): @medic.UserNames @medic.UserSurnames <span>(@medic.UserSpecialty.SpecialityName)</span></option>
+            }
+        </select>
+    </div>
+</div>                                                    
+                                                    
 
                                                      <div class="col-lg-6">
                                                         <div class="mb-3">
@@ -139,43 +156,25 @@
                                                         </div>
                                                       </div>
 
-                                                      <div class="col-lg-12">
-                                                     <div class="mb-3">
-                                                       <label for="addressInput" class="form-label">Address</label>
-                                                           <div class="input-group">
-                                                               <input type="text" class="form-control" id="direccionInput" aria-describedby="button-addon2" placeholder="Introduce una dirección">
-                                                               <button class="btn btn-outline-primary icon-container" type="button" id="locationIcon" aria-label="Ubicación">
-                                                                   <i class="fas fa-map-marker-alt"></i>
-                                                               </button>
-                                                           </div>
-                                                            <div id="suggestions" style="display: none;"></div>
-                                                            <div id="map"></div>
-                                                        </div>
-                                                     </div>
+                                                                         <div class="col-lg-12">
+    <div class="mb-3">
+        <label for="addressInput" class="form-label">Address</label>
+        <div class="input-group">
+            <!-- Input para ingresar la dirección -->
+            <input type="text" id="addressInput" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2" placeholder="Escribe una dirección">
+            <!-- Botón para mostrar el mapa -->
+            <button class="btn btn-outline-success" type="button" id="button-addon2"><i class="ri-map-pin-line"></i></button>
+        </div>
 
-                                                   
-                                                        <!-- Modal -->
-                                                        <div class="modal fade" id="shareLocationModal" tabindex="-3" aria-labelledby="shareLocationModalLabel" aria-hidden="true">
-                                                            <div class="modal-dialog modal-flip modal-sm">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="shareLocationModalLabel">Compartir Ubicación</h5>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <div class="share-buttons">
-                                                                            <button id="shareLinkBtn" class="btn share-btn"><i class="ri-links-line"></i></button>
-                                                                            <button id="shareMessageBtn" class="btn share-btn"><i class="ri-whatsapp-line"></i></button>
-                                                                            <button id="shareEmailBtn" class="btn share-btn"><i class="ri-mail-send-line"></i></button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                         </div>
-                                                         
-                                                        
+        <!-- Contenedor para el mapa que se generará dinámicamente -->
+        <div id="map" style="display: none; height: 400px; margin-top: 15px;"></div>
 
+        <!-- Contenedor de sugerencias que se generará dinámicamente -->
+        <div id="suggestions" class="suggestions-container" style="display: none;"></div>
+    </div>
+</div>
 
+                                                                                                          
                                                          <div class="col-lg-6">
                                                              <div class="mb-3">
                                                                  <label for="codeSenecytInput" class="form-label">Code Senecyt</label>
@@ -200,11 +199,11 @@
                                                          <div class="col-lg-6">
                                                             <div class="mb-3">
                                                             <label for="specialtySelect" class="form-label">Select specialty</label>
-                                                            <select class="form-select rounded-pill mb-3" aria-label="Default select example">
-                                                                <option selected>Search for services</option>
-                                                                <option value="1">Information Architecture</option>
-                                                                <option value="2">UI/UX Design</option>
-                                                                <option value="3">Back End Development</option>
+                                                            <select class="form-control" id="choices-single-no-sorting" name="choices-single-no-sorting" data-choices data-choices-sorting-false>
+                                                                @foreach (var specialities in Model.Specialties)
+                                                                {
+                                                                    <option value="@specialities.SpecialityId">@specialities.SpecialityName</option>
+                                                                }
                                                             </select>
                                                         </div>
                                                     </div>
@@ -212,11 +211,11 @@
                                                     <div class="col-lg-6">
                                                         <div class="mb-3">
                                                             <label for="stablishSelect" class="form-label">Select establishment</label>
-                                                            <select class="form-select rounded-pill mb-3" aria-label="Default select example">
-                                                                <option selected>Search for services</option>
-                                                                <option value="1">Information Architecture</option>
-                                                                <option value="2">UI/UX Design</option>
-                                                                <option value="3">Back End Development</option>
+                                                         <select class="form-control" id="choices-single-no-sorting" name="choices-single-no-sorting" data-choices data-choices-sorting-false>
+                                                                @foreach (var establishment in Model.Establishments)
+                                                                {
+                                                             <option value="@establishment.EstablishmentId">@establishment.EstablishmentName</option>
+                                                                }
                                                             </select>
                                                         </div>
                                                     </div>
@@ -303,10 +302,61 @@
     @*     @await Html.PartialAsync("_customizer") *@
     @await Html.PartialAsync("_vendor_scripts")
 
+    <script>
+$(document).ready(function () {
+    // Mostrar el select de médicos cuando el perfil seleccionado sea "3"
+    $("#profileSelect").change(function () {
+        const selectedProfile = $(this).val();
+        if (selectedProfile === "3") {
+            $("#doctorSelectContainer").show(); // Mostrar el contenedor del select
+        } else {
+            $("#doctorSelectContainer").hide(); // Ocultar el contenedor del select
+            $("#doctorSelect").val(null); // Resetear el valor del select de médicos
+        }
+    });
+
+    // Manejar el envío del formulario con AJAX
+    $("#newUser").on("submit", function (event) {
+        event.preventDefault(); // Prevenir el envío estándar del formulario
+
+        // Capturar los datos del formulario
+        const formData = new FormData(this);
+
+        // Agregar médicos seleccionados al FormData
+        const selectedDoctors = $("#doctorSelect").val(); // Obtener los valores seleccionados
+        if (selectedDoctors) {
+            selectedDoctors.forEach((doctorId) => {
+                formData.append("doctorIds[]", doctorId); // Agregar cada doctor seleccionado al FormData
+            });
+        }
+
+        $.ajax({
+            url: "/Users/CreateNewUser", // Ajusta la URL al endpoint de tu controlador
+            type: "POST",
+            data: formData,
+            processData: false, // Necesario para enviar FormData
+            contentType: false, // Necesario para enviar FormData
+            success: function (response) {
+                // Manejar respuesta exitosa
+                alert("User created successfully!");
+                window.location.href = "/Users/UserList"; // Redirigir a la lista de usuarios
+            },
+            error: function (xhr, status, error) {
+                // Manejar errores
+                console.error("Error:", error);
+                alert("An error occurred while creating the user.");
+            }
+        });
+    });
+});
+
+</script>
+
     <!-- profile-setting init js -->
     <script src="~/assets/js/pages/profile-setting.init.js"></script>
 
     <!-- App js -->
     <script src="~/assets/js/app.js"></script>
+
 </body>
 </html>
