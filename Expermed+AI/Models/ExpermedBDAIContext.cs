@@ -35,6 +35,8 @@ public partial class ExpermedBDAIContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+    public virtual DbSet<UserSchedule> UserSchedules { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=localhost;Database=ExpermedBDAI;User Id=sa;Password=1717;TrustServerCertificate=True;");
@@ -339,6 +341,36 @@ public partial class ExpermedBDAIContext : DbContext
             entity.HasOne(d => d.UserSpecialty).WithMany(p => p.Users)
                 .HasForeignKey(d => d.UserSpecialtyid)
                 .HasConstraintName("FK_User_Speciality_Id");
+        });
+
+        modelBuilder.Entity<UserSchedule>(entity =>
+        {
+            entity.HasKey(e => e.ScheduleId).HasName("PK__user_sch__C46A8A6F704E3D53");
+
+            entity.ToTable("user_schedules");
+
+            entity.Property(e => e.ScheduleId).HasColumnName("schedule_id");
+            entity.Property(e => e.AppointmentInterval).HasColumnName("appointment_interval");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+            entity.Property(e => e.EndTime).HasColumnName("end_time");
+            entity.Property(e => e.StartTime).HasColumnName("start_time");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+            entity.Property(e => e.UsersId).HasColumnName("users_id");
+            entity.Property(e => e.WorkDays)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("work_days");
+
+            entity.HasOne(d => d.Users).WithMany(p => p.UserSchedules)
+                .HasForeignKey(d => d.UsersId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_user_schedules_users");
         });
 
         OnModelCreatingPartial(modelBuilder);

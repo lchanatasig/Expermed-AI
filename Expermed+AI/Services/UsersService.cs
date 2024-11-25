@@ -112,5 +112,99 @@ namespace Expermed_AI.Services
             }
 
         }
+
+
+        public async Task<int> CreateUserAsync(User usuario)
+        {
+            using (var connection = new SqlConnection(_dbContext.Database.GetDbConnection().ConnectionString))
+            {
+                using (var command = new SqlCommand("SP_CreateUser", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    // Parámetros requeridos
+                    command.Parameters.AddWithValue("@DocumentNumber", usuario.UserDocumentNumber);
+                    command.Parameters.AddWithValue("@Names", usuario.UserNames);
+                    command.Parameters.AddWithValue("@Surnames", usuario.UserSurnames);
+                    command.Parameters.AddWithValue("@Phone", usuario.UserPhone);
+                    command.Parameters.AddWithValue("@Email", usuario.UserEmail);
+                    command.Parameters.AddWithValue("@Address", usuario.UserAddress);
+                    command.Parameters.AddWithValue("@Login", usuario.UserLogin);
+                    command.Parameters.AddWithValue("@Password", usuario.UserPassword);
+                    command.Parameters.AddWithValue("@ProfileId", usuario.UserProfileid);
+
+                    // Parámetros opcionales
+                    command.Parameters.Add(new SqlParameter("@DigitalSignature", SqlDbType.VarBinary)
+                    {
+                        Value = usuario.UserDigitalsignature ?? (object)DBNull.Value
+                    });
+                    command.Parameters.Add(new SqlParameter("@QRCode", SqlDbType.VarBinary)
+                    {
+                        Value = usuario.UserQrcode ?? (object)DBNull.Value
+                    });
+                    command.Parameters.Add(new SqlParameter("@ProfilePhoto", SqlDbType.VarBinary)
+                    {
+                        Value = usuario.UserProfilephoto ?? (object)DBNull.Value
+                    });
+                    command.Parameters.AddWithValue("@ProfilePhoto64", usuario.UserPrfilephoto64 ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@SenecytCode", usuario.UserSenecytcode ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@XKeyTaxo", usuario.UserXkeytaxo ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@XPassTaxo", usuario.UserXpasstaxo ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@SequentialBilling", usuario.UserSequentialBilling ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@EstablishmentId", usuario.UserEstablishmentid ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@SpecialtyId", usuario.UserSpecialtyid ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@CountryId", usuario.UserCountryid ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@DoctorIds", usuario. ?? (object)DBNull.Value);
+
+                    // Parámetros del horario
+                    command.Parameters.AddWithValue("@StartTime", usuario.user ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@EndTime", usuario.EndTime ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@WorkDays", usuario.WorkDays ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@AppointmentInterval", usuario.AppointmentInterval ?? (object)DBNull.Value);
+
+                    try
+                    {
+                        await connection.OpenAsync();
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            if (await reader.ReadAsync())
+                            {
+                                // Parsear el resultado JSON devuelto
+                                var result = new
+                                {
+                                    Success = reader.GetBoolean(reader.GetOrdinal("success")),
+                                    Message = reader.GetString(reader.GetOrdinal("message")),
+                                    UserId = reader.IsDBNull(reader.GetOrdinal("userId"))
+                                        ? (int?)null
+                                        : reader.GetInt32(reader.GetOrdinal("userId"))
+                                };
+
+                                if (!result.Success)
+                                {
+                                    throw new Exception(result.Message);
+                                }
+
+                                return result.UserId ?? 0;
+                            }
+                        }
+
+                        throw new Exception("No se recibió una respuesta válida del procedimiento almacenado.");
+                    }
+                    catch (SqlException ex)
+                    {
+                        // Manejo de excepciones personalizadas
+                        throw new Exception($"Error al ejecutar SP_CreateUser: {ex.Message}", ex);
+                    }
+                    finally
+                    {
+                        if (connection.State == ConnectionState.Open)
+                        {
+                            await connection.CloseAsync();
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }

@@ -67,5 +67,7 @@ public partial class User
 
     public virtual Profile? UserProfile { get; set; }
 
+    public virtual ICollection<UserSchedule> UserSchedules { get; set; } = new List<UserSchedule>();
+
     public virtual Specialty? UserSpecialty { get; set; }
 }

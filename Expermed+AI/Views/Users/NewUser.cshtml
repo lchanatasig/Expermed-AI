@@ -111,7 +111,7 @@
                                                 <div class="col-lg-6">
     <div class="mb-3">
         <label for="profileSelect" class="form-label">Select profile</label>
-        <select class="form-control" id="profileSelect" name="profileId" data-choices data-choices-sorting-false>
+        <select class="form-control" id="profileSelect" name="profileSelect" data-choices data-choices-sorting-false>
             @foreach (var profile in Model.Profiles)
             {
                 <option value="@profile.ProfileId">@profile.ProfileName</option>
@@ -272,7 +272,7 @@
 
                                                     <div class="col-lg-12">
                                                         <div class="hstack gap-2 justify-content-end">
-                                                            <button type="submit" class="btn btn-primary">
+                                                            <button type="submit" id="btnCrearUsuario" class="btn btn-primary">
                                                                 <i class="ri-user-add-line"></i> Create
                                                             </button>
                                                             <a type="button" href="@Url.Action("UserList", "Users")" class="btn btn-soft-secondary">
@@ -315,40 +315,46 @@ $(document).ready(function () {
         }
     });
 
-    // Manejar el envío del formulario con AJAX
-    $("#newUser").on("submit", function (event) {
-        event.preventDefault(); // Prevenir el envío estándar del formulario
+    $("#btnCrearUsuario").click(function () {
+    var data = {
+      
+         ProfileId: $("#profileSelect").val(),
+         DoctorIds: $("#doctorSelect").val(),
+           DocumentNumber: $("#documentNumberInput").val(),
+        Names: $("#firstnameInput").val(),
+        Surnames: $("#lastnameInput").val(),
+        Address: $("#addressInput").val(),
+        Address: $("#codeSenecytInput").val(),
+        Email: $("#Email").val(),
+        Address: $("#Address").val(),
+        Login: $("#Login").val(),
+        Password: $("#Password").val(),
+       
+        StartTime: $("#StartTime").val(),
+        EndTime: $("#EndTime").val(),
+        WorkDays: $("#WorkDays").val(),
+        AppointmentInterval: $("#AppointmentInterval").val()
+        // Agrega otros campos según sea necesario
+    };
 
-        // Capturar los datos del formulario
-        const formData = new FormData(this);
-
-        // Agregar médicos seleccionados al FormData
-        const selectedDoctors = $("#doctorSelect").val(); // Obtener los valores seleccionados
-        if (selectedDoctors) {
-            selectedDoctors.forEach((doctorId) => {
-                formData.append("doctorIds[]", doctorId); // Agregar cada doctor seleccionado al FormData
-            });
-        }
-
-        $.ajax({
-            url: "/Users/CreateNewUser", // Ajusta la URL al endpoint de tu controlador
-            type: "POST",
-            data: formData,
-            processData: false, // Necesario para enviar FormData
-            contentType: false, // Necesario para enviar FormData
-            success: function (response) {
-                // Manejar respuesta exitosa
-                alert("User created successfully!");
-                window.location.href = "/Users/UserList"; // Redirigir a la lista de usuarios
-            },
-            error: function (xhr, status, error) {
-                // Manejar errores
-                console.error("Error:", error);
-                alert("An error occurred while creating the user.");
+    $.ajax({
+        url: "/Usuario/CreateUser",
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+            if (response.success) {
+                alert("Usuario creado con éxito. ID: " + response.userId);
+            } else {
+                alert("Error: " + response.message);
             }
-        });
+        },
+        error: function (xhr) {
+            alert("Error en la solicitud.");
+        }
     });
 });
+
 
 </script>
 
