@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Create User";
-       ViewBag.pTitle = "Create User";
+    ViewBag.pTitle = "Create User";
     ViewBag.pageTitle = "Create User";
     Layout = null;
 
@@ -17,30 +17,30 @@
 <body>
     <style>
         #suggestions {
-    max-height: 150px;
-    overflow-y: auto;
-    background-color: #fff;
-    border: 1px solid #ced4da;
-    z-index: 1000;
-    position: absolute;
-    width: 100%;
-}
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: #fff;
+            border: 1px solid #ced4da;
+            z-index: 1000;
+            position: absolute;
+            width: 100%;
+        }
 
-.suggestion-item {
-    padding: 8px;
-    cursor: pointer;
-}
+        .suggestion-item {
+            padding: 8px;
+            cursor: pointer;
+        }
 
-    .suggestion-item:hover {
-        background-color: #f1f1f1;
-    }
+        .suggestion-item:hover {
+            background-color: #f1f1f1;
+        }
 
 
-#map {
-    height: 400px; /* Ajustar la altura del mapa */
-    width: 100%; /* Ancho completo */
-    display: none; /* Ocultar el mapa inicialmente */
-}
+        #map {
+            height: 400px; /* Ajustar la altura del mapa */
+            width: 100%; /* Ancho completo */
+            display: none; /* Ocultar el mapa inicialmente */
+        }
 
     </style>
     <!-- Begin page -->
@@ -60,7 +60,7 @@
                                 <div class="text-end p-3">
                                     <div class="p-0 ms-auto rounded-circle profile-photo-edit">
                                         <input id="profile-foreground-img-file-input" type="file" class="profile-foreground-img-file-input">
-                                      
+
                                     </div>
                                 </div>
                             </div>
@@ -68,7 +68,7 @@
                     </div>
 
                     <div class="row">
-<form id="newUser" name="newUser" method="POST" enctype="multipart/form-data">
+                    <form id="newUser" name="newUser" method="POST" enctype="multipart/form-data">
 
                         <div class="col-xxl-3">
                             <div class="card mt-n5">
@@ -91,7 +91,7 @@
                             </div>
                             <!--end card-->
                         </div>
-                        <!--end col-->
+                        <!--end col photo profile-->
 
                         <div class="col-xxl-9">
                             <div class="card mt-xxl-n5">
@@ -104,77 +104,78 @@
                                         </li>
                                     </ul>
                                 </div>
+
                                 <div class="card-body p-4">
                                     <div class="tab-content">
                                          <div class="tab-pane active" id="personalDetails" role="tabpanel">
-                                                 <div class="row">
-                                                <div class="col-lg-6">
-    <div class="mb-3">
-        <label for="profileSelect" class="form-label">Select profile</label>
-        <select class="form-control" id="profileSelect" name="profileSelect" data-choices data-choices-sorting-false>
-            @foreach (var profile in Model.Profiles)
-            {
-                <option value="@profile.ProfileId">@profile.ProfileName</option>
-            }
-        </select>
-    </div>
-</div>
+                                              <div class="row">
+                                                 <div class="col-lg-6">
+                                                     <div class="mb-3">
+                                                         <label for="profileSelect" class="form-label">Select profile</label>
+                                                         <select class="form-control" id="profileSelect" name="profileSelect" data-choices data-choices-sorting-false>
+                                                                 @foreach (var profile in Model.Profiles)
+                                                                 {
+                                                                     <option value="@profile.ProfileId">@profile.ProfileName</option>
+                                                                 }
+                                                         </select>
+                                                     </div>
+                                                 </div>
 
-<!-- Contenedor del select de médicos -->
-<div class="col-lg-6" id="doctorSelectContainer" style="display: none;"> <!-- Oculto por defecto -->
-    <div class="mb-3">
-        <label for="doctorSelect" class="form-label">Select the doctor to assign the assistant to</label>
-        <select class="form-control" id="doctorSelect"  data-choices data-choices-removeItem name="choices-multiple-remove-button" multiple>
-         
-            @foreach (var medic in Model.Users)
-            {
-                <option value="@medic.UsersId">Dr(a): @medic.UserNames @medic.UserSurnames <span>(@medic.UserSpecialty.SpecialityName)</span></option>
-            }
-        </select>
-    </div>
-</div>                                                    
-                                                    
+                                                <!-- Contenedor del select de médicos -->
+                                                 <div class="col-lg-6" id="doctorSelectContainer" style="display: none;"> <!-- Oculto por defecto -->
+                                                    <div class="mb-3">
+                                                        <label for="doctorSelect" class="form-label">Select the doctor to assign the assistant to</label>
+                                                        <select class="form-control" id="doctorSelect"  data-choices data-choices-removeItem name="choices-multiple-remove-button" multiple>
 
-                                                     <div class="col-lg-6">
-                                                        <div class="mb-3">
-                                                            <label for="documentNumberInput" class="form-label">Document number</label>
-                                                            <input type="text" class="form-control" id="documentNumberInput" placeholder="1759999999">
-                                                        </div>
-                                                        </div>
+                                                                @foreach (var medic in Model.Users)
+                                                                {
+                                                                    <option value="@medic.UsersId">Dr(a): @medic.UserNames @medic.UserSurnames <span>(@medic.UserSpecialty.SpecialityName)</span></option>
+                                                                }
+                                                        </select>
+                                                    </div>
+                                                 </div>                                                    
 
-                                                        <div class="col-lg-6">
+
+                                                 <div class="col-lg-6">
+                                                    <div class="mb-3">
+                                                        <label for="documentNumberInput" class="form-label">Document number</label>
+                                                        <input type="text" class="form-control" id="documentNumberInput" placeholder="1759999999">
+                                                    </div>
+                                                 </div>
+
+                                                 <div class="col-lg-6">
                                                         <div class="mb-3">
                                                             <label for="firstnameInput" class="form-label">First Name</label>
                                                             <input type="text" class="form-control" id="firstnameInput" placeholder="Enter your firstname">
                                                         </div>
-                                                        </div>
+                                                  </div>
 
-                                                        <div class="col-lg-6">
+                                                  <div class="col-lg-6">
                                                         <div class="mb-3">
                                                             <label for="lastnameInput" class="form-label">Last Name</label>
                                                             <input type="text" class="form-control" id="lastnameInput" placeholder="Enter your lastname">
                                                         </div>
-                                                      </div>
+                                                  </div>
 
-                                                                         <div class="col-lg-12">
-    <div class="mb-3">
-        <label for="addressInput" class="form-label">Address</label>
-        <div class="input-group">
-            <!-- Input para ingresar la dirección -->
-            <input type="text" id="addressInput" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2" placeholder="Escribe una dirección">
-            <!-- Botón para mostrar el mapa -->
-            <button class="btn btn-outline-success" type="button" id="button-addon2"><i class="ri-map-pin-line"></i></button>
-        </div>
+                                                 <div class="col-lg-12">
+                                                    <div class="mb-3">
+                                                        <label for="addressInput" class="form-label">Address</label>
+                                                        <div class="input-group">
+                                                            <!-- Input para ingresar la dirección -->
+                                                            <input type="text" id="addressInput" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2" placeholder="Escribe una dirección">
+                                                            <!-- Botón para mostrar el mapa -->
+                                                            <button class="btn btn-outline-success" type="button" id="button-addon2"><i class="ri-map-pin-line"></i></button>
+                                                        </div>
 
-        <!-- Contenedor para el mapa que se generará dinámicamente -->
-        <div id="map" style="display: none; height: 400px; margin-top: 15px;"></div>
+                                                        <!-- Contenedor para el mapa que se generará dinámicamente -->
+                                                        <div id="map" style="display: none; height: 400px; margin-top: 15px;"></div>
 
-        <!-- Contenedor de sugerencias que se generará dinámicamente -->
-        <div id="suggestions" class="suggestions-container" style="display: none;"></div>
-    </div>
-</div>
+                                                        <!-- Contenedor de sugerencias que se generará dinámicamente -->
+                                                        <div id="suggestions" class="suggestions-container" style="display: none;"></div>
+                                                    </div>
+                                                 </div>
 
-                                                                                                          
+
                                                          <div class="col-lg-6">
                                                              <div class="mb-3">
                                                                  <label for="codeSenecytInput" class="form-label">Code Senecyt</label>
@@ -202,24 +203,24 @@
                                                             <select class="form-control" id="choices-single-no-sorting" name="choices-single-no-sorting" data-choices data-choices-sorting-false>
                                                                 @foreach (var specialities in Model.Specialties)
                                                                 {
-                                                                    <option value="@specialities.SpecialityId">@specialities.SpecialityName</option>
+                                                                        <option value="@specialities.SpecialityId">@specialities.SpecialityName</option>
                                                                 }
                                                             </select>
-                                                        </div>
-                                                    </div>
+                                                            </div>
+                                                         </div>
 
-                                                    <div class="col-lg-6">
-                                                        <div class="mb-3">
-                                                            <label for="stablishSelect" class="form-label">Select establishment</label>
-                                                         <select class="form-control" id="choices-single-no-sorting" name="choices-single-no-sorting" data-choices data-choices-sorting-false>
-                                                                @foreach (var establishment in Model.Establishments)
-                                                                {
-                                                             <option value="@establishment.EstablishmentId">@establishment.EstablishmentName</option>
-                                                                }
-                                                            </select>
+                                                        <div class="col-lg-6">
+                                                            <div class="mb-3">
+                                                                <label for="stablishSelect" class="form-label">Select establishment</label>
+                                                             <select class="form-control" id="choices-single-no-sorting" name="choices-single-no-sorting" data-choices data-choices-sorting-false>
+                                                                    @foreach (var establishment in Model.Establishments)
+                                                                    {
+                                                                     <option value="@establishment.EstablishmentId">@establishment.EstablishmentName</option>
+                                                                    }
+                                                                </select>
+                                                            </div>
                                                         </div>
-                                                    </div>
-
+    
                                                     <div class="col-lg-6">
                                                         <div class="mb-3">
                                                             <label for="loginInput" class="form-label">Log-in</label>
@@ -234,7 +235,7 @@
                                                         </div>
                                                     </div>
 
-                                                  
+
                                                     <div class="col-lg-4">
                                                         <div class="mb-3">
                                                             <label for="xkeyInput" class="form-label">X-KEY of the user in taxo</label>
@@ -256,22 +257,66 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-lg-4">
-                                                        <div class="mb-3">
-                                                            <label for="formFile" class="form-label">QR code</label>
-                                                            <input class="form-control" type="file" id="formFile">
-                                                        </div>
-                                                    </div>
-
+                                               
                                                     <div class="col-lg-4">
                                                         <div class="mb-3">
                                                             <label for="formFile2" class="form-label">Digital signature</label>
-                                                            <input class="form-control" type="file" id="formFile2">
+                                                            <input class="form-control" type="file" id="formFile2" accept=".p12">
+                                                        </div>
+                                                    </div>  
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-3">
+                                                             <div class="modal fade" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel">
+                                                                <div class="modal-dialog">
+                                                                  <div class="modal-content">
+                                                                       <div class="modal-header">
+                                                                          <h5 class="modal-title" id="exampleModalgridLabel">Opening Hours</h5>
+                                                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                      </div>
+                                                              <div class="modal-body">
+                                                             
+                                                                      <div class="row g-3">
+                                                                          <div class="col-xxl-6">
+                                                                              <div>
+                                                                                  <label for="firstName" class="form-label">Start Hour</label>
+                                                                                  <input type="time" class="form-control" id="startHour">
+                                                                              </div>
+                                                                          </div><!--end col-->
+                                                                          <div class="col-xxl-6">
+                                                                              <div>
+                                                                                  <label for="lastName" class="form-label">End Hour</label>
+                                                                                  <input type="time" class="form-control" id="EndHour">
+                                                                              </div>
+                                                                          </div><!--end col-->
+                                                                          <div class="col-lg-12">
+                                                                              <label class="form-label">Working Days</label>
+                                                                              <div>
+                                                                                    <label for="lastName" class="form-label">Appointment Interval</label>
+                                                                                  <input type="number" class="form-control" id="AppointmentInterval">
+                                                                              </div>
+                                                                          </div><!--end col-->
+                             
+                                                                          <div class="col-lg-12">
+                                                                              <div class="hstack gap-2 justify-content-end">
+                                                                                  <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                                                                  <button type="submit" class="btn btn-primary">Submit</button>
+                                                                              </div>
+                                                                          </div><!--end col-->
+                                                                      </div><!--end row-->
+                                                              </div>
+                                                          </div>
+                                                     </div>
+                                                     </div>
+
                                                         </div>
                                                     </div>
 
                                                     <div class="col-lg-12">
                                                         <div class="hstack gap-2 justify-content-end">
+
+                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalgrid">
+                                                             <i class="ri-time-line"></i> Add opening hours 
+                                                             </button> 
                                                             <button type="submit" id="btnCrearUsuario" class="btn btn-primary">
                                                                 <i class="ri-user-add-line"></i> Create
                                                             </button>
@@ -295,67 +340,29 @@
                     <!--end row-->
                 </div>
             </div>
-           @await Html.PartialAsync("_footer")
-        </div>
+             @await Html.PartialAsync("_footer")
     </div>
     <!-- END layout-wrapper -->
     @*     @await Html.PartialAsync("_customizer") *@
     @await Html.PartialAsync("_vendor_scripts")
 
-    <script>
-$(document).ready(function () {
-    // Mostrar el select de médicos cuando el perfil seleccionado sea "3"
-    $("#profileSelect").change(function () {
-        const selectedProfile = $(this).val();
-        if (selectedProfile === "3") {
-            $("#doctorSelectContainer").show(); // Mostrar el contenedor del select
-        } else {
-            $("#doctorSelectContainer").hide(); // Ocultar el contenedor del select
-            $("#doctorSelect").val(null); // Resetear el valor del select de médicos
-        }
-    });
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const profileSelect = document.getElementById("profileSelect");
+        const doctorSelectContainer = document.getElementById("doctorSelectContainer");
 
-    $("#btnCrearUsuario").click(function () {
-    var data = {
-      
-         ProfileId: $("#profileSelect").val(),
-         DoctorIds: $("#doctorSelect").val(),
-           DocumentNumber: $("#documentNumberInput").val(),
-        Names: $("#firstnameInput").val(),
-        Surnames: $("#lastnameInput").val(),
-        Address: $("#addressInput").val(),
-        Address: $("#codeSenecytInput").val(),
-        Email: $("#Email").val(),
-        Address: $("#Address").val(),
-        Login: $("#Login").val(),
-        Password: $("#Password").val(),
-       
-        StartTime: $("#StartTime").val(),
-        EndTime: $("#EndTime").val(),
-        WorkDays: $("#WorkDays").val(),
-        AppointmentInterval: $("#AppointmentInterval").val()
-        // Agrega otros campos según sea necesario
-    };
+        // Escuchar cambios en el select de perfiles
+        profileSelect.addEventListener("change", function () {
+            const selectedValue = profileSelect.value;
 
-    $.ajax({
-        url: "/Usuario/CreateUser",
-        type: "POST",
-        data: JSON.stringify(data),
-        contentType: "application/json; charset=utf-8",
-        success: function (response) {
-            if (response.success) {
-                alert("Usuario creado con éxito. ID: " + response.userId);
-            } else {
-                alert("Error: " + response.message);
+            // Mostrar u ocultar el contenedor del select de médicos
+            if (selectedValue === "3") { // Mostrar si el ProfileId es 3
+                doctorSelectContainer.style.display = "block";
+            } else { // Ocultar en caso contrario
+                doctorSelectContainer.style.display = "none";
             }
-        },
-        error: function (xhr) {
-            alert("Error en la solicitud.");
-        }
+        });
     });
-});
-
-
 </script>
 
     <!-- profile-setting init js -->
