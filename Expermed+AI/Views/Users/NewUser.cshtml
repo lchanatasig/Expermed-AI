@@ -176,12 +176,12 @@
                                                  </div>
 
 
-                                                         <div class="col-lg-6">
-                                                             <div class="mb-3">
-                                                                 <label for="codeSenecytInput" class="form-label">Code Senecyt</label>
-                                                                 <input type="text" class="form-control" id="codeSenecytInput" placeholder="Enter your Senecyt code">
-                                                             </div>
-                                                         </div>
+                                                  <div class="col-lg-6">
+                                                      <div class="mb-3">
+                                                          <label for="codeSenecytInput" class="form-label">Code Senecyt</label>
+                                                          <input type="text" class="form-control" id="codeSenecytInput" placeholder="Enter your Senecyt code">
+                                                      </div>
+                                                  </div>
 
                                                                 <div class="col-lg-6">
                                                                     <div class="mb-3">
@@ -263,60 +263,52 @@
                                                             <label for="formFile2" class="form-label">Digital signature</label>
                                                             <input class="form-control" type="file" id="formFile2" accept=".p12">
                                                         </div>
-                                                    </div>  
+                                                    </div> 
+                                               
+                                                    <div class="divider-with-text">
+                                                         <span>Settings Office Hours</span>
+                                                     </div>
+
+                                                    <!--Horarios de atencion-->
+                                                       <div class="col-lg-4">
+                                                        <div class="mb-3">
+                                                            <label for="startHour" class="form-label">Star Hour</label>
+                                                            <input class="form-control" type="time" id="startHour">
+                                                        </div>
+                                                    </div> 
                                                     <div class="col-lg-4">
                                                         <div class="mb-3">
-                                                             <div class="modal fade" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel">
-                                                                <div class="modal-dialog">
-                                                                  <div class="modal-content">
-                                                                       <div class="modal-header">
-                                                                          <h5 class="modal-title" id="exampleModalgridLabel">Opening Hours</h5>
-                                                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                      </div>
-                                                              <div class="modal-body">
-                                                             
-                                                                      <div class="row g-3">
-                                                                          <div class="col-xxl-6">
-                                                                              <div>
-                                                                                  <label for="firstName" class="form-label">Start Hour</label>
-                                                                                  <input type="time" class="form-control" id="startHour">
-                                                                              </div>
-                                                                          </div><!--end col-->
-                                                                          <div class="col-xxl-6">
-                                                                              <div>
-                                                                                  <label for="lastName" class="form-label">End Hour</label>
-                                                                                  <input type="time" class="form-control" id="EndHour">
-                                                                              </div>
-                                                                          </div><!--end col-->
-                                                                          <div class="col-lg-12">
-                                                                              <label class="form-label">Working Days</label>
-                                                                              <div>
-                                                                                    <label for="lastName" class="form-label">Appointment Interval</label>
-                                                                                  <input type="number" class="form-control" id="AppointmentInterval">
-                                                                              </div>
-                                                                          </div><!--end col-->
-                             
-                                                                          <div class="col-lg-12">
-                                                                              <div class="hstack gap-2 justify-content-end">
-                                                                                  <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                                                  <button type="submit" class="btn btn-primary">Submit</button>
-                                                                              </div>
-                                                                          </div><!--end col-->
-                                                                      </div><!--end row-->
-                                                              </div>
-                                                          </div>
-                                                     </div>
-                                                     </div>
-
+                                                            <label for="endHour" class="form-label">End Hour</label>
+                                                            <input class="form-control" type="time" id="endHour">
                                                         </div>
-                                                    </div>
+                                                    </div>    
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-3">
+                                                            <label for="endHour" class="form-label">Appointment Interval</label>
+                                                            <input class="form-control" type="number" id="appointment Interval">
+                                                        </div>
+                                                    </div> 
 
-                                                    <div class="col-lg-12">
+                                                  <!--Observacion y Dias de Trabajo-->  
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-3">
+                                                            <label for="formFile2" class="form-label">Digital signature</label>
+                                                            <input class="form-control" type="file" id="formFile2">
+                                                        </div>
+                                                    </div> 
+                                                    
+                                                    <div class="col-xxl-5 col-md-12">
+                                                       <div>
+                                                           <label for="exampleFormControlTextarea5" class="form-label">Doctor's description</label>
+                                                           <textarea class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
+                                                       </div>
+                                                   </div> 
+                                                    
+
+                                                    <div class="col-lg-12" style="padding-top: 3px">
                                                         <div class="hstack gap-2 justify-content-end">
 
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalgrid">
-                                                             <i class="ri-time-line"></i> Add opening hours 
-                                                             </button> 
+                                                           
                                                             <button type="submit" id="btnCrearUsuario" class="btn btn-primary">
                                                                 <i class="ri-user-add-line"></i> Create
                                                             </button>

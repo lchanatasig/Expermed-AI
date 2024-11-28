@@ -15,6 +15,7 @@
     var usuarioDireccion = ViewContext.HttpContext.Session.GetString("UsuarioDireccion");
     var usuarioTelefono = ViewContext.HttpContext.Session.GetString("UsuarioTelefono");
     var usuarioEmail = ViewContext.HttpContext.Session.GetString("UsuarioEmail");
+    var usuarioDescripcion = ViewContext.HttpContext.Session.GetString("UsuarioDescripcion");
     var fotoPerfilBase64 = ViewContext.HttpContext.Session.GetString("UsuarioFotoPerfil");
     var rutaImagenPorDefecto = Url.Content("~/assets/images/users/multi-user.jpg");
 
@@ -79,6 +80,21 @@
                             </div>
                             <!--end col-->
 
+                            <div class="col-xxl-9">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-3">About the doctor @usuarioNombre @usuarioApellido</h5>
+                                        <p>
+                                            @usuarioDescripcion
+                                        </p>
+
+
+                                    </div>
+                                    <!--end card-body-->
+                                </div><!-- end card -->
+                            </div><!-- end card -->
+
+
 
                         </div>
                         <!--end row-->
@@ -101,7 +117,8 @@
 
                                     </ul>
                                     <div class="flex-shrink-0">
-                                        <a href="@Url.Action("UpdateUser", "Users", new { id = @usuarioId })" class="btn btn-success">
+                                        <a href="@Url.Action("UpdateUser", "Users", new { id = @usuarioId })"
+                                            class="btn btn-success">
                                             <i class="ri-edit-box-line align-bottom"></i> Edit Profile
                                         </a>
 

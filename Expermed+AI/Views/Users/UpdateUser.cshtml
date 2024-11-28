@@ -1,4 +1,4 @@
-﻿@model Expermed_AI.Models.User
+﻿@model NewUserViewModel
 
 @{
 
@@ -47,62 +47,80 @@
           </div>
 
           <div class="row">
-            <div class="col-xxl-3">
-              <div class="card mt-n5">
-                <div class="card-body p-4">
-                  <div class="text-center">
-                    <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                      <img src="~/assets/images/users/avatar-1.jpg"
-                        class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
-                      <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-                        <input id="profile-img-file-input" type="file" class="profile-img-file-input">
-                        <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
-                          <span class="avatar-title rounded-circle bg-light text-body">
-                            <i class="ri-camera-fill"></i>
-                          </span>
-                        </label>
+            <form action="javascript:void(0);">
+             <input asp-for="User.UsersId" class="form-control" hidden />
+
+              <div class="col-xxl-3">
+                <div class="card mt-n5">
+                  <div class="card-body p-4">
+                    <div class="text-center">
+                      <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                        <img src="~/assets/images/users/avatar-1.jpg"
+                          class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
+                        <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
+                          <input id="profile-img-file-input" type="file" class="profile-img-file-input">
+                          <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
+                            <span class="avatar-title rounded-circle bg-light text-body">
+                              <i class="ri-camera-fill"></i>
+                            </span>
+                          </label>
+                        </div>
                       </div>
+                      <h5 class="fs-16 mb-1">Select a profile photo</h5>
                     </div>
-                    <h5 class="fs-16 mb-1">Select a profile photo</h5>
                   </div>
                 </div>
+                <!--end card-->
               </div>
-              <!--end card-->
-            </div>
-            <!--end col-->
+              <!--end col-->
+              <div class="col-xxl-9">
+                <div class="card mt-xxl-n5">
+                  <div class="card-header">
+                    <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
+                          <i class="fas fa-home"></i> Personal Details
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-body p-4">
+                    <div class="tab-content">
+                      <div class="tab-pane active" id="personalDetails" role="tabpanel">
 
-            <div class="col-xxl-9">
-              <div class="card mt-xxl-n5">
-                <div class="card-header">
-                  <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
-                    <li class="nav-item">
-                      <a class="nav-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
-                        <i class="fas fa-home"></i> Personal Details
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div class="card-body p-4">
-                  <div class="tab-content">
-                    <div class="tab-pane active" id="personalDetails" role="tabpanel">
-                      <form action="javascript:void(0);">
                         <div class="row">
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="profileSelect" class="form-label">Select profile</label>
-                              <select class="form-select rounded-pill mb-3" aria-label="Default select example">
-                                <option selected>Search for services</option>
-                                <option value="1">Information Architecture</option>
-                                <option value="2">UI/UX Design</option>
-                                <option value="3">Back End Development</option>
-                              </select>
+                                <select class="form-control" id="profileSelect" asp-for="User.UserProfileid" name="profileSelect" data-choices data-choices-sorting-false>
+                                   @foreach (var profile in Model.Profiles)
+                                   {
+                                       <option value="@profile.ProfileId">@profile.ProfileName</option>
+                                   }
+                                </select>
                             </div>
                           </div>
+                          
+                          <!-- Contenedor del select de médicos -->
+                           <div class="col-lg-6" id="doctorSelectContainer" style="display: none;"> <!-- Oculto por defecto -->
+                              <div class="mb-3">
+                                  <label for="doctorSelect" class="form-label">Select the doctor to assign the assistant to</label>
+                                  <select class="form-control" id="doctorSelect" asp-for="User.AssistantDoctorRelationshipAssistantUsers"  data-choices data-choices-removeItem name="choices-multiple-remove-button" multiple>
+
+                                          @foreach (var medic in Model.Users)
+                                          {
+                                              <option value="@medic.UsersId">Dr(a): @medic.UserNames @medic.UserSurnames <span>(@medic.UserSpecialty.SpecialityName)</span></option>
+                                          }
+                                  </select>
+                              </div>
+                           </div>                                                    
+
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="documentNumberInput" class="form-label">Document number</label>
-                              <input type="text" class="form-control" id="documentNumberInput" placeholder="1759999999" value="@Model.UserDocumentNumber">
+                              <input type="text" class="form-control" asp-for="User.UserDocumentNumber" id="documentNumberInput" placeholder="1759999999"
+                         >
                             </div>
                           </div>
 
@@ -110,7 +128,7 @@
                             <div class="mb-3">
                               <label for="firstnameInput" class="form-label">First Name</label>
                               <input type="text" class="form-control" id="firstnameInput"
-                                placeholder="Enter your firstname" value="@Model.UserNames">
+                                placeholder="Enter your firstname" asp-for="User.UserNames">
                             </div>
                           </div>
 
@@ -118,33 +136,36 @@
                             <div class="mb-3">
                               <label for="lastnameInput" class="form-label">Last Name</label>
                               <input type="text" class="form-control" id="lastnameInput"
-                                placeholder="Enter your lastname" value="@Model.UserSurnames">
+                                placeholder="Enter your lastname" asp-for="User.UserSurnames">
                             </div>
                           </div>
 
-                      <div class="col-lg-12">
-    <div class="mb-3">
-        <label for="addressInput" class="form-label">Address</label>
-        <div class="input-group">
-            <!-- Input para ingresar la dirección -->
-            <input type="text" id="addressInput" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2" placeholder="Escribe una dirección" value="@Model.UserAddress">
-            <!-- Botón para mostrar el mapa -->
-            <button class="btn btn-outline-success" type="button" id="button-addon2"><i class="ri-map-pin-line"></i></button>
-        </div>
+                          <div class="col-lg-12">
+                            <div class="mb-3">
+                              <label for="addressInput" class="form-label">Address</label>
+                              <div class="input-group">
+                                <!-- Input para ingresar la dirección -->
+                                <input type="text" id="addressInput" class="form-control"
+                                  aria-label="Recipient's username" aria-describedby="button-addon2"
+                                  placeholder="Escribe una dirección" asp-for="User.UserAddress">
+                                <!-- Botón para mostrar el mapa -->
+                                <button class="btn btn-outline-success" type="button" id="button-addon2"><i
+                                    class="ri-map-pin-line"></i></button>
+                              </div>
 
-        <!-- Contenedor para el mapa que se generará dinámicamente -->
-        <div id="map" style="display: none; height: 400px; margin-top: 15px;"></div>
+                              <!-- Contenedor para el mapa que se generará dinámicamente -->
+                              <div id="map" style="display: none; height: 400px; margin-top: 15px;"></div>
 
-        <!-- Contenedor de sugerencias que se generará dinámicamente -->
-        <div id="suggestions" class="suggestions-container" style="display: none;"></div>
-    </div>
-</div>
+                              <!-- Contenedor de sugerencias que se generará dinámicamente -->
+                              <div id="suggestions" class="suggestions-container" style="display: none;"></div>
+                            </div>
+                          </div>
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="codeSenecytInput" class="form-label">Code Senecyt</label>
                               <input type="text" class="form-control" id="codeSenecytInput"
-                                placeholder="Enter your Senecyt code" value="@Model.UserSenecytcode">
+                                placeholder="Enter your Senecyt code" asp-for="User.UserSenecytcode">
                             </div>
                           </div>
 
@@ -152,68 +173,73 @@
                             <div class="mb-3">
                               <label for="phonenumberInput" class="form-label">Phone Number</label>
                               <input type="text" class="form-control" id="phonenumberInput"
-                                placeholder="Enter your phone number +(1) 987 6543" value="@Model.UserPhone">
+                                placeholder="Enter your phone number +(1) 987 6543" asp-for="User.UserPhone">
                             </div>
                           </div>
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="emailInput" class="form-label">Email Address</label>
-                              <input type="email" class="form-control" id="emailInput" placeholder="Enter your email" value="@Model.UserEmail">
+                              <input type="email" class="form-control" id="emailInput" placeholder="Enter your email"
+                                asp-for="User.UserEmail">
                             </div>
                           </div>
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="specialtySelect" class="form-label">Select specialty</label>
-                              <select class="form-select rounded-pill mb-3" aria-label="Default select example">
-                                <option selected>Search for services</option>
-                                <option value="1">Information Architecture</option>
-                                <option value="2">UI/UX Design</option>
-                                <option value="3">Back End Development</option>
-                              </select>
+                                   <select class="form-control" id="choices-single-no-sorting" asp-for="User.UserSpecialtyid" name="choices-single-no-sorting" data-choices data-choices-sorting-false>
+                                       @foreach (var specialities in Model.Specialties)
+                                       {
+                                               <option value="@specialities.SpecialityId">@specialities.SpecialityName</option>
+                                       }
+                                   </select>
                             </div>
                           </div>
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="stablishSelect" class="form-label">Select establishment</label>
-                              <select class="form-select rounded-pill mb-3" aria-label="Default select example">
-                                <option selected>Search for services</option>
-                                <option value="1">Information Architecture</option>
-                                <option value="2">UI/UX Design</option>
-                                <option value="3">Back End Development</option>
-                              </select>
+                                <select class="form-control" id="choices-single-no-sorting" asp-for="User.UserEstablishmentid" name="choices-single-no-sorting" data-choices data-choices-sorting-false>
+                                    @foreach (var establishment in Model.Establishments)
+                                    {
+                                     <option value="@establishment.EstablishmentId">@establishment.EstablishmentName</option>
+                                    }
+                                </select>
                             </div>
                           </div>
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="loginInput" class="form-label">Log-in</label>
-                              <input type="text" class="form-control" id="loginInput" placeholder="nickname" value="@Model.UserLogin">
+                              <input type="text" class="form-control" id="loginInput" placeholder="nickname"
+                                asp-for="User.UserLogin">
                             </div>
                           </div>
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="passwordInput" class="form-label">Password</label>
-                              <input type="password" class="form-control" id="passwordInput" placeholder="Set the old password, or replace it with a new one">
+                              <input type="password" class="form-control" id="passwordInput"
+                                placeholder="Set the old password, or replace it with a new one">
                             </div>
                           </div>
 
-                          
+
 
                           <div class="col-lg-4">
                             <div class="mb-3">
                               <label for="xkeyInput" class="form-label">X-KEY of the user in taxo</label>
-                              <input type="text" class="form-control" id="xkeyInput" placeholder="provided by taxo" value="@Model.UserXkeytaxo">
+                              <input type="text" class="form-control" id="xkeyInput" placeholder="provided by taxo"
+                                asp-for="User.UserXkeytaxo">
                             </div>
                           </div>
 
                           <div class="col-lg-4">
                             <div class="mb-3">
                               <label for="xpassInput" class="form-label">X-PASS of the user in taxo</label>
-                              <input type="text" class="form-control" id="xpassInput" placeholder="provided by taxo" value="@Model.UserXpasstaxo">
+                              <input type="text" class="form-control" id="xpassInput" placeholder="provided by taxo"
+                                asp-for="User.UserXpasstaxo">
                             </div>
                           </div>
 
@@ -222,14 +248,7 @@
                               <label for="sequentialBillingInput" class="form-label">Sequential user billing in
                                 taxo</label>
                               <input type="text" class="form-control" id="sequentialBillingInput"
-                                placeholder="provided by taxo" value="@Model.UserSequentialBilling">
-                            </div>
-                          </div>
-
-                          <div class="col-lg-4">
-                            <div class="mb-3">
-                              <label for="formFile" class="form-label">QR code</label>
-                              <input class="form-control" type="file" id="formFile">
+                                placeholder="provided by taxo" asp-for="User.UserSequentialBilling">
                             </div>
                           </div>
 
@@ -239,8 +258,49 @@
                               <input class="form-control" type="file" id="formFile2">
                             </div>
                           </div>
+                          
+                         <div class="divider-with-text">
+                              <span>Settings Office Hours</span>
+                          </div>
 
-                          <div class="col-lg-12">
+                         <!--Horarios de atencion-->
+                            <div class="col-lg-4">
+                             <div class="mb-3">
+                                 <label for="startHour" class="form-label">Star Hour</label>
+                                 <input class="form-control" type="time" id="startHour">
+                             </div>
+                         </div> 
+                         <div class="col-lg-4">
+                               <div class="mb-3">
+                                   <label for="endHour" class="form-label">End Hour</label>
+                                   <input class="form-control" type="time" id="endHour">
+                               </div>
+                           </div>    
+                           <div class="col-lg-4">
+                               <div class="mb-3">
+                                   <label for="endHour" class="form-label">Appointment Interval</label>
+                                   <input class="form-control" type="number" id="appointment Interval">
+                               </div>
+                           </div> 
+                             <!--Observacion y Dias de Trabajo-->  
+                           <div class="col-lg-4">
+                               <div class="mb-3">
+                                   <label for="formFile2" class="form-label">Digital signature</label>
+                                   <input class="form-control" type="file" id="formFile2">
+                               </div>
+                           </div> 
+                           
+                           <div class="col-xxl-5 col-md-12">
+                              <div>
+                                  <label for="exampleFormControlTextarea5" class="form-label">Doctor's description</label>
+                                  <textarea class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
+                              </div>
+                          </div> 
+                                      
+
+
+
+                          <div class="col-lg-12" style="padding-top: 3px">
                             <div class="hstack gap-2 justify-content-end">
                               <button type="submit" class="btn btn-primary">
                                 <i class="ri-user-add-line"></i> Update
@@ -259,110 +319,107 @@
                           <!--end col-->
                         </div>
                         <!--end row-->
-                      </form>
-                      <!-- Grids in modals Appointment -->
+            </form>
+            <!-- Grids in modals Appointment -->
 
-                      <div class="modal flip" id="exampleModalgrid" tabindex="-1"
-                        aria-labelledby="exampleModalgridLabel" aria-modal="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalgridLabel"><i class=" ri-calendar-2-line"></i>
-                                Schedule an appointment</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <form action="javascript:void(0);">
-                                <div class="row g-3">
-                                  <div class="col-xxl-6">
-                                    <div>
-                                      <label for="exampleInputdate" class="form-label">Input Date</label>
-                                      <input type="date" class="form-control" id="exampleInputdate"
-                                        data-provider="flatpickr" data-date-format="d.m.y" placeholder="Select a date">
-                                    </div>
-
-
-                                  </div><!--end col-->
-                                  <div class="col-xxl-6">
-                                    <div>
-                                      <label for="AppointmentHour" class="form-label">Hour of Appointment</label>
-                                      <input type="text" class="form-control" id="AppointmentHour" placeholder="">
-                                    </div>
-                                  </div><!--end col-->
-
-
-                                  <div class="col-lg-12">
-                                    <div class="hstack gap-2 justify-content-end">
-                                      <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                      <button type="button" class="btn btn-primary " data-bs-toggle="modal"
-                                        data-bs-target="#myModalHour">View Hours Availbles</button>
-                                      <button type="submit" class="btn btn-primary">Submit</button>
-                                    </div>
-                                  </div><!--end col-->
-
-
-
-                                </div><!--end row-->
-                              </form>
-                            </div>
+            <div class="modal flip" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel"
+              aria-modal="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalgridLabel"><i class=" ri-calendar-2-line"></i>
+                      Schedule an appointment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form action="javascript:void(0);">
+                      <div class="row g-3">
+                        <div class="col-xxl-6">
+                          <div>
+                            <label for="exampleInputdate" class="form-label">Input Date</label>
+                            <input type="date" class="form-control" id="exampleInputdate" data-provider="flatpickr"
+                              data-date-format="d.m.y" placeholder="Select a date">
                           </div>
-                        </div>
-                      </div>
 
 
-                      <!-- Modal para horas disponibles -->
-                      <div class="modal flip" id="myModalHour" tabindex="-1" aria-labelledby="myModalHourLabel"
-                        aria-modal="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="myModalHourLabel">
-                                <i class="ri-time-line"></i> Available Hours
-                              </h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <!-- Aquí puedes agregar el contenido para mostrar las horas disponibles -->
-                              <div class="row g-3">
-                                <!-- Ejemplo de botones de horas -->
-                                <div class="col-4">
-                                  <button class="btn btn-outline-primary w-100" onclick="selectHour('9:00 AM')">9:00
-                                    AM</button>
-                                </div>
-                                <div class="col-4">
-                                  <button class="btn btn-outline-primary w-100" onclick="selectHour('10:00 AM')">10:00
-                                    AM</button>
-                                </div>
-                                <div class="col-4">
-                                  <button class="btn btn-outline-primary w-100" onclick="selectHour('11:00 AM')">11:00
-                                    AM</button>
-                                </div>
-                                <!-- Puedes agregar más horas según necesites -->
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                            </div>
+                        </div><!--end col-->
+                        <div class="col-xxl-6">
+                          <div>
+                            <label for="AppointmentHour" class="form-label">Hour of Appointment</label>
+                            <input type="text" class="form-control" id="AppointmentHour" placeholder="">
                           </div>
-                        </div>
-                      </div>
+                        </div><!--end col-->
 
-                    </div>
-                    <!--end tab-pane-->
+
+                        <div class="col-lg-12">
+                          <div class="hstack gap-2 justify-content-end">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary " data-bs-toggle="modal"
+                              data-bs-target="#myModalHour">View Hours Availbles</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                          </div>
+                        </div><!--end col-->
+
+
+
+                      </div><!--end row-->
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
-            <!--end col-->
-          </div>
 
-          <!--end row-->
+
+            <!-- Modal para horas disponibles -->
+            <div class="modal flip" id="myModalHour" tabindex="-1" aria-labelledby="myModalHourLabel" aria-modal="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="myModalHourLabel">
+                      <i class="ri-time-line"></i> Available Hours
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <!-- Aquí puedes agregar el contenido para mostrar las horas disponibles -->
+                    <div class="row g-3">
+                      <!-- Ejemplo de botones de horas -->
+                      <div class="col-4">
+                        <button class="btn btn-outline-primary w-100" onclick="selectHour('9:00 AM')">9:00
+                          AM</button>
+                      </div>
+                      <div class="col-4">
+                        <button class="btn btn-outline-primary w-100" onclick="selectHour('10:00 AM')">10:00
+                          AM</button>
+                      </div>
+                      <div class="col-4">
+                        <button class="btn btn-outline-primary w-100" onclick="selectHour('11:00 AM')">11:00
+                          AM</button>
+                      </div>
+                      <!-- Puedes agregar más horas según necesites -->
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!--end tab-pane-->
         </div>
       </div>
-      @* @await Html.PartialAsync("_footer") *@
     </div>
+  </div>
+  <!--end col-->
+  </div>
+
+  <!--end row-->
+  </div>
+  </div>
+  @* @await Html.PartialAsync("_footer") *@
+  </div>
   </div>
   <!-- END layout-wrapper -->
   @* @await Html.PartialAsync("_customizer") *@
@@ -375,22 +432,41 @@
   <script src="~/assets/js/app.js"></script>
 
   <script>
+       document.addEventListener("DOMContentLoaded", function () {
+        const profileSelect = document.getElementById("profileSelect");
+        const doctorSelectContainer = document.getElementById("doctorSelectContainer");
+
+        // Escuchar cambios en el select de perfiles
+        profileSelect.addEventListener("change", function () {
+            const selectedValue = profileSelect.value;
+
+            // Mostrar u ocultar el contenedor del select de médicos
+            if (selectedValue === "3") { // Mostrar si el ProfileId es 3
+                doctorSelectContainer.style.display = "block";
+            } else { // Ocultar en caso contrario
+                doctorSelectContainer.style.display = "none";
+            }
+        });
+    });
+
     function selectHour(hour) {
-  // Colocar la hora seleccionada en el input
-  document.getElementById('AppointmentHour').value = hour;
-  
-  // Cerrar el modal de horas
-  var modalHour = bootstrap.Modal.getInstance(document.getElementById('myModalHour'));
-  modalHour.hide();
-  
-  // Volver a mostrar el modal principal
-  var modalGrid = bootstrap.Modal.getInstance(document.getElementById('exampleModalgrid'));
-  if (!modalGrid) {
-    modalGrid = new bootstrap.Modal(document.getElementById('exampleModalgrid'));
-  }
-  modalGrid.show();
-}
+      // Colocar la hora seleccionada en el input
+      document.getElementById('AppointmentHour').value = hour;
+
+      // Cerrar el modal de horas
+      var modalHour = bootstrap.Modal.getInstance(document.getElementById('myModalHour'));
+      modalHour.hide();
+
+      // Volver a mostrar el modal principal
+      var modalGrid = bootstrap.Modal.getInstance(document.getElementById('exampleModalgrid'));
+      if (!modalGrid) {
+        modalGrid = new bootstrap.Modal(document.getElementById('exampleModalgrid'));
+      }
+      modalGrid.show();
+    }
   </script>
+
+ 
 </body>
 
 </html>

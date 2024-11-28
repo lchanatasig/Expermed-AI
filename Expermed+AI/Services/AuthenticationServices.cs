@@ -26,7 +26,7 @@ namespace Expermed_AI.Services
         {
             if (string.IsNullOrEmpty(loginUsuario) || string.IsNullOrEmpty(claveUsuario))
             {
-                throw new ArgumentException("El login y la clave no pueden estar vacíos.");
+                throw new ArgumentException("The login and password cannot be empty.");
             }
 
             var parameterLoginUsuario = new SqlParameter("@UserLogin", loginUsuario);
@@ -76,13 +76,12 @@ namespace Expermed_AI.Services
                                         EstablishmentName = GetValueOrDefault<string>(reader, "establishment_name")
                                     },
                                     UserDigitalsignature = reader.IsDBNull(reader.GetOrdinal("user_digitalsignature")) ? null : (byte[])reader["user_digitalsignature"],
-                                    UserQrcode = reader.IsDBNull(reader.GetOrdinal("user_qrcode")) ? null : (byte[])reader["user_qrcode"],
-                                    UserProfilephoto = reader.IsDBNull(reader.GetOrdinal("user_profilephoto")) ? null : (byte[])reader["user_profilephoto"]
+                                    UserProfilephoto = reader.IsDBNull(reader.GetOrdinal("user_profilephoto")) ? null : (byte[])reader["user_profilephoto"],
+                                    UserDescription = GetValueOrDefault<string>(reader, "user_description")
                                 };
 
                                 // Manejo de imágenes nulas
                                 user.UserDigitalsignature ??= new byte[0];
-                                user.UserQrcode ??= new byte[0];
                                 user.UserProfilephoto ??= new byte[0];
 
                                 // Guardar detalles de la sesión
@@ -97,8 +96,8 @@ namespace Expermed_AI.Services
                                 session.SetString("UsuarioEmail", user.UserEmail ?? "No email");
                                 session.SetString("UsuarioFotoPerfil", ConvertToBase64(user.UserProfilephoto)); // Guardar imagen en Base64
                                 session.SetString("UsuarioFirmaElectronica", ConvertToBase64(user.UserDigitalsignature)); // Firma en Base64
-                                session.SetString("UsuarioCodigoQr", ConvertToBase64(user.UserQrcode)); // QR en Base64
                                 session.SetString("UsuarioDireccion", user.UserAddress ?? "No address");
+                                session.SetString("UsuarioDescripcion", user.UserDescription ?? "No description");
                                 session.SetString("TokenId", reader["tokenId"].ToString()); // Token de sesión
                                 session.SetString("TokenExpiration", reader["tokenExpiration"].ToString());
 
@@ -109,7 +108,7 @@ namespace Expermed_AI.Services
                             }
                             else
                             {
-                                throw new UnauthorizedAccessException("Credenciales inválidas o usuario inactivo.");
+                                throw new UnauthorizedAccessException("Invalid credentials or inactive user!!!");
                             }
 
                             if (user?.UserProfileid == 3) // Verificar si el perfil es de asistente (perfil_id = 3)

@@ -97,18 +97,35 @@ namespace Expermed_AI.Controllers
         [ActionName("UpdateUser")]
         public async Task<IActionResult> UpdateUser(int id)
         {
-            // Usamos el servicio para obtener los detalles del usuario por su ID
+            // Get the user details
             var user = await _usersService.GetUserByIdAsync(id);
 
-            // Si el usuario no existe, puedes redirigir a una página de error o mostrar un mensaje
+            // If the user does not exist, return a not found response
             if (user == null)
             {
-                return NotFound("El usuario no fue encontrado");
+                return NotFound("User Not Found");
             }
 
-            // Devolvemos la vista con el modelo del usuario
-            return View(user);
+            // Get the lists of profiles, specialties, establishments, and medics
+            var profiles = await _selectService.GetAllProfilesAsync();
+            var specialties = await _selectService.GetAllSpecialtiesAsync();
+            var establishments = await _selectService.GetAllEstablishmentsAsync();
+            var medics = await _selectService.GetAllMedicsAsync();
+
+            // Create a ViewModel to pass both the user and the lists to the view
+            var viewModel = new NewUserViewModel
+            {
+                User = user,  // Pass the user object to the ViewModel
+                Profiles = profiles,
+                Specialties = specialties,
+                Establishments = establishments,
+                Users = medics
+            };
+
+            // Return the view with the populated ViewModel
+            return View(viewModel);
         }
+
 
 
     }

@@ -24,10 +24,18 @@ namespace Expermed_AI.Services
         {
             try
             {
-                // Ejecuta el procedimiento almacenado sp_ListAllUser
+                // Ejecuta el procedimiento almacenado sp_ListAllUser y obtiene la lista de usuarios
                 var users = await _dbContext.Users
-                    .FromSqlRaw("EXEC sp_ListAllUser")
-                    .ToListAsync();
+                    .FromSqlRaw("EXEC sp_ListAllUser")  // Llama al procedimiento almacenado
+                    .ToListAsync();  // Convierte a lista
+
+                // Incluye la relación UserEstablishment después de obtener los usuarios
+                foreach (var user in users)
+                {
+                    await _dbContext.Entry(user)
+                        .Reference(u => u.UserEstablishment)  // Carga la relación
+                        .LoadAsync();
+                }
 
                 return users;
             }
@@ -41,6 +49,8 @@ namespace Expermed_AI.Services
 
 
 
+
+
         // Método para obtener un usuario por su ID
         public async Task<User> GetUserByIdAsync(int userId)
         {
@@ -48,7 +58,10 @@ namespace Expermed_AI.Services
             {
                 var users = await _dbContext.Users
                     .FromSqlRaw("EXEC sp_ListUserById @user_id = {0}", userId)
+                 
                     .ToListAsync();
+
+                
 
                 return users.FirstOrDefault();
             }

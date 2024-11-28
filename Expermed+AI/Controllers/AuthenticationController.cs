@@ -34,13 +34,17 @@ namespace Expermed_AI.Controllers
             return View();
         }
 
+
         [HttpPost]
         public async Task<IActionResult> SignInBasic([FromForm] string loginUsuario, [FromForm] string claveUsuario)
         {
             if (string.IsNullOrEmpty(loginUsuario) || string.IsNullOrEmpty(claveUsuario))
             {
-                // Si las credenciales son inválidas, redirige a la vista SignInBasic sin mensajes
-                return RedirectToAction("SignInBasic");
+                return BadRequest(new
+                {
+                    success = false,
+                    message = "El usuario y la contraseña no pueden estar vacíos."
+                });
             }
 
             string ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
@@ -52,33 +56,42 @@ namespace Expermed_AI.Controllers
 
                 if (user != null)
                 {
-                    // Si el usuario es válido, crea la respuesta de éxito
-                    var successResponse = new
+                    return Ok(new
                     {
                         success = true,
-                        message = "Inicio de sesión exitoso",
-                        user,
-                        redirectUrl = Url.Action("Home", "DashBoard") // URL para redirigir después del inicio de sesión
-                    };
-
-                    // Devuelve una respuesta JSON con el objeto de éxito
-                    return Ok(successResponse);
+                        message = "Welcome to our system, Expermed wishes you a good day",
+                        redirectUrl = Url.Action("Home", "DashBoard")
+                    });
                 }
                 else
                 {
-                    // Si las credenciales son inválidas, redirige a SignInBasic
-                    return RedirectToAction("SignInBasic");
+                    return Unauthorized(new
+                    {
+                        success = false,
+                        message = "Credenciales inválidas o usuario inactivo."
+                    });
                 }
             }
-            catch (UnauthorizedAccessException)
+            catch (UnauthorizedAccessException ex)
             {
-                // Redirige a SignInBasic si hay un acceso no autorizado
-                return RedirectToAction("SignInBasic");
+                // Mensaje específico para credenciales inválidas
+                return Unauthorized(new
+                {
+                    success = false,
+                    message = ex.Message
+                });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Redirige a SignInBasic en caso de cualquier otra excepción
-                return RedirectToAction("SignInBasic");
+                // Loguea el error para diagnóstico
+                _logger.LogError(ex, "Ocurrió un error inesperado durante el inicio de sesión.");
+
+                // Mensaje genérico para errores desconocidos
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = "Ocurrió un error inesperado. Por favor, intente nuevamente más tarde."
+                });
             }
         }
 

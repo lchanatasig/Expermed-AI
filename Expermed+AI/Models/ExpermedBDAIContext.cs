@@ -286,6 +286,7 @@ public partial class ExpermedBDAIContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
                 .HasColumnName("user_creationdate");
+            entity.Property(e => e.UserDescription).HasColumnName("user_description");
             entity.Property(e => e.UserDigitalsignature).HasColumnName("user_digitalsignature");
             entity.Property(e => e.UserDocumentNumber)
                 .HasMaxLength(13)
@@ -311,7 +312,6 @@ public partial class ExpermedBDAIContext : DbContext
             entity.Property(e => e.UserPrfilephoto64).HasColumnName("user_prfilephoto64");
             entity.Property(e => e.UserProfileid).HasColumnName("user_profileid");
             entity.Property(e => e.UserProfilephoto).HasColumnName("user_profilephoto");
-            entity.Property(e => e.UserQrcode).HasColumnName("user_qrcode");
             entity.Property(e => e.UserSenecytcode)
                 .HasMaxLength(250)
                 .HasColumnName("user_senecytcode");
@@ -362,10 +362,9 @@ public partial class ExpermedBDAIContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
             entity.Property(e => e.UsersId).HasColumnName("users_id");
-            entity.Property(e => e.WorkDays)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("work_days");
+            entity.Property(e => e.WorksDays)
+                .HasMaxLength(255)
+                .HasColumnName("works_days");
 
             entity.HasOne(d => d.Users).WithMany(p => p.UserSchedules)
                 .HasForeignKey(d => d.UsersId)

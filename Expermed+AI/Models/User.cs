@@ -5,6 +5,12 @@ namespace Expermed_AI.Models;
 
 public partial class User
 {
+    public User()
+    {
+        UserEstablishment = new Establishment();
+
+    }
+
     public int UsersId { get; set; }
 
     public string UserDocumentNumber { get; set; } = null!;
@@ -24,8 +30,6 @@ public partial class User
     public string UserAddress { get; set; } = null!;
 
     public byte[]? UserDigitalsignature { get; set; }
-
-    public byte[]? UserQrcode { get; set; }
 
     public byte[]? UserProfilephoto { get; set; }
 
@@ -53,6 +57,9 @@ public partial class User
 
     public int? UserCountryid { get; set; }
 
+    public string? UserDescription { get; set; }
+
+
     public virtual ICollection<AssistantDoctorRelationship> AssistantDoctorRelationshipAssistantUsers { get; set; } = new List<AssistantDoctorRelationship>();
 
     public virtual ICollection<AssistantDoctorRelationship> AssistantDoctorRelationshipDoctorUsers { get; set; } = new List<AssistantDoctorRelationship>();
@@ -63,11 +70,14 @@ public partial class User
 
     public virtual Country? UserCountry { get; set; }
 
-    public virtual Establishment? UserEstablishment { get; set; }
+    public virtual Establishment? UserEstablishment { get; set; } 
 
     public virtual Profile? UserProfile { get; set; }
 
     public virtual ICollection<UserSchedule> UserSchedules { get; set; } = new List<UserSchedule>();
 
     public virtual Specialty? UserSpecialty { get; set; }
+
+
+
 }

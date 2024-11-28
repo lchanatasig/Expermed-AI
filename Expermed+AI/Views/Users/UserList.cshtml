@@ -55,31 +55,31 @@
                                 </td>
                                 <td>@user.UserDocumentNumber</td>
                                 <td>@user.UserEmail</td>
-                                <td>@user.UserEstablishment</td>
+                                <td>@user.UserEstablishment.EstablishmentName</td>
 
                                     <td>
                                     @if (user.UserStatus == 1)
                                     {
-                        <form method="post" action="@Url.Action("ChangeUserStatus", "Users")">
-                            <input type="hidden" name="userId" value="@user.UsersId" />
-                            <input type="hidden" name="status" value="0" />
-                            <button class="btn btn-danger">Disable</button>
-                        </form>
+                                     <form method="post" action="@Url.Action("ChangeUserStatus", "Users")">
+                                         <input type="hidden" name="userId" value="@user.UsersId" />
+                                         <input type="hidden" name="status" value="0" />
+                                         <button class="btn btn-danger">Disable</button>
+                                     </form>
                                     }
                                     else
                                     {
-                        <form method="post" action="@Url.Action("ChangeUserStatus", "Users")">
-                            <input type="hidden" name="userId" value="@user.UsersId" />
-                            <input type="hidden" name="status" value="1" />
-                            <button class="btn btn-success">Enable</button>
-                        </form>
+                                     <form method="post" action="@Url.Action("ChangeUserStatus", "Users")">
+                                         <input type="hidden" name="userId" value="@user.UsersId" />
+                                         <input type="hidden" name="status" value="1" />
+                                         <button class="btn btn-success">Enable</button>
+                                     </form>
                                     }
-            </td>
+                                 </td>
                                   <td>
-        <a href="@Url.Action("UpdateUser", "Users", new { id = user.UsersId })" class="btn btn-sm btn-soft-info">
-            <i class="ri-edit-line"></i> Review
-        </a>
-    </td>
+                                      <a href="@Url.Action("UpdateUser", "Users", new { id = user.UsersId })" class="btn btn-sm btn-soft-info">
+                                          <i class="ri-edit-line"></i> Review
+                                      </a>
+                                  </td>
 
                             </tr>
                         }

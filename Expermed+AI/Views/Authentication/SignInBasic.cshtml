@@ -4,11 +4,14 @@
 }
 
 <!doctype html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="light" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="light" data-sidebar-size="lg"
+    data-sidebar-image="none" data-preloader="disable">
+
 <head>
     @await Html.PartialAsync("_title_meta")
     @await Html.PartialAsync("_head_css")
 </head>
+
 <body>
 
     <div class="auth-page-wrapper pt-5">
@@ -17,7 +20,8 @@
             <div class="bg-overlay"></div>
 
             <div class="shape">
-                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1440 120">
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 1440 120">
                     <path d="M 0,36 C 144,53.6 432,123.2 720,124 C 1008,124.8 1296,56.8 1440,40L1440 140L0 140z"></path>
                 </svg>
             </div>
@@ -27,26 +31,26 @@
         <div class="auth-page-content">
             <div class="container">
                 <div class="row">
-               
+
                     <div class="col-lg-12">
                         <div class="text-center mt-sm-5 mb-4 text-white-50">
                             <div>
                                 <a href="@Url.Action("Index", "Dashboard")" class="d-inline-block auth-logo">
-                                    <img src="~/assets/images/LogoLogin.png" alt="" height="120" >
-                                   
+                                    <img src="~/assets/images/LogoLogin.png" alt="" height="120">
+
                                 </a>
                             </div>
                             <i></i>
                             <p class="mt-3 fs-15 fw-medium">EXPERMED EXPERT HANDS </p>
-                          
+
                         </div>
-                       
+
                     </div>
                 </div>
                 <!-- end row -->
 
                 <div class="row justify-content-center">
-                    <div class="col-md-8 col-lg-6 col-xl-5" >
+                    <div class="col-md-8 col-lg-6 col-xl-5">
 
                         <div class="card mt-4" style="border-radius: 23px">
 
@@ -58,44 +62,58 @@
                                 </div>
                                 <div class="p-2 mt-4">
 
-                                    <form action="@Url.Action("SignInBasic", "Authentication")" method="post" id="loginForm">
+                                    <form action="@Url.Action("SignInBasic", "Authentication")" method="post"
+                                        id="loginForm">
 
-    <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="loginUsuario" name="loginUsuario" placeholder="Enter username" required>
-    </div>
+                                        <div class="mb-3">
+                                            <label for="username" class="form-label">Username</label>
+                                            <input type="text" class="form-control" id="loginUsuario"
+                                                name="loginUsuario" placeholder="Enter username" required>
+                                        </div>
 
-    <div class="mb-3">
-        <label class="form-label" for="password-input">Password</label>
-        <div class="position-relative auth-pass-inputgroup mb-3">
-            <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="claveUsuario" name="claveUsuario" required>
-            <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
-        </div>
-    </div>
+                                        <div class="mb-3">
+                                            <label class="form-label" for="password-input">Password</label>
+                                            <div class="position-relative auth-pass-inputgroup mb-3">
+                                                <input type="password" class="form-control pe-5 password-input"
+                                                    placeholder="Enter password" id="claveUsuario" name="claveUsuario"
+                                                    required>
+                                                <button
+                                                    class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
+                                                    type="button" id="password-addon"><i
+                                                        class="ri-eye-fill align-middle"></i></button>
+                                            </div>
+                                        </div>
 
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="auth-remember-check">
-        <label class="form-check-label" for="auth-remember-check">Remember me</label>
-    </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                id="auth-remember-check">
+                                            <label class="form-check-label" for="auth-remember-check">Remember
+                                                me</label>
+                                        </div>
 
-    <div class="mt-4">
-        <button class="btn btn-soft-info waves-effect waves-light w-100" style="border-radius: 30px" type="submit">Sign In</button>
-    </div>
+                                        <div class="mt-4">
+                                            <button class="btn btn-soft-info waves-effect waves-light w-100"
+                                                style="border-radius: 30px" type="submit">Sign In</button>
+                                        </div>
 
-  
-</form>
-<!-- Contenedor para las alertas -->
-<div id="alertContainer" style="display:none;">
-    <div class="alert alert-success alert-dismissible fade show" role="alert" id="successAlert" style="display:none;">
-        <strong>Éxito!</strong> <span id="successMessage"></span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
 
-    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert" style="display:none;">
-        <strong>Error!</strong> <span id="errorMessage"></span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-</div>
+                                    </form>
+                                    <!-- Contenedor para las alertas -->
+                                    <div id="alertContainer" style="display:none;">
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert"
+                                            id="successAlert" style="display:none;">
+                                            <strong>Éxito!</strong> <span id="successMessage"></span>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                        </div>
+
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert"
+                                            id="errorAlert" style="display:none;">
+                                            <strong>Error!</strong> <span id="errorMessage"></span>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <!-- end card body -->
@@ -117,7 +135,9 @@
                     <div class="col-lg-12">
                         <div class="text-center">
                             <p class="mb-0 text-muted">&copy;
-                            <script>document.write(new Date().getFullYear())</script> Expermed. Crafted with <i class="mdi mdi-heart text-danger"></i> by Expermed</p>
+                                <script>document.write(new Date().getFullYear())</script> Expermed. Crafted with <i
+                                    class="mdi mdi-heart text-danger"></i> by Expermed
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -136,49 +156,58 @@
     <!-- password-addon init -->
     <script src="~/assets/js/pages/password-addon.init.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-$(document).ready(function() {
-    $("#loginForm").submit(function(event) {
-        event.preventDefault(); // Evita que el formulario se envíe de la manera tradicional
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+     $(document).ready(function () {
+    $("#loginForm").submit(function (event) {
+        event.preventDefault();
 
-        // Captura los valores del formulario
+        // Ocultar todas las alertas antes de procesar
+        $("#alertContainer").hide();
+        $("#successAlert").hide();
+        $("#errorAlert").hide();
+
         var loginUsuario = $("#loginUsuario").val();
         var claveUsuario = $("#claveUsuario").val();
 
-        // Realiza la solicitud AJAX
         $.ajax({
-            url: '@Url.Action("SignInBasic", "Authentication")', // Cambia según tu ruta
+            url: '@Url.Action("SignInBasic", "Authentication")',
             type: 'POST',
             data: {
                 loginUsuario: loginUsuario,
                 claveUsuario: claveUsuario
             },
-            success: function(response) {
-                // Si la respuesta es exitosa
+            success: function (response) {
                 if (response.success) {
-                    // Redirigir a la vista "Home" en "DashBoard"
-                    window.location.href = response.redirectUrl; // Usa la URL de redirección
+                    $("#successMessage").text(response.message);
+                    $("#successAlert").show();
+                    $("#alertContainer").show();
+
+                    // Redirigir después de un breve tiempo (opcional)
+                    setTimeout(function () {
+                        window.location.href = response.redirectUrl;
+                    }, 2000); // 2 segundos antes de redirigir
                 } else {
-                    // Si hay un error
-                    $("#errorMessage").text(response.message); // Muestra el mensaje de error
-                    $("#errorAlert").show(); // Muestra el contenedor de error
-                    $("#alertContainer").show(); // Muestra el contenedor de alertas
+                    $("#errorMessage").text(response.message);
+                    $("#errorAlert").show();
+                    $("#alertContainer").show();
                 }
             },
-            error: function(xhr) {
-                // Maneja errores del servidor
-                var errorResponse = xhr.responseJSON;
-                $("#errorMessage").text(errorResponse.message || "Ocurrió un error inesperado.");
-                $("#errorAlert").show(); // Muestra el contenedor de error
-                $("#alertContainer").show(); // Muestra el contenedor de alertas
+            error: function (xhr) {
+                var errorResponse = xhr.responseJSON || {};
+                var errorMessage = errorResponse.message || "Ocurrió un error inesperado.";
+                $("#errorMessage").text(errorMessage);
+                $("#errorAlert").show();
+                $("#alertContainer").show();
             }
         });
     });
 });
 
-</script>
+
+    </script>
 
 
 </body>
+
 </html>
