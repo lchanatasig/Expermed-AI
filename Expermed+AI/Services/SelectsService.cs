@@ -55,6 +55,42 @@ namespace Expermed_AI.Services
             }
         }
 
+        // Método para obtener todas las Nacionalidades
+        public async Task<List<Country>> GetAllCountriesAsync()
+        {
+            try
+            {
+                // Ejecuta el procedimiento almacenado sp_ListAllSpecialities
+                var countries = await _dbContext.Countries
+                    .FromSqlRaw("EXEC sp_ListAllCountries")
+                    .ToListAsync();
+
+                return countries;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener las nacionalidades.");
+                throw; // O manejar el error de forma más específica si es necesario
+            }
+        }
+        // Método para obtener todas los porcentajes de iva
+        public async Task<List<VatBilling>> GetAllVatPercentageAsync()
+        {
+            try
+            {
+                // Ejecuta el procedimiento almacenado sp_ListAllSpecialities
+                var pencentage = await _dbContext.VatBillings
+                    .FromSqlRaw("EXEC sp_ListAllPercentage")
+                    .ToListAsync();
+
+                return pencentage;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener los porcentajes.");
+                throw; // O manejar el error de forma más específica si es necesario
+            }
+        }
         // Método para obtener todas los establecimientos de la base de datos 
         public async Task<List<Establishment>> GetAllEstablishmentsAsync()
         {

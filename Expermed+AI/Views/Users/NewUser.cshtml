@@ -15,34 +15,7 @@
     @await Html.PartialAsync("_head_css")
 </head>
 <body>
-    <style>
-        #suggestions {
-            max-height: 150px;
-            overflow-y: auto;
-            background-color: #fff;
-            border: 1px solid #ced4da;
-            z-index: 1000;
-            position: absolute;
-            width: 100%;
-        }
 
-        .suggestion-item {
-            padding: 8px;
-            cursor: pointer;
-        }
-
-        .suggestion-item:hover {
-            background-color: #f1f1f1;
-        }
-
-
-        #map {
-            height: 400px; /* Ajustar la altura del mapa */
-            width: 100%; /* Ancho completo */
-            display: none; /* Ocultar el mapa inicialmente */
-        }
-
-    </style>
     <!-- Begin page -->
     <div id="layout-wrapper">
         @await Html.PartialAsync("_menu")
@@ -209,13 +182,14 @@
                                                             </div>
                                                          </div>
 
+
                                                         <div class="col-lg-6">
                                                             <div class="mb-3">
-                                                                <label for="stablishSelect" class="form-label">Select establishment</label>
+                                                                <label for="stablishSelect" class="form-label">Select Country</label>
                                                              <select class="form-control" id="choices-single-no-sorting" name="choices-single-no-sorting" data-choices data-choices-sorting-false>
-                                                                    @foreach (var establishment in Model.Establishments)
+                                                                    @foreach (var countries in Model.Countries)
                                                                     {
-                                                                     <option value="@establishment.EstablishmentId">@establishment.EstablishmentName</option>
+                                                                     <option value="@countries.CountryId">@countries.CountryNationality</option>
                                                                     }
                                                                 </select>
                                                             </div>
@@ -235,6 +209,33 @@
                                                         </div>
                                                     </div>
 
+                                                    <!--PARAMETROS DE TAXO-->
+                                                     <div class="divider-with-text">
+                                                         <span>Taxo Parameter Settings</span>
+                                                     </div>
+                                                         <div class="col-lg-6">
+                                                            <div class="mb-3">
+                                                                <label for="stablishSelect" class="form-label">Select establishment</label>
+                                                             <select class="form-control" id="choices-single-no-sorting" name="choices-single-no-sorting" data-choices data-choices-sorting-false>
+                                                                    @foreach (var establishment in Model.Establishments)
+                                                                    {
+                                                                     <option value="@establishment.EstablishmentId">@establishment.EstablishmentName</option>
+                                                                    }
+                                                                </select>
+                                                            </div>
+                                                         </div>
+
+                                                            <div class="col-lg-6">
+                                                            <div class="mb-3">
+                                                                <label for="stablishSelect" class="form-label">Select the VAT percentage</label>
+                                                             <select class="form-control" id="choices-single-no-sorting" name="choices-single-no-sorting" data-choices data-choices-sorting-false>
+                                                                @foreach (var percentage in Model.VatBillings)
+                                                                {
+                                                                         <option value="@percentage.VatbillingId">@percentage.VatbillingPercentage</option>
+                                                                }
+                                                                </select>
+                                                            </div>
+                                                         </div>
 
                                                     <div class="col-lg-4">
                                                         <div class="mb-3">
@@ -264,12 +265,12 @@
                                                             <input class="form-control" type="file" id="formFile2" accept=".p12">
                                                         </div>
                                                     </div> 
-                                               
+
+                                                    <!--Horarios de atencion-->
                                                     <div class="divider-with-text">
                                                          <span>Settings Office Hours</span>
                                                      </div>
 
-                                                    <!--Horarios de atencion-->
                                                        <div class="col-lg-4">
                                                         <div class="mb-3">
                                                             <label for="startHour" class="form-label">Star Hour</label>
@@ -290,12 +291,23 @@
                                                     </div> 
 
                                                   <!--Observacion y Dias de Trabajo-->  
-                                                    <div class="col-lg-4">
-                                                        <div class="mb-3">
-                                                            <label for="formFile2" class="form-label">Digital signature</label>
-                                                            <input class="form-control" type="file" id="formFile2">
-                                                        </div>
-                                                    </div> 
+     
+                                                 <div class="col-lg-6" id="workDaysSelectContainer"> <!-- Oculto por defecto -->
+                                                    <div class="mb-3">
+                                                        <label for="daysSelect" class="form-label">Select work days</label>
+                                                        <select class="form-control" id="daysSelect"  data-choices data-choices-removeItem name="choices-multiple-remove-button" multiple>
+
+                                                                    <option value="monday">Moday</option>
+                                                                    <option value="tuesday">Tuesday</option>
+                                                                    <option value="wednesday">Wednesday</option>
+                                                                    <option value="thursday">Thursday</option>
+                                                                    <option value="friday">Friday</option>
+                                                                    <option value="saturday">Saturday</option>
+                                                                    <option value="sunday">Sunday</option>
+                                                                
+                                                        </select>
+                                                    </div>
+                                                 </div> 
                                                     
                                                     <div class="col-xxl-5 col-md-12">
                                                        <div>

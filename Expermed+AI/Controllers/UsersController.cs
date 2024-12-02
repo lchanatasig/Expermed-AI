@@ -74,6 +74,8 @@ namespace Expermed_AI.Controllers
                 var specialties = await _selectService.GetAllSpecialtiesAsync();
                 var establishment = await _selectService.GetAllEstablishmentsAsync();
                 var medics = await _selectService.GetAllMedicsAsync();
+                var countries = await _selectService.GetAllCountriesAsync();
+                var percentage = await _selectService.GetAllVatPercentageAsync();
 
                 // Crea un ViewModel para pasar ambos conjuntos de datos a la vista
                 var viewModel = new NewUserViewModel
@@ -81,7 +83,9 @@ namespace Expermed_AI.Controllers
                     Profiles = profiles,
                     Specialties = specialties,
                     Establishments = establishment,
-                    Users = medics
+                    Users = medics,
+                    Countries = countries,
+                    VatBillings = percentage,
                 };
 
                 return View(viewModel);

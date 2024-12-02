@@ -21,5 +21,7 @@ public partial class Province
 
     public int? ProvinceCountryid { get; set; }
 
+    public virtual ICollection<Patient> Patients { get; set; } = new List<Patient>();
+
     public virtual Country? ProvinceCountry { get; set; }
 }

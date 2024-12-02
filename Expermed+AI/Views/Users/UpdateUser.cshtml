@@ -27,6 +27,7 @@
     <!-- ============================================================== -->
     <!-- Start right Content here -->
     <!-- ============================================================== -->
+
     <div class="main-content">
       <div class="page-content">
         <div class="container-fluid">
@@ -119,8 +120,7 @@
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="documentNumberInput" class="form-label">Document number</label>
-                              <input type="text" class="form-control" asp-for="User.UserDocumentNumber" id="documentNumberInput" placeholder="1759999999"
-                         >
+                              <input type="text" class="form-control" asp-for="User.UserDocumentNumber" id="documentNumberInput" placeholder="1759999999">
                             </div>
                           </div>
 
@@ -297,9 +297,6 @@
                               </div>
                           </div> 
                                       
-
-
-
                           <div class="col-lg-12" style="padding-top: 3px">
                             <div class="hstack gap-2 justify-content-end">
                               <button type="submit" class="btn btn-primary">
@@ -320,57 +317,48 @@
                         </div>
                         <!--end row-->
             </form>
-            <!-- Grids in modals Appointment -->
+             <!-- Grids in modals Appointment -->
+                          <div class="modal flip" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel"
+                           aria-modal="true">
+                           <div class="modal-dialog">
+                             <div class="modal-content">
+                               <div class="modal-header">
+                                 <h5 class="modal-title" id="exampleModalgridLabel"><i class=" ri-calendar-2-line"></i>
+                                   Schedule an appointment</h5>
+                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                               </div>
+                               <div class="modal-body">
+                                 <form action="javascript:void(0);">
+                                   <div class="row g-3">
+                                     <div class="col-xxl-6">
+                                       <div>
+                                         <label for="exampleInputdate" class="form-label">Input Date</label>
+                                         <input type="date" class="form-control" id="exampleInputdate" data-provider="flatpickr"
+                                           data-date-format="d.m.y" placeholder="Select a date">
+                                       </div>
+                                     </div><!--end col-->
+                                     <div class="col-xxl-6">
+                                       <div>
+                                         <label for="AppointmentHour" class="form-label">Hour of Appointment</label>
+                                         <input type="text" class="form-control" id="AppointmentHour" placeholder="">
+                                       </div>
+                                     </div><!--end col-->
+                                     <div class="col-lg-12">
+                                       <div class="hstack gap-2 justify-content-end">
+                                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                         <button type="button" class="btn btn-primary " data-bs-toggle="modal"
+                                           data-bs-target="#myModalHour">View Hours Availbles</button>
+                                         <button type="submit" class="btn btn-primary">Submit</button>
+                                       </div>
+                                     </div><!--end col-->
+                                   </div><!--end row-->
+                                 </form>
+                               </div>
+                             </div>
+                           </div>
+                         </div>
 
-            <div class="modal flip" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel"
-              aria-modal="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabel"><i class=" ri-calendar-2-line"></i>
-                      Schedule an appointment</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <form action="javascript:void(0);">
-                      <div class="row g-3">
-                        <div class="col-xxl-6">
-                          <div>
-                            <label for="exampleInputdate" class="form-label">Input Date</label>
-                            <input type="date" class="form-control" id="exampleInputdate" data-provider="flatpickr"
-                              data-date-format="d.m.y" placeholder="Select a date">
-                          </div>
-
-
-                        </div><!--end col-->
-                        <div class="col-xxl-6">
-                          <div>
-                            <label for="AppointmentHour" class="form-label">Hour of Appointment</label>
-                            <input type="text" class="form-control" id="AppointmentHour" placeholder="">
-                          </div>
-                        </div><!--end col-->
-
-
-                        <div class="col-lg-12">
-                          <div class="hstack gap-2 justify-content-end">
-                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary " data-bs-toggle="modal"
-                              data-bs-target="#myModalHour">View Hours Availbles</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                          </div>
-                        </div><!--end col-->
-
-
-
-                      </div><!--end row-->
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-            <!-- Modal para horas disponibles -->
+             <!-- Modal para horas disponibles -->
             <div class="modal flip" id="myModalHour" tabindex="-1" aria-labelledby="myModalHourLabel" aria-modal="true">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -432,22 +420,27 @@
   <script src="~/assets/js/app.js"></script>
 
   <script>
-       document.addEventListener("DOMContentLoaded", function () {
-        const profileSelect = document.getElementById("profileSelect");
-        const doctorSelectContainer = document.getElementById("doctorSelectContainer");
+    document.addEventListener("DOMContentLoaded", function () {
+    const profileSelect = document.getElementById("profileSelect");
+    const doctorSelectContainer = document.getElementById("doctorSelectContainer");
 
-        // Escuchar cambios en el select de perfiles
-        profileSelect.addEventListener("change", function () {
-            const selectedValue = profileSelect.value;
+    // Función para actualizar la visibilidad del contenedor de médicos
+    function updateDoctorSelectContainer() {
+        const selectedValue = profileSelect.value;
+        if (selectedValue === "3") { // Mostrar si el ProfileId es 3
+            doctorSelectContainer.style.display = "block";
+        } else { // Ocultar en caso contrario
+            doctorSelectContainer.style.display = "none";
+        }
+    }
 
-            // Mostrar u ocultar el contenedor del select de médicos
-            if (selectedValue === "3") { // Mostrar si el ProfileId es 3
-                doctorSelectContainer.style.display = "block";
-            } else { // Ocultar en caso contrario
-                doctorSelectContainer.style.display = "none";
-            }
-        });
-    });
+    // Validación inicial al cargar la página
+    updateDoctorSelectContainer();
+
+    // Escuchar cambios en el select de perfiles
+    profileSelect.addEventListener("change", updateDoctorSelectContainer);
+});
+
 
     function selectHour(hour) {
       // Colocar la hora seleccionada en el input

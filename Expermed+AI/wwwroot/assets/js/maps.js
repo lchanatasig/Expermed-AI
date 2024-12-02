@@ -1,112 +1,83 @@
-﻿document.addEventListener('DOMContentLoaded', function () {
-    const apiKey = 'a20088f849c74d5c895d7546a733315b';
-    let map, marker;
-    let isMapVisible = false;
+﻿const addressInput = document.getElementById('addressInput');
+const suggestionsContainer = document.getElementById('suggestions');
+const mapContainer = document.getElementById('map');
 
-    // Función para inicializar el mapa
-    function inicializarMapa() {
-        map = L.map('map').setView([37.7749, -122.4194], 13);
-        L.tileLayer(`https://maps.geoapify.com/v1/tile/carto/{z}/{x}/{y}.png?apiKey=${apiKey}`, {
-            attribution: '© OpenStreetMap contributors',
-            maxZoom: 19,
-        }).addTo(map);
+const apiKey = 'fc26fc0381bb4bdcb433a1ba63e0dfe3'; // Reemplaza con tu API Key de Geoapify
 
-        // Selección manual de ubicación en el mapa
-        map.on('click', async function (e) {
-            const lat = e.latlng.lat;
-            const lon = e.latlng.lng;
+let userLocation = null; // Guardará la ubicación del usuario
 
-            const response = await fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&apiKey=${apiKey}`);
-            const data = await response.json();
+// Obtiene la ubicación del usuario
+navigator.geolocation.getCurrentPosition(
+    (position) => {
+        const { latitude, longitude } = position.coords;
+        userLocation = { latitude, longitude };
+        console.log('Ubicación del usuario:', userLocation);
+    },
+    (error) => {
+        console.error('No se pudo obtener la ubicación:', error);
+        alert('Por favor habilita la ubicación para obtener mejores sugerencias.');
+    }
+);
 
-            if (data.features.length > 0) {
-                const direccion = data.features[0].properties.formatted;
-                document.getElementById('direccionInput').value = direccion;
+// Manejador de eventos para el campo de texto
+addressInput.addEventListener('input', async () => {
+    const query = addressInput.value.trim();
 
-                if (marker) {
-                    map.removeLayer(marker);
-                }
-                marker = L.marker([lat, lon]).addTo(map);
-                marker.bindPopup(`<b>Dirección seleccionada:</b> ${direccion}`).openPopup();
-            }
-        });
+    if (query.length < 3) {
+        suggestionsContainer.style.display = 'none';
+        return;
     }
 
-    // Función para buscar dirección
-    async function buscarDireccion(direccion) {
-        const url = `https://api.geoapify.com/v1/geocode/search?text=${direccion}&apiKey=${apiKey}`;
+    // Llamada a la API de autocompletado con el contexto de ubicación del usuario
+    try {
+        let url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&apiKey=${apiKey}`;
+        if (userLocation) {
+            url += `&bias=proximity:${userLocation.longitude},${userLocation.latitude}`;
+        }
+
         const response = await fetch(url);
         const data = await response.json();
 
-        if (data.features.length > 0) {
-            const location = data.features[0].geometry.coordinates;
-            const lat = location[1];
-            const lon = location[0];
-
-            map.setView([lat, lon], 13);
-            if (marker) {
-                map.removeLayer(marker);
-            }
-            marker = L.marker([lat, lon]).addTo(map);
-            marker.bindPopup(`<b>Dirección:</b> ${data.features[0].properties.formatted}`).openPopup();
-        }
-    }
-
-    // Función para obtener sugerencias de autocompletado
-    async function obtenerSugerencias(direccion) {
-        const response = await fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${direccion}&apiKey=${apiKey}`);
-        const data = await response.json();
-
-        const suggestionsContainer = document.getElementById('suggestions');
+        // Limpia el contenedor de sugerencias
         suggestionsContainer.innerHTML = '';
-        if (data.features.length > 0) {
+
+        if (data.features && data.features.length > 0) {
             suggestionsContainer.style.display = 'block';
-            data.features.forEach(feature => {
+
+            data.features.forEach((feature) => {
                 const suggestionItem = document.createElement('div');
-                suggestionItem.className = 'suggestion-item';
+                suggestionItem.classList.add('suggestion-item');
                 suggestionItem.textContent = feature.properties.formatted;
-                suggestionItem.onclick = function () {
-                    document.getElementById('direccionInput').value = feature.properties.formatted;
+
+                // Al hacer clic en una sugerencia, actualizamos el input y mostramos el mapa
+                suggestionItem.addEventListener('click', () => {
+                    addressInput.value = feature.properties.formatted;
                     suggestionsContainer.style.display = 'none';
-                    buscarDireccion(feature.properties.formatted);
-                };
+                    showMap(feature.geometry.coordinates);
+                });
+
                 suggestionsContainer.appendChild(suggestionItem);
             });
         } else {
             suggestionsContainer.style.display = 'none';
         }
+    } catch (error) {
+        console.error('Error al obtener sugerencias:', error);
     }
-
-    // Mostrar mapa al hacer clic en el ícono
-    document.getElementById('locationIcon').addEventListener('click', function () {
-        const mapElement = document.getElementById('map');
-        if (!isMapVisible) {
-            if (!map) {
-                inicializarMapa();
-            }
-            mapElement.style.display = 'block';
-            isMapVisible = true;
-        } else {
-            mapElement.style.display = 'none';
-            isMapVisible = false;
-        }
-    });
-
-    // Evento de entrada para la búsqueda de dirección
-    document.getElementById('direccionInput').addEventListener('input', function () {
-        const direccion = this.value;
-        if (direccion.length > 3) {
-            obtenerSugerencias(direccion);
-        } else {
-            document.getElementById('suggestions').style.display = 'none';
-        }
-    });
-
-    // Cerrar sugerencias si se hace clic fuera
-    document.addEventListener('click', function (event) {
-        const suggestionsContainer = document.getElementById('suggestions');
-        if (!suggestionsContainer.contains(event.target) && event.target.id !== 'direccionInput') {
-            suggestionsContainer.style.display = 'none';
-        }
-    });
 });
+
+// Función para mostrar el mapa
+function showMap([lon, lat]) {
+    mapContainer.style.display = 'block';
+    mapContainer.innerHTML = ''; // Limpia el contenedor del mapa
+
+    const map = L.map('map').setView([lat, lon], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    L.marker([lat, lon]).addTo(map)
+        .bindPopup(`<b>${addressInput.value}</b>`)
+        .openPopup();
+}

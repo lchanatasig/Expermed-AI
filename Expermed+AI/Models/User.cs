@@ -5,12 +5,6 @@ namespace Expermed_AI.Models;
 
 public partial class User
 {
-    public User()
-    {
-        UserEstablishment = new Establishment();
-
-    }
-
     public int UsersId { get; set; }
 
     public string UserDocumentNumber { get; set; } = null!;
@@ -59,6 +53,11 @@ public partial class User
 
     public string? UserDescription { get; set; }
 
+    public int? UserVatpercentageid { get; set; }
+
+    public virtual ICollection<Appointment> AppointmentAppointmentCreateuserNavigations { get; set; } = new List<Appointment>();
+
+    public virtual ICollection<Appointment> AppointmentAppointmentModifyuserNavigations { get; set; } = new List<Appointment>();
 
     public virtual ICollection<AssistantDoctorRelationship> AssistantDoctorRelationshipAssistantUsers { get; set; } = new List<AssistantDoctorRelationship>();
 
@@ -66,11 +65,15 @@ public partial class User
 
     public virtual ICollection<Loginaudit> Loginaudits { get; set; } = new List<Loginaudit>();
 
+    public virtual ICollection<Patient> PatientPatientCreationuserNavigations { get; set; } = new List<Patient>();
+
+    public virtual ICollection<Patient> PatientPatientModificationuserNavigations { get; set; } = new List<Patient>();
+
     public virtual ICollection<TokenSession> TokenSessions { get; set; } = new List<TokenSession>();
 
     public virtual Country? UserCountry { get; set; }
 
-    public virtual Establishment? UserEstablishment { get; set; } 
+    public virtual Establishment? UserEstablishment { get; set; }
 
     public virtual Profile? UserProfile { get; set; }
 
@@ -78,6 +81,5 @@ public partial class User
 
     public virtual Specialty? UserSpecialty { get; set; }
 
-
-
+    public virtual VatBilling? UserVatpercentage { get; set; }
 }

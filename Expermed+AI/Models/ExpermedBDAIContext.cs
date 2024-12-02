@@ -15,6 +15,8 @@ public partial class ExpermedBDAIContext : DbContext
     {
     }
 
+    public virtual DbSet<Appointment> Appointments { get; set; }
+
     public virtual DbSet<AssistantDoctorRelationship> AssistantDoctorRelationships { get; set; }
 
     public virtual DbSet<Catalog> Catalogs { get; set; }
@@ -24,6 +26,8 @@ public partial class ExpermedBDAIContext : DbContext
     public virtual DbSet<Establishment> Establishments { get; set; }
 
     public virtual DbSet<Loginaudit> Loginaudits { get; set; }
+
+    public virtual DbSet<Patient> Patients { get; set; }
 
     public virtual DbSet<Profile> Profiles { get; set; }
 
@@ -37,12 +41,50 @@ public partial class ExpermedBDAIContext : DbContext
 
     public virtual DbSet<UserSchedule> UserSchedules { get; set; }
 
+    public virtual DbSet<VatBilling> VatBillings { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=localhost;Database=ExpermedBDAI;User Id=sa;Password=1717;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Appointment>(entity =>
+        {
+            entity.HasKey(e => e.AppointmentId).HasName("PK__appointm__A50828FCF29C0F1B");
+
+            entity.ToTable("appointment");
+
+            entity.Property(e => e.AppointmentId).HasColumnName("appointment_id");
+            entity.Property(e => e.AppointmentCreatedate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("appointment_createdate");
+            entity.Property(e => e.AppointmentCreateuser).HasColumnName("appointment_createuser");
+            entity.Property(e => e.AppointmentDate)
+                .HasColumnType("datetime")
+                .HasColumnName("appointment_date");
+            entity.Property(e => e.AppointmentHour).HasColumnName("appointment_hour");
+            entity.Property(e => e.AppointmentModifydate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("appointment_modifydate");
+            entity.Property(e => e.AppointmentModifyuser).HasColumnName("appointment_modifyuser");
+            entity.Property(e => e.AppointmentPatientid).HasColumnName("appointment_patientid");
+
+            entity.HasOne(d => d.AppointmentCreateuserNavigation).WithMany(p => p.AppointmentAppointmentCreateuserNavigations)
+                .HasForeignKey(d => d.AppointmentCreateuser)
+                .HasConstraintName("FK_appointment_createuser");
+
+            entity.HasOne(d => d.AppointmentModifyuserNavigation).WithMany(p => p.AppointmentAppointmentModifyuserNavigations)
+                .HasForeignKey(d => d.AppointmentModifyuser)
+                .HasConstraintName("FK_appointment_modifyuser");
+
+            entity.HasOne(d => d.AppointmentPatient).WithMany(p => p.Appointments)
+                .HasForeignKey(d => d.AppointmentPatientid)
+                .HasConstraintName("FK_appointment_patientid");
+        });
+
         modelBuilder.Entity<AssistantDoctorRelationship>(entity =>
         {
             entity.HasKey(e => e.AssistandoctorId).HasName("PK__assistan__017A7BA9D633C781");
@@ -171,6 +213,116 @@ public partial class ExpermedBDAIContext : DbContext
             entity.HasOne(d => d.LoginauditUser).WithMany(p => p.Loginaudits)
                 .HasForeignKey(d => d.LoginauditUserid)
                 .HasConstraintName("FK_LoginAudit_User_Id");
+        });
+
+        modelBuilder.Entity<Patient>(entity =>
+        {
+            entity.HasKey(e => e.PatientId).HasName("PK__patient__4D5CE476C6539F4A");
+
+            entity.ToTable("patient");
+
+            entity.Property(e => e.PatientId).HasColumnName("patient_id");
+            entity.Property(e => e.PatientAddress).HasColumnName("patient_address");
+            entity.Property(e => e.PatientAge).HasColumnName("patient_age");
+            entity.Property(e => e.PatientBirthdate).HasColumnName("patient_birthdate");
+            entity.Property(e => e.PatientBloodtype).HasColumnName("patient_bloodtype");
+            entity.Property(e => e.PatientCellularPhone)
+                .HasMaxLength(255)
+                .HasColumnName("patient_cellular_phone");
+            entity.Property(e => e.PatientCode)
+                .HasMaxLength(5)
+                .HasColumnName("patient_code");
+            entity.Property(e => e.PatientCompany)
+                .HasMaxLength(255)
+                .HasColumnName("patient_company");
+            entity.Property(e => e.PatientCreationdate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("patient_creationdate");
+            entity.Property(e => e.PatientCreationuser).HasColumnName("patient_creationuser");
+            entity.Property(e => e.PatientDocumentnumber)
+                .HasMaxLength(10)
+                .HasColumnName("patient_documentnumber");
+            entity.Property(e => e.PatientDocumenttype).HasColumnName("patient_documenttype");
+            entity.Property(e => e.PatientDonor)
+                .HasMaxLength(50)
+                .HasColumnName("patient_donor");
+            entity.Property(e => e.PatientEmail)
+                .HasMaxLength(255)
+                .HasColumnName("patient_email");
+            entity.Property(e => e.PatientFirstname)
+                .HasMaxLength(255)
+                .HasColumnName("patient_firstname");
+            entity.Property(e => e.PatientFirstsurname)
+                .HasMaxLength(255)
+                .HasColumnName("patient_firstsurname");
+            entity.Property(e => e.PatientGender).HasColumnName("patient_gender");
+            entity.Property(e => e.PatientHealthInsurance).HasColumnName("patient_health_insurance");
+            entity.Property(e => e.PatientLandlinePhone)
+                .HasMaxLength(255)
+                .HasColumnName("patient_landline_phone");
+            entity.Property(e => e.PatientMaritalstatus).HasColumnName("patient_maritalstatus");
+            entity.Property(e => e.PatientMiddlename)
+                .HasMaxLength(255)
+                .HasColumnName("patient_middlename");
+            entity.Property(e => e.PatientModificationdate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("patient_modificationdate");
+            entity.Property(e => e.PatientModificationuser).HasColumnName("patient_modificationuser");
+            entity.Property(e => e.PatientNationality).HasColumnName("patient_nationality");
+            entity.Property(e => e.PatientOcupation)
+                .HasMaxLength(255)
+                .HasColumnName("patient_ocupation");
+            entity.Property(e => e.PatientProvince).HasColumnName("patient_province");
+            entity.Property(e => e.PatientSecondlastname)
+                .HasMaxLength(255)
+                .HasColumnName("patient_secondlastname");
+            entity.Property(e => e.PatientStatus)
+                .HasDefaultValue(1)
+                .HasColumnName("patient_status");
+            entity.Property(e => e.PatientVocationalTraining).HasColumnName("patient_vocational_training");
+
+            entity.HasOne(d => d.PatientBloodtypeNavigation).WithMany(p => p.PatientPatientBloodtypeNavigations)
+                .HasForeignKey(d => d.PatientBloodtype)
+                .HasConstraintName("FK_patient_bloodtype");
+
+            entity.HasOne(d => d.PatientCreationuserNavigation).WithMany(p => p.PatientPatientCreationuserNavigations)
+                .HasForeignKey(d => d.PatientCreationuser)
+                .HasConstraintName("FK_patient_creationuser");
+
+            entity.HasOne(d => d.PatientDocumenttypeNavigation).WithMany(p => p.PatientPatientDocumenttypeNavigations)
+                .HasForeignKey(d => d.PatientDocumenttype)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_patient_documenttype");
+
+            entity.HasOne(d => d.PatientGenderNavigation).WithMany(p => p.PatientPatientGenderNavigations)
+                .HasForeignKey(d => d.PatientGender)
+                .HasConstraintName("FK_patient_gender");
+
+            entity.HasOne(d => d.PatientHealthInsuranceNavigation).WithMany(p => p.PatientPatientHealthInsuranceNavigations)
+                .HasForeignKey(d => d.PatientHealthInsurance)
+                .HasConstraintName("FK_patient_health_insurance");
+
+            entity.HasOne(d => d.PatientMaritalstatusNavigation).WithMany(p => p.PatientPatientMaritalstatusNavigations)
+                .HasForeignKey(d => d.PatientMaritalstatus)
+                .HasConstraintName("FK_patient_maritalstatus");
+
+            entity.HasOne(d => d.PatientModificationuserNavigation).WithMany(p => p.PatientPatientModificationuserNavigations)
+                .HasForeignKey(d => d.PatientModificationuser)
+                .HasConstraintName("FK_patient_modificationuser");
+
+            entity.HasOne(d => d.PatientNationalityNavigation).WithMany(p => p.Patients)
+                .HasForeignKey(d => d.PatientNationality)
+                .HasConstraintName("FK_patient_nationality");
+
+            entity.HasOne(d => d.PatientProvinceNavigation).WithMany(p => p.Patients)
+                .HasForeignKey(d => d.PatientProvince)
+                .HasConstraintName("FK_patient_province");
+
+            entity.HasOne(d => d.PatientVocationalTrainingNavigation).WithMany(p => p.PatientPatientVocationalTrainingNavigations)
+                .HasForeignKey(d => d.PatientVocationalTraining)
+                .HasConstraintName("FK_patient_vocational_training");
         });
 
         modelBuilder.Entity<Profile>(entity =>
@@ -323,6 +475,7 @@ public partial class ExpermedBDAIContext : DbContext
             entity.Property(e => e.UserSurnames)
                 .HasMaxLength(250)
                 .HasColumnName("user_surnames");
+            entity.Property(e => e.UserVatpercentageid).HasColumnName("user_vatpercentageid");
             entity.Property(e => e.UserXkeytaxo).HasColumnName("user_xkeytaxo");
             entity.Property(e => e.UserXpasstaxo).HasColumnName("user_xpasstaxo");
 
@@ -341,6 +494,10 @@ public partial class ExpermedBDAIContext : DbContext
             entity.HasOne(d => d.UserSpecialty).WithMany(p => p.Users)
                 .HasForeignKey(d => d.UserSpecialtyid)
                 .HasConstraintName("FK_User_Speciality_Id");
+
+            entity.HasOne(d => d.UserVatpercentage).WithMany(p => p.Users)
+                .HasForeignKey(d => d.UserVatpercentageid)
+                .HasConstraintName("FK_user_vatpercentage");
         });
 
         modelBuilder.Entity<UserSchedule>(entity =>
@@ -370,6 +527,27 @@ public partial class ExpermedBDAIContext : DbContext
                 .HasForeignKey(d => d.UsersId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_user_schedules_users");
+        });
+
+        modelBuilder.Entity<VatBilling>(entity =>
+        {
+            entity.HasKey(e => e.VatbillingId).HasName("PK__vat_bill__B6D1E35E191A19E5");
+
+            entity.ToTable("vat_billing");
+
+            entity.Property(e => e.VatbillingId).HasColumnName("vatbilling_id");
+            entity.Property(e => e.VatbillingCode)
+                .HasMaxLength(4)
+                .HasColumnName("vatbilling_code");
+            entity.Property(e => e.VatbillingPercentage)
+                .HasMaxLength(255)
+                .HasColumnName("vatbilling_percentage");
+            entity.Property(e => e.VatbillingRate)
+                .HasMaxLength(5)
+                .HasColumnName("vatbilling_rate");
+            entity.Property(e => e.VatbillingStatus)
+                .HasDefaultValue(1)
+                .HasColumnName("vatbilling_status");
         });
 
         OnModelCreatingPartial(modelBuilder);
