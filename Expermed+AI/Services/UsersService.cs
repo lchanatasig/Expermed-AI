@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Data;
+using System.Text.Json;
 
 namespace Expermed_AI.Services
 {
@@ -45,10 +46,6 @@ namespace Expermed_AI.Services
                 throw;  // O manejar el error de forma más específica si es necesario
             }
         }
-
-
-
-
 
 
         // Método para obtener un usuario por su ID
@@ -127,6 +124,140 @@ namespace Expermed_AI.Services
         }
 
 
+        //Metodo para  insertar un nuevo usuario
 
+
+
+    public async Task<int> CreateUserAsync(UserViewModel usuario, int? idMedicoAsociado = null)
+    {
+        using (var connection = new SqlConnection(_dbContext.Database.GetDbConnection().ConnectionString))
+        {
+            using (var command = new SqlCommand("SP_CreateUser", connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+
+                // Agregar los parámetros de datos personales
+                command.Parameters.Add(new SqlParameter("@ProfilePhoto", SqlDbType.VarBinary)
+                {
+                    Value = usuario.UserProfilephoto ?? (object)DBNull.Value
+                });
+                command.Parameters.AddWithValue("@ProfilePhoto64", usuario.UserPrfilephoto64 ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@ProfileId", usuario.UserProfileid);
+                command.Parameters.AddWithValue("@DocumentNumber", usuario.UserDocumentNumber);
+                command.Parameters.AddWithValue("@Names", usuario.UserNames);
+                command.Parameters.AddWithValue("@Surnames", usuario.UserSurnames);
+                command.Parameters.AddWithValue("@Address", usuario.UserAddress);
+                command.Parameters.AddWithValue("@SenecytCode", usuario.UserSenecytcode ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@Phone", usuario.UserPhone);
+                command.Parameters.AddWithValue("@Email", usuario.UserEmail);
+                command.Parameters.AddWithValue("@SpecialtyId", usuario.UserSpecialtyid ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@CountryId", usuario.UserCountryid ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@Login", usuario.UserLogin);
+                command.Parameters.AddWithValue("@Password", usuario.UserPassword);
+
+                // Agregar los parámetros de Taxo
+                command.Parameters.AddWithValue("@EstablishmentId", usuario.UserEstablishmentid ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@VatPercentageId", usuario.UserVatpercentageid ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@XKeyTaxo", usuario.UserXkeytaxo ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@XPassTaxo", usuario.UserXpasstaxo ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@SequentialBilling", usuario.UserSequentialBilling ?? (object)DBNull.Value);
+                command.Parameters.Add(new SqlParameter("@DigitalSignature", SqlDbType.VarBinary)
+                {
+                    Value = usuario.UserDigitalsignature ?? (object)DBNull.Value
+                });
+
+                // Agregar los médicos asociados
+                if (usuario.AssistantDoctorRelationshipAssistantUsers != null && usuario.AssistantDoctorRelationshipAssistantUsers.Any())
+                {
+                    string doctorIds = string.Join(",", usuario.AssistantDoctorRelationshipAssistantUsers.Select(relationship => relationship.DoctorUserid));
+                    command.Parameters.AddWithValue("@DoctorIds", doctorIds);
+                }
+                else
+                {
+                    command.Parameters.AddWithValue("@DoctorIds", DBNull.Value);
+                }
+
+                // Agregar los parámetros de horario
+                if (usuario.UserSchedules != null && usuario.UserSchedules.Any())
+                {
+                    string workDays = string.Join(",", usuario.UserSchedules.Select(schedule => schedule.WorksDays));
+                    command.Parameters.AddWithValue("@WorkDays", workDays);
+
+                    var firstSchedule = usuario.UserSchedules.FirstOrDefault();
+                    if (firstSchedule != null)
+                    {
+                        command.Parameters.AddWithValue("@StartTime", firstSchedule.StartTime);
+                        command.Parameters.AddWithValue("@EndTime", firstSchedule.EndTime);
+                        command.Parameters.AddWithValue("@AppointmentInterval", firstSchedule.AppointmentInterval);
+                    }
+                }
+                else
+                {
+                    command.Parameters.AddWithValue("@WorkDays", DBNull.Value);
+                    command.Parameters.AddWithValue("@StartTime", DBNull.Value);
+                    command.Parameters.AddWithValue("@EndTime", DBNull.Value);
+                    command.Parameters.AddWithValue("@AppointmentInterval", DBNull.Value);
+                }
+
+                command.Parameters.AddWithValue("@Description", usuario.UserDescription ?? (object)DBNull.Value);
+
+                try
+                {
+                    await connection.OpenAsync();
+
+                    // Ejecutar y leer el resultado JSON
+                    string jsonResult = null;
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            jsonResult = reader.GetString(0);
+                        }
+                    }
+
+                    if (string.IsNullOrEmpty(jsonResult))
+                    {
+                        throw new Exception("Error inesperado: No se obtuvo ningún resultado del procedimiento almacenado.");
+                    }
+
+                    // Deserializar el resultado JSON
+                    using (JsonDocument document = JsonDocument.Parse(jsonResult))
+                    {
+                        var root = document.RootElement;
+
+                        // Validar el resultado
+                        if (root.TryGetProperty("success", out var success) && success.GetInt32() == 1)
+                        {
+                            if (root.TryGetProperty("userId", out var userId))
+                            {
+                                return userId.GetInt32();
+                            }
+                            else
+                            {
+                                throw new Exception("El campo 'userId' no se encuentra en el resultado.");
+                            }
+                        }
+                        else
+                        {
+                            string errorMessage = root.TryGetProperty("message", out var message)
+                                ? message.GetString()
+                                : "Error al crear el usuario.";
+                            throw new Exception(errorMessage);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (connection.State == ConnectionState.Open)
+                    {
+                        await connection.CloseAsync();
+                    }
+                }
+            }
+        }
     }
+
+
+
+}
 }
