@@ -159,8 +159,8 @@ namespace Expermed_AI.Controllers
                 int idUsuarioCreado = await _usersService.CreateUserAsync(usuario, idMedicoAsociado);
 
                 // Si el proceso de creación fue exitoso
-                TempData["SuccessMessage"] = "Usuario creado exitosamente.";
-                return RedirectToAction("ListarUsuarios", "User");
+                TempData["SuccessMessage"] = "User created successfully.";
+                return RedirectToAction("UserList", "Users");
             }
             catch (Exception ex)
             {
@@ -218,7 +218,7 @@ namespace Expermed_AI.Controllers
         }
 
 
-        [ActionName("UpdateUser")]
+        [HttpGet]
         public async Task<IActionResult> UpdateUser(int id)
         {
             // Get the user details
@@ -250,37 +250,6 @@ namespace Expermed_AI.Controllers
             return View(viewModel);
         }
 
-
-        // Clase para la solicitud del endpoint
-        public class CreateUserRequest
-        {
-            public byte[] ProfilePhoto { get; set; }
-            public string ProfilePhoto64 { get; set; }
-            public int ProfileId { get; set; }
-            public string DocumentNumber { get; set; }
-            public string Names { get; set; }
-            public string Surnames { get; set; }
-            public string Address { get; set; }
-            public string SenecytCode { get; set; }
-            public string Phone { get; set; }
-            public string Email { get; set; }
-            public int? SpecialtyId { get; set; }
-            public int? CountryId { get; set; }
-            public string Login { get; set; }
-            public string Password { get; set; }
-            public int? EstablishmentId { get; set; }
-            public int? VatPercentageId { get; set; }
-            public string XKeyTaxo { get; set; }
-            public string XPassTaxo { get; set; }
-            public int? SequentialBilling { get; set; }
-            public byte[] DigitalSignature { get; set; }
-            public string DoctorIds { get; set; }
-            public TimeSpan? StartTime { get; set; }
-            public TimeSpan? EndTime { get; set; }
-            public string WorkDays { get; set; }
-            public int? AppointmentInterval { get; set; }
-            public string Description { get; set; }
-        }
 
 
 

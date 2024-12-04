@@ -10,6 +10,7 @@
         public List<VatBilling> VatBillings { get; set; }
 
         public User User { get; set; }  // For user details
+        public UserViewModel Uservm { get; set; }  // For user details
 
     }
 }

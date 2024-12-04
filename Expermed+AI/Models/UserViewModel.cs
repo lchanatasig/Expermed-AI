@@ -52,29 +52,32 @@
 
         public int? UserVatpercentageid { get; set; }
 
-        public virtual ICollection<Appointment> AppointmentAppointmentCreateuserNavigations { get; set; } = new List<Appointment>();
 
-        public virtual ICollection<Appointment> AppointmentAppointmentModifyuserNavigations { get; set; } = new List<Appointment>();
+        public TimeOnly StartTime { get; set; }
+
+        public TimeOnly EndTime { get; set; }
+
+        public int AppointmentInterval { get; set; }
+
+        public string? WorksDays { get; set; }
+
+
+        public string ProfileName { get; set; } = null!;
+        public string EstablishmentName { get; set; } = null!;
+        public string SpecialityName { get; set; } = null!;
+        public string CountryName { get; set; } = null!;
 
         public virtual ICollection<AssistantDoctorRelationship> AssistantDoctorRelationshipAssistantUsers { get; set; } = new List<AssistantDoctorRelationship>();
 
         public virtual ICollection<AssistantDoctorRelationship> AssistantDoctorRelationshipDoctorUsers { get; set; } = new List<AssistantDoctorRelationship>();
 
-        public virtual ICollection<Loginaudit> Loginaudits { get; set; } = new List<Loginaudit>();
-
-        public virtual ICollection<Patient> PatientPatientCreationuserNavigations { get; set; } = new List<Patient>();
-
-        public virtual ICollection<Patient> PatientPatientModificationuserNavigations { get; set; } = new List<Patient>();
-
-        public virtual ICollection<TokenSession> TokenSessions { get; set; } = new List<TokenSession>();
+    
 
         public virtual Country? UserCountry { get; set; }
 
         public virtual Establishment? UserEstablishment { get; set; }
 
         public virtual Profile? UserProfile { get; set; }
-
-        public virtual ICollection<UserSchedule> UserSchedules { get; set; } = new List<UserSchedule>();
 
         public virtual Specialty? UserSpecialty { get; set; }
 

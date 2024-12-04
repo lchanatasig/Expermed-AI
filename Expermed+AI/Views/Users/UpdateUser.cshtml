@@ -1,8 +1,6 @@
 ﻿@model NewUserViewModel
 
 @{
-
-
   ViewBag.Title = "Update User";
   ViewBag.pTitle = "Update User";
   ViewBag.pageTitle = "Update User";
@@ -59,7 +57,7 @@
                         <img src="~/assets/images/users/avatar-1.jpg"
                           class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
                         <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-                          <input id="profile-img-file-input" type="file" class="profile-img-file-input">
+                          <input id="profile-img-file-input" type="file" class="profile-img-file-input" >
                           <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
                             <span class="avatar-title rounded-circle bg-light text-body">
                               <i class="ri-camera-fill"></i>
@@ -128,7 +126,7 @@
                             <div class="mb-3">
                               <label for="firstnameInput" class="form-label">First Name</label>
                               <input type="text" class="form-control" id="firstnameInput"
-                                placeholder="Enter your firstname" asp-for="User.UserNames">
+                                placeholder="Enter your firstname">
                             </div>
                           </div>
 
@@ -279,7 +277,7 @@
                            <div class="col-lg-4">
                                <div class="mb-3">
                                    <label for="endHour" class="form-label">Appointment Interval</label>
-                                   <input class="form-control" type="number" id="appointment Interval">
+                                   <input class="form-control" type="number" id="appointmentInterval" asp-for="User.UserSchedules" name="AppoinmentInterval">
                                </div>
                            </div> 
                              <!--Observacion y Dias de Trabajo-->  
@@ -293,7 +291,7 @@
                            <div class="col-xxl-5 col-md-12">
                               <div>
                                   <label for="exampleFormControlTextarea5" class="form-label">Doctor's description</label>
-                                  <textarea class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
+                                  <textarea class="form-control" id="exampleFormControlTextarea5"  asp-for="User.UserDescription" rows="3"></textarea>
                               </div>
                           </div> 
                                       

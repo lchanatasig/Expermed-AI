@@ -176,30 +176,16 @@ namespace Expermed_AI.Services
                 {
                     command.Parameters.AddWithValue("@DoctorIds", DBNull.Value);
                 }
+                    command.Parameters.AddWithValue("@StartTime", usuario.StartTime == TimeOnly.MinValue ? DateTime.MinValue : DateTime.Today.Add(usuario.StartTime.ToTimeSpan()));
 
-                // Agregar los parámetros de horario
-                if (usuario.UserSchedules != null && usuario.UserSchedules.Any())
-                {
-                    string workDays = string.Join(",", usuario.UserSchedules.Select(schedule => schedule.WorksDays));
-                    command.Parameters.AddWithValue("@WorkDays", workDays);
+                    command.Parameters.AddWithValue("@EndTime", usuario.EndTime == TimeOnly.MinValue ? DateTime.MinValue : DateTime.Today.Add(usuario.EndTime.ToTimeSpan()));
+                  
+                    command.Parameters.AddWithValue("@AppointmentInterval", usuario.AppointmentInterval);
 
-                    var firstSchedule = usuario.UserSchedules.FirstOrDefault();
-                    if (firstSchedule != null)
-                    {
-                        command.Parameters.AddWithValue("@StartTime", firstSchedule.StartTime);
-                        command.Parameters.AddWithValue("@EndTime", firstSchedule.EndTime);
-                        command.Parameters.AddWithValue("@AppointmentInterval", firstSchedule.AppointmentInterval);
-                    }
-                }
-                else
-                {
-                    command.Parameters.AddWithValue("@WorkDays", DBNull.Value);
-                    command.Parameters.AddWithValue("@StartTime", DBNull.Value);
-                    command.Parameters.AddWithValue("@EndTime", DBNull.Value);
-                    command.Parameters.AddWithValue("@AppointmentInterval", DBNull.Value);
-                }
+                    command.Parameters.AddWithValue("@WorkDays", usuario.WorksDays);
 
-                command.Parameters.AddWithValue("@Description", usuario.UserDescription ?? (object)DBNull.Value);
+
+                    command.Parameters.AddWithValue("@Description", usuario.UserDescription ?? (object)DBNull.Value);
 
                 try
                 {
