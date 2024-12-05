@@ -6,155 +6,155 @@
 
 
 }
-@model NewUserViewModel
+                 @model NewUserViewModel
+                 
+                 <!doctype html>
+                 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="light" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+                 <head>
+                     @await Html.PartialAsync("_title_meta")
+                     @await Html.PartialAsync("_head_css")
+                 </head>
+                 <body>
 
-<!doctype html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="light" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
-<head>
-    @await Html.PartialAsync("_title_meta")
-    @await Html.PartialAsync("_head_css")
-</head>
-<body>
+                   <!-- Begin page -->
+                   <div id="layout-wrapper">
+                       @await Html.PartialAsync("_menu")
+                  
+                       <!-- ============================================================== -->
+                       <!-- Start right Content here -->
+                       <!-- ============================================================== -->
+                        <div class="main-content">
+                            <div class="page-content">
+                                <div class="container-fluid">
+                                    <div class="position-relative mx-n4 mt-n4">
+                                        <div class="profile-wid-bg profile-setting-img">
+                                            <img src="~/assets/images/auth-one-bg.jpg" class="profile-wid-img" alt="">
+                                            <div class="overlay-content">
+                                                <div class="text-end p-3">
+                                                    <div class="p-0 ms-auto rounded-circle profile-photo-edit">
+                                                        <input id="profile-foreground-img-file-input" type="file" class="profile-foreground-img-file-input">
 
-    <!-- Begin page -->
-    <div id="layout-wrapper">
-        @await Html.PartialAsync("_menu")
-
-        <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
-        <div class="main-content">
-            <div class="page-content">
-                <div class="container-fluid">
-                    <div class="position-relative mx-n4 mt-n4">
-                        <div class="profile-wid-bg profile-setting-img">
-                            <img src="~/assets/images/auth-one-bg.jpg" class="profile-wid-img" alt="">
-                            <div class="overlay-content">
-                                <div class="text-end p-3">
-                                    <div class="p-0 ms-auto rounded-circle profile-photo-edit">
-                                        <input id="profile-foreground-img-file-input" type="file" class="profile-foreground-img-file-input">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                      <form asp-action="NewUser" asp-controller="Users" method="POST" enctype="multipart/form-data">
-
-                        <div class="col-xxl-3">
-                            <div class="card mt-n5">
-                                <div class="card-body p-4">
-                                    <div class="text-center">
-                                        <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                                            <img src="~/assets/images/users/avatar-1.jpg" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
-                                            <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-                                                <input  type="file" class="profile-img-file-input" id="profile-img-file-input" name="ProfilePhoto">
-                                                <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
-                                                    <span class="avatar-title rounded-circle bg-light text-body">
-                                                        <i class="ri-camera-fill"></i>
-                                                    </span>
-                                                </label>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <h5 class="fs-16 mb-1">Select a profile photo</h5>
                                     </div>
-                                </div>
-                            </div>
-                            <!--end card-->
-                        </div>
-                        <!--end col photo profile-->
 
-                        <div class="col-xxl-9">
-                            <div class="card mt-xxl-n5">
-                                <div class="card-header">
-                                    <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
-                                                <i class="fas fa-home"></i> Personal Details
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div class="card-body p-4">
-                                    <div class="tab-content">
-                                         <div class="tab-pane active" id="personalDetails" role="tabpanel">
-                                              <div class="row">
-                                                 <div class="col-lg-6">
-                                                     <div class="mb-3">
-                                                         <label for="profileSelect" class="form-label">Select profile</label>
-                                                         <select class="form-control" id="profileSelect" name="UserProfileid" data-choices data-choices-sorting-false>
-                                                                 @foreach (var profile in Model.Profiles)
-                                                                 {
-                                                                     <option value="@profile.ProfileId">@profile.ProfileName</option>
-                                                                 }
-                                                         </select>
-                                                     </div>
-                                                 </div>
-
-                                                <!-- Contenedor del select de médicos -->
-                                                 <div class="col-lg-6" id="doctorSelectContainer" style="display: none;"> <!-- Oculto por defecto -->
-                                                    <div class="mb-3">
-                                                        <label for="doctorSelect" class="form-label">Select the doctor to assign the assistant to</label>
-                                                        <select class="form-control" id="doctorSelect"  name="AssistantDoctorRelationshipAssistantUsers" data-choices data-choices-removeItem name="choices-multiple-remove-button" multiple>
-
-                                                                @foreach (var medic in Model.Users)
-                                                                {
-                                                                    <option value="@medic.UsersId">Dr(a): @medic.UserNames @medic.UserSurnames <span>(@medic.UserSpecialty.SpecialityName)</span></option>
-                                                                }
-                                                        </select>
-                                                    </div>
-                                                 </div>                                                    
-
-
-                                                 <div class="col-lg-6">
-                                                    <div class="mb-3">
-                                                        <label for="documentNumberInput" class="form-label">Document number</label>
-                                                        <input type="text" class="form-control" id="documentNumberInput" name="UserDocumentNumber" placeholder="1759999999">
-                                                    </div>
-                                                 </div>
-
-                                                 <div class="col-lg-6">
-                                                        <div class="mb-3">
-                                                            <label for="firstnameInput" class="form-label">First Name</label>
-                                                            <input type="text" class="form-control" id="firstnameInput" name="UserNames" placeholder="Enter your firstname">
+                                     <div class="row">
+                                          <form asp-action="NewUser" asp-controller="Users" method="POST" enctype="multipart/form-data">
+                    
+                                            <div class="col-xxl-3">
+                                                <div class="card mt-n5">
+                                                    <div class="card-body p-4">
+                                                        <div class="text-center">
+                                                            <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                                                                <img src="~/assets/images/users/avatar-1.jpg" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
+                                                                <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
+                                                                    <input  type="file" class="profile-img-file-input" id="profile-img-file-input" name="ProfilePhoto">
+                                                                    <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
+                                                                        <span class="avatar-title rounded-circle bg-light text-body">
+                                                                            <i class="ri-camera-fill"></i>
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <h5 class="fs-16 mb-1">Select a profile photo</h5>
                                                         </div>
-                                                  </div>
-
-                                                  <div class="col-lg-6">
-                                                        <div class="mb-3">
-                                                            <label for="lastnameInput" class="form-label">Last Name</label>
-                                                            <input type="text" class="form-control" id="lastnameInput" class="UserSurnames" name="UserSurnames" placeholder="Enter your lastname">
-                                                        </div>
-                                                  </div>
-
-                                                 <div class="col-lg-12">
-                                                    <div class="mb-3">
-                                                        <label for="addressInput" class="form-label">Address</label>
-                                                        <div class="input-group">
-                                                            <!-- Input para ingresar la dirección -->
-                                                            <input type="text" id="addressInput" class="form-control" class="UserAddress" name="UserAddress" aria-label="Recipient's username" aria-describedby="button-addon2" placeholder="Escribe una dirección">
-                                                            <!-- Botón para mostrar el mapa -->
-                                                            <button class="btn btn-outline-success" type="button" id="mapButton"><i class="ri-map-pin-line"></i></button>
-                                                        </div>
-
-                                                        <!-- Contenedor para el mapa que se generará dinámicamente -->
-                                                        <div id="map" style="display: none; height: 400px; margin-top: 15px;"></div>
-
-                                                        <!-- Contenedor de sugerencias que se generará dinámicamente -->
-                                                        <div id="suggestions" class="suggestions-container" style="display: none;"></div>
                                                     </div>
-                                                 </div>
+                                                </div>
+                                                <!--end card-->
+                                            </div>
+                                        <!--end col photo profile-->
+
+                                   <div class="col-xxl-9">
+                                       <div class="card mt-xxl-n5">
+                                          <div class="card-header">
+                                              <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
+                                                  <li class="nav-item">
+                                                      <a class="nav-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
+                                                          <i class="fas fa-home"></i> Personal Details
+                                                      </a>
+                                                  </li>
+                                              </ul>
+                                          </div>
+
+                                           <div class="card-body p-4">
+                                               <div class="tab-content">
+                                                    <div class="tab-pane active" id="personalDetails" role="tabpanel">
+                                                        <div class="row">
+                                                           <div class="col-lg-6">
+                                                               <div class="mb-3">
+                                                                   <label for="profileSelect" class="form-label">Select profile</label>
+                                                                   <select class="form-control" id="profileSelect" name="UserProfileid" data-choices data-choices-sorting-false>
+                                                                           @foreach (var profile in Model.Profiles)
+                                                                           {
+                                                                               <option value="@profile.ProfileId">@profile.ProfileName</option>
+                                                                           }
+                                                                   </select>
+                                                               </div>
+                                                           </div>
+
+                                                           <!-- Contenedor del select de médicos -->
+                                                   
+                                                            <div class="col-lg-6" id="doctorSelectContainer" style="display: none;"> <!-- Oculto por defecto -->
+                                                               <div class="mb-3">
+                                                                   <label for="doctorSelect" class="form-label">Select the doctor to assign the assistant to</label>
+                                                                   <select class="form-control" id="doctorSelect" name="doctorSelect" data-choices data-choices-removeItem multiple>
+                                                                       @foreach (var medic in Model.Users)
+                                                                       {
+                                                                           <option value="@medic.UsersId">Dr(a): @medic.UserNames @medic.UserSurnames <span>(@medic.UserSpecialty.SpecialityName)</span></option>
+                                                                       }
+                                                                   </select>
+                                                                   <!-- Input oculto para enviar los IDs seleccionados -->
+                                                                   <input type="hidden" id="selectedDoctorIds" name="selectedDoctorIds">
+                                                               </div>
+                                                           </div>
 
 
-                                                  <div class="col-lg-6">
-                                                      <div class="mb-3">
-                                                          <label for="codeSenecytInput" class="form-label">Code Senecyt</label>
-                                                          <input type="text" class="form-control" id="codeSenecytInput" name="UserSenecytcode" placeholder="Enter your Senecyt code">
-                                                      </div>
-                                                  </div>
+                                                            <div class="col-lg-6">
+                                                               <div class="mb-3">
+                                                                   <label for="documentNumberInput" class="form-label">Document number</label>
+                                                                   <input type="text" class="form-control" id="documentNumberInput" name="UserDocumentNumber" placeholder="1759999999">
+                                                               </div>
+                                                            </div>
+
+                                                            <div class="col-lg-6">
+                                                                   <div class="mb-3">
+                                                                       <label for="firstnameInput" class="form-label">First Name</label>
+                                                                       <input type="text" class="form-control" id="firstnameInput" name="UserNames" placeholder="Enter your firstname">
+                                                                   </div>
+                                                             </div>
+                                                             <div class="col-lg-6">
+                                                                   <div class="mb-3">
+                                                                       <label for="lastnameInput" class="form-label">Last Name</label>
+                                                                       <input type="text" class="form-control" id="lastnameInput" class="UserSurnames" name="UserSurnames" placeholder="Enter your lastname">
+                                                                   </div>
+                                                             </div>
+
+                                                              <div class="col-lg-12">
+                                                                 <div class="mb-3">
+                                                                     <label for="addressInput" class="form-label">Address</label>
+                                                                     <div class="input-group">
+                                                                         <!-- Input para ingresar la dirección -->
+                                                                         <input type="text" id="addressInput" class="form-control" class="UserAddress" name="UserAddress" aria-label="Recipient's username" aria-describedby="button-addon2" placeholder="Escribe una dirección">
+                                                                         <!-- Botón para mostrar el mapa -->
+                                                                         <button class="btn btn-outline-success" type="button" id="mapButton"><i class="ri-map-pin-line"></i></button>
+                                                                     </div>
+                   
+                                                                     <!-- Contenedor para el mapa que se generará dinámicamente -->
+                                                                     <div id="map" style="display: none; height: 400px; margin-top: 15px;"></div>
+                   
+                                                                     <!-- Contenedor de sugerencias que se generará dinámicamente -->
+                                                                     <div id="suggestions" class="suggestions-container" style="display: none;"></div>
+                                                                 </div>
+                                                              </div>
+
+                                                                <div class="col-lg-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="codeSenecytInput" class="form-label">Code Senecyt</label>
+                                                                        <input type="text" class="form-control" id="codeSenecytInput" name="UserSenecytcode" placeholder="Enter your Senecyt code">
+                                                                    </div>
+                                                                </div>
 
                                                                 <div class="col-lg-6">
                                                                     <div class="mb-3">
@@ -292,22 +292,22 @@
 
                                                   <!--Observacion y Dias de Trabajo-->  
      
-                                                 <div class="col-lg-6" id="workDaysSelectContainer"> <!-- Oculto por defecto -->
-                                                    <div class="mb-3">
-                                                        <label for="daysSelect" class="form-label">Select work days</label>
-                                                        <select class="form-control" id="daysSelect" name="WorksDays"  data-choices data-choices-removeItem  multiple>
-
-                                                                    <option value="monday">Moday</option>
-                                                                    <option value="tuesday">Tuesday</option>
-                                                                    <option value="wednesday">Wednesday</option>
-                                                                    <option value="thursday">Thursday</option>
-                                                                    <option value="friday">Friday</option>
-                                                                    <option value="saturday">Saturday</option>
-                                                                    <option value="sunday">Sunday</option>
-                                                                
-                                                        </select>
+                                                    <div class="col-lg-6" id="workDaysSelectContainer"> <!-- Oculto por defecto -->
+                                                        <div class="mb-3">
+                                                            <label for="daysSelect" class="form-label">Select work days</label>
+                                                            <select class="form-control" id="daysSelect" name="WorksDays" data-choices data-choices-removeItem multiple>
+                                                                <option value="monday">Monday</option>
+                                                                <option value="tuesday">Tuesday</option>
+                                                                <option value="wednesday">Wednesday</option>
+                                                                <option value="thursday">Thursday</option>
+                                                                <option value="friday">Friday</option>
+                                                                <option value="saturday">Saturday</option>
+                                                                <option value="sunday">Sunday</option>
+                                                            </select>
+                                                            <!-- Input oculto para enviar los días seleccionados -->
+                                                            <input type="hidden" id="selectedWorkDays" name="selectedWorkDays">
+                                                        </div>
                                                     </div>
-                                                 </div> 
                                                     
                                                     <div class="col-xxl-5 col-md-12">
                                                        <div>
@@ -365,6 +365,29 @@
             } else { // Ocultar en caso contrario
                 doctorSelectContainer.style.display = "none";
             }
+        });
+    });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+        const doctorSelect = document.getElementById('doctorSelect');
+        const selectedDoctorIdsInput = document.getElementById('selectedDoctorIds');
+
+        // Actualiza el input oculto cada vez que cambie la selección
+        doctorSelect.addEventListener('change', function () {
+            const selectedOptions = Array.from(doctorSelect.selectedOptions).map(option => option.value);
+            selectedDoctorIdsInput.value = selectedOptions.join(','); // Convierte los valores en una lista separada por comas
+        });
+    });
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const daysSelect = document.getElementById('daysSelect');
+        const selectedWorkDaysInput = document.getElementById('selectedWorkDays');
+
+        // Actualiza el input oculto cada vez que cambie la selección
+        daysSelect.addEventListener('change', function () {
+            const selectedOptions = Array.from(daysSelect.selectedOptions).map(option => option.value);
+            selectedWorkDaysInput.value = selectedOptions.join(','); // Convierte los valores en una lista separada por comas
         });
     });
 </script>

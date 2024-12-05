@@ -2,43 +2,46 @@
 {
     public class UserWithDetails
     {
-        // Propiedades de la tabla Users
-        public int UsersId { get; set; }
-        public string UserDocumentNumber { get; set; }
-        public string UserNames { get; set; }
-        public string UserSurnames { get; set; }
-        public string UserPhone { get; set; }
-        public string UserEmail { get; set; }
-        public DateTime UserCreationDate { get; set; }
-        public DateTime? UserModificationDate { get; set; }
-        public string UserAddress { get; set; }
-        public string UserDigitalSignature { get; set; }
-        public string UserProfilePhoto { get; set; }
-        public string UserProfilePhoto64 { get; set; }
-        public string UserSenecytCode { get; set; }
-        public string UserXKeyTaxo { get; set; }
-        public string UserXPassTaxo { get; set; }
-        public string UserSequentialBilling { get; set; }
-        public string UserLogin { get; set; }
-        public string UserPassword { get; set; }
-        public string UserStatus { get; set; }
-        public int UserProfileId { get; set; }
-        public int UserEstablishmentId { get; set; }
-        public int UserVatPercentageId { get; set; }
-        public int UserSpecialtyId { get; set; }
-        public int UserCountryId { get; set; }
-        public string UserDescription { get; set; }
+        public int UserId { get; set; }
+        public int UserProfileid { get; set; }
+        public int? UserSpecialtyid { get; set; }
+        public int? UserEstablishmentid { get; set; }
 
-        // Propiedades de las tablas relacionadas
+        public string DocumentNumber { get; set; }
+        public string Names { get; set; }
+        public string Surnames { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime? ModificationDate { get; set; }
+        public string Address { get; set; }
+        public byte[] ProfilePhoto { get; set; }
+        public string ProfilePhoto64 { get; set; }
+        public string SenecytCode { get; set; }
+        public string XKeyTaxo { get; set; }
+        public string XPassTaxo { get; set; }
+        public int SequentialBilling { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
+        public int Status { get; set; }
+        public string? UserDescription { get; set; }
+
         public string ProfileName { get; set; }
         public string EstablishmentName { get; set; }
         public string SpecialtyName { get; set; }
         public string CountryName { get; set; }
-
-        public TimeSpan? StartTime { get; set; }
-        public TimeSpan? EndTime { get; set; }
+        public TimeSpan StartTime { get; set; }
+        public TimeSpan EndTime { get; set; }
         public int AppointmentInterval { get; set; }
-        public string WorksDays { get; set; }
+        public string WorkDays { get; set; }
+        public List<DoctorDto> Doctors { get; set; }
     }
-
+    public class DoctorDto
+    {
+        public int DoctorId { get; set; }
+        public string DoctorNames { get; set; }
+        public string DoctorSurnames { get; set; }
+        public int DoctorSpecialtyId { get; set; }
+        public string DoctorSpecialtyName { get; set; }
+    }
 }

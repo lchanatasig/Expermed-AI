@@ -101,7 +101,7 @@ namespace Expermed_AI.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> NewUser(UserViewModel usuario, IFormFile? DigitalSignature, IFormFile? ProfilePhoto, int? idMedicoAsociado = null)
+        public async Task<IActionResult> NewUser(UserViewModel usuario, IFormFile? DigitalSignature, IFormFile? ProfilePhoto, string? selectedDoctorIds, string selectedWorkDays)
         {
             // Verificar si el modelo es válido
             if (!ModelState.IsValid)
@@ -119,7 +119,8 @@ namespace Expermed_AI.Controllers
                 }
 
                 TempData["ErrorMessage"] = "Datos inválidos. Por favor, revisa los campos e intenta de nuevo.";
-                // Consume ambos servicios
+
+                // Consume ambos servicios para recargar datos
                 var profiles = await _selectService.GetAllProfilesAsync();
                 var specialties = await _selectService.GetAllSpecialtiesAsync();
                 var establishment = await _selectService.GetAllEstablishmentsAsync();
@@ -127,7 +128,6 @@ namespace Expermed_AI.Controllers
                 var countries = await _selectService.GetAllCountriesAsync();
                 var percentage = await _selectService.GetAllVatPercentageAsync();
 
-                // Crea un ViewModel para pasar ambos conjuntos de datos a la vista
                 var viewModel = new NewUserViewModel
                 {
                     Profiles = profiles,
@@ -145,18 +145,24 @@ namespace Expermed_AI.Controllers
             usuario.UserDigitalsignature = await ConvertFileToByteArray(DigitalSignature);
             usuario.UserProfilephoto = await ConvertFileToByteArray(ProfilePhoto);
 
-            // Agregar médicos asociados si se proporcionaron
-            if (idMedicoAsociado.HasValue)
+            // Procesa los IDs de médicos seleccionados
+            List<int>? associatedDoctorIds = null;
+            if (!string.IsNullOrEmpty(selectedDoctorIds))
             {
-                // Si hay un médico asociado, puedes incluir la lógica aquí para asignar el ID.
-                // En tu servicio ya manejamos el parámetro `idMedicoAsociado`.
-                // Si tienes múltiples médicos, asegúrate de manejarlos correctamente.
+                // Convierte la cadena separada por comas en una lista de enteros
+                associatedDoctorIds = selectedDoctorIds
+                    .Split(',')
+                    .Select(id => int.Parse(id))
+                    .ToList();
             }
+            // Procesa los IDs de médicos seleccionados
+            var workDays = selectedWorkDays?.Split(',').ToList();
+
 
             try
             {
-                // Llamar al servicio para crear el usuario, pasando el médico asociado si aplica
-                int idUsuarioCreado = await _usersService.CreateUserAsync(usuario, idMedicoAsociado);
+                // Llamar al servicio para crear el usuario y asociar los médicos
+                int idUsuarioCreado = await _usersService.CreateUserAsync(usuario, associatedDoctorIds,workDays);
 
                 // Si el proceso de creación fue exitoso
                 TempData["SuccessMessage"] = "User created successfully.";
@@ -178,8 +184,7 @@ namespace Expermed_AI.Controllers
                     TempData["ErrorMessage"] = "Error inesperado: " + ex.Message;
                 }
 
-                // Cargar listas para re-renderizar la vista en caso de error
-                // Consume ambos servicios
+                // Consume ambos servicios para recargar datos
                 var profiles = await _selectService.GetAllProfilesAsync();
                 var specialties = await _selectService.GetAllSpecialtiesAsync();
                 var establishment = await _selectService.GetAllEstablishmentsAsync();
@@ -187,7 +192,6 @@ namespace Expermed_AI.Controllers
                 var countries = await _selectService.GetAllCountriesAsync();
                 var percentage = await _selectService.GetAllVatPercentageAsync();
 
-                // Crea un ViewModel para pasar ambos conjuntos de datos a la vista
                 var viewModel = new NewUserViewModel
                 {
                     Profiles = profiles,
@@ -198,7 +202,7 @@ namespace Expermed_AI.Controllers
                     VatBillings = percentage,
                 };
 
-                return View(viewModel); 
+                return View(viewModel);
             }
         }
 
@@ -221,37 +225,35 @@ namespace Expermed_AI.Controllers
         [HttpGet]
         public async Task<IActionResult> UpdateUser(int id)
         {
-            // Get the user details
-            var user = await _usersService.GetUserByIdAsync(id);
+            // Obtener los detalles del usuario (incluyendo médicos si es asistente)
+            var user = await _usersService.GetUserDetailsAsync(id);
 
-            // If the user does not exist, return a not found response
+            // Si el usuario no existe, devolver una respuesta de "No encontrado"
             if (user == null)
             {
                 return NotFound("User Not Found");
             }
 
-            // Get the lists of profiles, specialties, establishments, and medics
+            // Obtener las listas de perfiles, especialidades, establecimientos y médicos
             var profiles = await _selectService.GetAllProfilesAsync();
             var specialties = await _selectService.GetAllSpecialtiesAsync();
             var establishments = await _selectService.GetAllEstablishmentsAsync();
             var medics = await _selectService.GetAllMedicsAsync();
 
-            // Create a ViewModel to pass both the user and the lists to the view
+            // Crear un ViewModel para pasar tanto el usuario como las listas a la vista
             var viewModel = new NewUserViewModel
             {
-                User = user,  // Pass the user object to the ViewModel
+                User = user,  // Pasar el usuario obtenido al ViewModel
                 Profiles = profiles,
                 Specialties = specialties,
                 Establishments = establishments,
-                Users = medics
+                Users = medics,
+                AssociatedDoctors = user.Doctors // Incluir los médicos asociados si es asistente
             };
 
-            // Return the view with the populated ViewModel
+            // Devolver la vista con el ViewModel poblado
             return View(viewModel);
         }
-
-
-
 
 
 

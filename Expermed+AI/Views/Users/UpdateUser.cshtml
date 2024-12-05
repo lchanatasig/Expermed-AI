@@ -13,6 +13,7 @@
   data-sidebar-image="none" data-preloader="disable">
 
 <head>
+  <title></title>
   @await Html.PartialAsync("_title_meta")
   @await Html.PartialAsync("_head_css")
 </head>
@@ -47,7 +48,7 @@
 
           <div class="row">
             <form action="javascript:void(0);">
-             <input asp-for="User.UsersId" class="form-control" hidden />
+             <input asp-for="User.UserId" class="form-control" hidden />
 
               <div class="col-xxl-3">
                 <div class="card mt-n5">
@@ -55,7 +56,7 @@
                     <div class="text-center">
                       <div class="profile-user position-relative d-inline-block mx-auto mb-4">
                         <img src="~/assets/images/users/avatar-1.jpg"
-                          class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
+                          class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile">
                         <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                           <input id="profile-img-file-input" type="file" class="profile-img-file-input" >
                           <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
@@ -75,7 +76,7 @@
               <div class="col-xxl-9">
                 <div class="card mt-xxl-n5">
                   <div class="card-header">
-                    <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
+                    <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0">
                       <li class="nav-item">
                         <a class="nav-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
                           <i class="fas fa-home"></i> Personal Details
@@ -91,7 +92,7 @@
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="profileSelect" class="form-label">Select profile</label>
-                                <select class="form-control" id="profileSelect" asp-for="User.UserProfileid" name="profileSelect" data-choices data-choices-sorting-false>
+                                <select class="form-control" id="profileSelect" value="@Model.User.UserProfileid" name="profileSelect" data-choices data-choices-sorting-false>
                                    @foreach (var profile in Model.Profiles)
                                    {
                                        <option value="@profile.ProfileId">@profile.ProfileName</option>
@@ -101,31 +102,32 @@
                           </div>
                           
                           <!-- Contenedor del select de médicos -->
-                           <div class="col-lg-6" id="doctorSelectContainer" style="display: none;"> <!-- Oculto por defecto -->
-                              <div class="mb-3">
-                                  <label for="doctorSelect" class="form-label">Select the doctor to assign the assistant to</label>
-                                  <select class="form-control" id="doctorSelect" asp-for="User.AssistantDoctorRelationshipAssistantUsers"  data-choices data-choices-removeItem name="choices-multiple-remove-button" multiple>
-
-                                          @foreach (var medic in Model.Users)
-                                          {
-                                              <option value="@medic.UsersId">Dr(a): @medic.UserNames @medic.UserSurnames <span>(@medic.UserSpecialty.SpecialityName)</span></option>
-                                          }
-                                  </select>
-                              </div>
+                            <div class="col-lg-6" id="doctorSelectContainer" style="display: none;"> <!-- Oculto por defecto -->
+                               <div class="mb-3">
+                                   <label for="doctorSelect" class="form-label">Select the doctor to assign the assistant to</label>
+                                   <select class="form-control" id="doctorSelect" name="doctorSelect" data-choices data-choices-removeItem multiple>
+                                       @foreach (var medic in Model.Users)
+                                       {
+                                           <option value="@medic.UsersId">Dr(a): @medic.UserNames @medic.UserSurnames <span>(@medic.UserSpecialty.SpecialityName)</span></option>
+                                       }
+                                   </select>
+                                   <!-- Input oculto para enviar los IDs seleccionados -->
+                                   <input type="hidden" id="selectedDoctorIds" name="selectedDoctorIds">
+                               </div>
                            </div>                                                    
 
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="documentNumberInput" class="form-label">Document number</label>
-                              <input type="text" class="form-control" asp-for="User.UserDocumentNumber" id="documentNumberInput" placeholder="1759999999">
+                              <input type="text" class="form-control" value="@Model.User.DocumentNumber" id="documentNumberInput" placeholder="1759999999">
                             </div>
                           </div>
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="firstnameInput" class="form-label">First Name</label>
-                              <input type="text" class="form-control" id="firstnameInput"
+                              <input type="text" class="form-control" value="@Model.User.Names" id="firstnameInput"
                                 placeholder="Enter your firstname">
                             </div>
                           </div>
@@ -134,7 +136,7 @@
                             <div class="mb-3">
                               <label for="lastnameInput" class="form-label">Last Name</label>
                               <input type="text" class="form-control" id="lastnameInput"
-                                placeholder="Enter your lastname" asp-for="User.UserSurnames">
+                                placeholder="Enter your lastname" value="@Model.User.Surnames">
                             </div>
                           </div>
 
@@ -145,7 +147,7 @@
                                 <!-- Input para ingresar la dirección -->
                                 <input type="text" id="addressInput" class="form-control"
                                   aria-label="Recipient's username" aria-describedby="button-addon2"
-                                  placeholder="Escribe una dirección" asp-for="User.UserAddress">
+                                  placeholder="Escribe una dirección" value="@Model.User.Address">
                                 <!-- Botón para mostrar el mapa -->
                                 <button class="btn btn-outline-success" type="button" id="button-addon2"><i
                                     class="ri-map-pin-line"></i></button>
@@ -163,7 +165,7 @@
                             <div class="mb-3">
                               <label for="codeSenecytInput" class="form-label">Code Senecyt</label>
                               <input type="text" class="form-control" id="codeSenecytInput"
-                                placeholder="Enter your Senecyt code" asp-for="User.UserSenecytcode">
+                                placeholder="Enter your Senecyt code" value="@Model.User.SenecytCode">
                             </div>
                           </div>
 
@@ -171,7 +173,7 @@
                             <div class="mb-3">
                               <label for="phonenumberInput" class="form-label">Phone Number</label>
                               <input type="text" class="form-control" id="phonenumberInput"
-                                placeholder="Enter your phone number +(1) 987 6543" asp-for="User.UserPhone">
+                                placeholder="Enter your phone number +(1) 987 6543" value="@Model.User.Phone">
                             </div>
                           </div>
 
@@ -179,14 +181,14 @@
                             <div class="mb-3">
                               <label for="emailInput" class="form-label">Email Address</label>
                               <input type="email" class="form-control" id="emailInput" placeholder="Enter your email"
-                                asp-for="User.UserEmail">
+                                value="@Model.User.Email">
                             </div>
                           </div>
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="specialtySelect" class="form-label">Select specialty</label>
-                                   <select class="form-control" id="choices-single-no-sorting" asp-for="User.UserSpecialtyid" name="choices-single-no-sorting" data-choices data-choices-sorting-false>
+                                   <select class="form-control" id="choices-single-no-sorting"  value="@Model.User.UserSpecialtyid" data-choices data-choices-sorting-false>
                                        @foreach (var specialities in Model.Specialties)
                                        {
                                                <option value="@specialities.SpecialityId">@specialities.SpecialityName</option>
@@ -198,7 +200,7 @@
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="stablishSelect" class="form-label">Select establishment</label>
-                                <select class="form-control" id="choices-single-no-sorting" asp-for="User.UserEstablishmentid" name="choices-single-no-sorting" data-choices data-choices-sorting-false>
+                                <select class="form-control" id="choices-single-no-sorting" value="@Model.User.UserEstablishmentid" name="choices-single-no-sorting" data-choices data-choices-sorting-false>
                                     @foreach (var establishment in Model.Establishments)
                                     {
                                      <option value="@establishment.EstablishmentId">@establishment.EstablishmentName</option>
@@ -211,7 +213,7 @@
                             <div class="mb-3">
                               <label for="loginInput" class="form-label">Log-in</label>
                               <input type="text" class="form-control" id="loginInput" placeholder="nickname"
-                                asp-for="User.UserLogin">
+                                value="@Model.User.Login">
                             </div>
                           </div>
 
@@ -219,7 +221,7 @@
                             <div class="mb-3">
                               <label for="passwordInput" class="form-label">Password</label>
                               <input type="password" class="form-control" id="passwordInput"
-                                placeholder="Set the old password, or replace it with a new one">
+                                placeholder="Set the old password, or replace it with a new one" value="@Model.User.Password">
                             </div>
                           </div>
 
@@ -229,7 +231,7 @@
                             <div class="mb-3">
                               <label for="xkeyInput" class="form-label">X-KEY of the user in taxo</label>
                               <input type="text" class="form-control" id="xkeyInput" placeholder="provided by taxo"
-                                asp-for="User.UserXkeytaxo">
+                               value="@Model.User.XKeyTaxo">
                             </div>
                           </div>
 
@@ -237,7 +239,7 @@
                             <div class="mb-3">
                               <label for="xpassInput" class="form-label">X-PASS of the user in taxo</label>
                               <input type="text" class="form-control" id="xpassInput" placeholder="provided by taxo"
-                                asp-for="User.UserXpasstaxo">
+                               value="@Model.User.XPassTaxo">
                             </div>
                           </div>
 
@@ -246,7 +248,7 @@
                               <label for="sequentialBillingInput" class="form-label">Sequential user billing in
                                 taxo</label>
                               <input type="text" class="form-control" id="sequentialBillingInput"
-                                placeholder="provided by taxo" asp-for="User.UserSequentialBilling">
+                                placeholder="provided by taxo" value="@Model.User.SequentialBilling">
                             </div>
                           </div>
 
@@ -265,19 +267,19 @@
                             <div class="col-lg-4">
                              <div class="mb-3">
                                  <label for="startHour" class="form-label">Star Hour</label>
-                                 <input class="form-control" asp-for="User.UserSchedules" type="time" id="startHour">
+                                 <input class="form-control" value="@Model.User.StartTime" type="time" id="startHour">
                              </div>
                          </div> 
                          <div class="col-lg-4">
                                <div class="mb-3">
                                    <label for="endHour" class="form-label">End Hour</label>
-                                   <input class="form-control" type="time" id="endHour">
+                                   <input class="form-control" type="time" id="endHour"value="@Model.User.EndTime">
                                </div>
                            </div>    
                            <div class="col-lg-4">
                                <div class="mb-3">
                                    <label for="endHour" class="form-label">Appointment Interval</label>
-                                   <input class="form-control" type="number" id="appointmentInterval" asp-for="User.UserSchedules" name="AppoinmentInterval">
+                                   <input class="form-control" type="number" id="appointmentInterval" value="@Model.User.AppointmentInterval">
                                </div>
                            </div> 
                              <!--Observacion y Dias de Trabajo-->  
@@ -291,7 +293,7 @@
                            <div class="col-xxl-5 col-md-12">
                               <div>
                                   <label for="exampleFormControlTextarea5" class="form-label">Doctor's description</label>
-                                  <textarea class="form-control" id="exampleFormControlTextarea5"  asp-for="User.UserDescription" rows="3"></textarea>
+                                  <textarea class="form-control" id="exampleFormControlTextarea5" value="@Model.User.UserDescription" rows="5"></textarea>
                               </div>
                           </div> 
                                       

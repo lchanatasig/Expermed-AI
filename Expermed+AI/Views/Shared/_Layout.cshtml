@@ -1,6 +1,7 @@
 ﻿<!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="light" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 <head>
+    <title></title>
     @await Html.PartialAsync("_title_meta")
     @RenderSection("styles", required: false)
     @await Html.PartialAsync("_head_css")
@@ -17,7 +18,6 @@
 
             <div class="page-content">
                 <div class="container-fluid">
-
                     @RenderBody()
                 </div>
             </div>

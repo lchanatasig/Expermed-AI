@@ -62,24 +62,10 @@
         public string? WorksDays { get; set; }
 
 
-        public string ProfileName { get; set; } = null!;
-        public string EstablishmentName { get; set; } = null!;
-        public string SpecialityName { get; set; } = null!;
-        public string CountryName { get; set; } = null!;
-
         public virtual ICollection<AssistantDoctorRelationship> AssistantDoctorRelationshipAssistantUsers { get; set; } = new List<AssistantDoctorRelationship>();
 
         public virtual ICollection<AssistantDoctorRelationship> AssistantDoctorRelationshipDoctorUsers { get; set; } = new List<AssistantDoctorRelationship>();
 
-    
-
-        public virtual Country? UserCountry { get; set; }
-
-        public virtual Establishment? UserEstablishment { get; set; }
-
-        public virtual Profile? UserProfile { get; set; }
-
-        public virtual Specialty? UserSpecialty { get; set; }
 
         public virtual VatBilling? UserVatpercentage { get; set; }
     }
