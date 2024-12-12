@@ -5,6 +5,9 @@
   ViewBag.pTitle = "Update User";
   ViewBag.pageTitle = "Update User";
   Layout = null;
+
+      var selectedProfileId = Model.User.profileSelect;
+
 }
 
 
@@ -37,9 +40,7 @@
                 <div class="text-end p-3">
                   <div class="p-0 ms-auto rounded-circle profile-photo-edit">
                     <input id="profile-foreground-img-file-input" type="file" class="profile-foreground-img-file-input">
-                    <label for="profile-foreground-img-file-input" class="profile-photo-edit btn btn-light">
-                      <i class="ri-image-edit-line align-bottom me-1"></i> Change Cover
-                    </label>
+
                   </div>
                 </div>
               </div>
@@ -55,7 +56,7 @@
                   <div class="card-body p-4">
                     <div class="text-center">
                       <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                        <img src="~/assets/images/users/avatar-1.jpg"
+                       <img src="@Model.User.ProfilePhoto64" 
                           class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile">
                         <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                           <input id="profile-img-file-input" type="file" class="profile-img-file-input" >
@@ -92,7 +93,7 @@
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="profileSelect" class="form-label">Select profile</label>
-                                <select class="form-control" id="profileSelect" value="@Model.User.UserProfileid" name="profileSelect" data-choices data-choices-sorting-false>
+                                <select class="form-control" id="profileSelect" name="profileSelect" asp-for="@Model.User.profileSelect" data-choices data-choices-sorting-false>
                                    @foreach (var profile in Model.Profiles)
                                    {
                                        <option value="@profile.ProfileId">@profile.ProfileName</option>
@@ -100,21 +101,35 @@
                                 </select>
                             </div>
                           </div>
-                          
-                          <!-- Contenedor del select de médicos -->
+
+                        <!-- Contenedor del select de médicos -->
                             <div class="col-lg-6" id="doctorSelectContainer" style="display: none;"> <!-- Oculto por defecto -->
                                <div class="mb-3">
                                    <label for="doctorSelect" class="form-label">Select the doctor to assign the assistant to</label>
                                    <select class="form-control" id="doctorSelect" name="doctorSelect" data-choices data-choices-removeItem multiple>
-                                       @foreach (var medic in Model.Users)
+                                       <!-- Médicos ya asignados (si los hay) -->
+                                       @if (Model.User.Doctors != null)
                                        {
-                                           <option value="@medic.UsersId">Dr(a): @medic.UserNames @medic.UserSurnames <span>(@medic.UserSpecialty.SpecialityName)</span></option>
+                                           @foreach (var assignedDoctor in Model.User.Doctors)
+                                           {
+                                               <option value="@assignedDoctor.DoctorId" selected>
+                                                   Dr(a): @assignedDoctor.DoctorNames @assignedDoctor.DoctorSurnames (@assignedDoctor.DoctorSpecialtyName)
+                                               </option>
+                                           }
+                                       }
+                            
+                                       <!-- Médicos disponibles -->
+                                       @foreach (var availableDoctor in Model.Users)
+                                       {
+                                           <option value="@availableDoctor.UsersId">
+                                               Dr(a): @availableDoctor.UserNames @availableDoctor.UserSurnames (@availableDoctor.UserSpecialty.SpecialityName)
+                                           </option>
                                        }
                                    </select>
                                    <!-- Input oculto para enviar los IDs seleccionados -->
-                                   <input type="hidden" id="selectedDoctorIds" name="selectedDoctorIds">
+                                   <input type="hidden" id="selectedDoctorIds"  name="selectedDoctorIds">
                                </div>
-                           </div>                                                    
+                            </div>                                                  
 
 
                           <div class="col-lg-6">
@@ -195,7 +210,19 @@
                                        }
                                    </select>
                             </div>
-                          </div>
+                             </div>
+                            
+                             <div class="col-lg-6">
+                                   <div class="mb-3">
+                                       <label for="stablishSelect" class="form-label">Select Country</label>
+                                    <select class="form-control" id="countryId" name="UserCountryid"  asp-for="@Model.User.UserCountryid" data-choices data-choices-sorting-false>
+                                           @foreach (var countries in Model.Countries)
+                                           {
+                                            <option value="@countries.CountryId">@countries.CountryNationality</option>
+                                           }
+                                    </select>
+                                </div>
+                            </div>
 
                           <div class="col-lg-6">
                             <div class="mb-3">
@@ -289,13 +316,36 @@
                                    <input class="form-control" type="file" id="formFile2">
                                </div>
                            </div> 
-                           
+                                    <!--Observacion y Dias de Trabajo-->  
+
+                          <div class="col-lg-6" id="workDaysSelectContainer"> 
+                             <div class="mb-3">
+                                 <label for="daysSelect" class="form-label">Select work days</label>
+                                 <select class="form-control" id="daysSelect" name="WorksDays" data-choices data-choices-removeItem multiple>
+                                     @{
+                                         // Convertir los días guardados a una lista
+                                         var selectedDays = Model.User.WorkDays?.ToLower().Split(',', StringSplitOptions.RemoveEmptyEntries) ?? new string[0];
+                                     }
+                                     <option value="monday" selected>Monday</option>
+                                     <option value="tuesday" selected>Tuesday</option>
+                                     <option value="wednesday" selected>Wednesday</option>
+                                     <option value="thursday" selected>Thursday</option>
+                                     <option value="friday" selected>Friday</option>
+                                     <option value="saturday" selected>Saturday</option>
+                                     <option value="sunday" selected>Sunday</option>
+                                 </select>
+                                 <!-- Input oculto para enviar los días seleccionados -->
+                                 <input type="hidden" id="selectedWorkDays" name="selectedWorkDays" value="@Model.User.WorkDays">
+                             </div>
+                           </div>
                            <div class="col-xxl-5 col-md-12">
                               <div>
                                   <label for="exampleFormControlTextarea5" class="form-label">Doctor's description</label>
                                   <textarea class="form-control" id="exampleFormControlTextarea5" value="@Model.User.UserDescription" rows="5"></textarea>
                               </div>
                           </div> 
+
+                 
                                       
                           <div class="col-lg-12" style="padding-top: 3px">
                             <div class="hstack gap-2 justify-content-end">
@@ -441,7 +491,39 @@
     profileSelect.addEventListener("change", updateDoctorSelectContainer);
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const doctorSelect = document.getElementById('doctorSelect');
+    const selectedDoctorIdsInput = document.getElementById('selectedDoctorIds');
+    
+    // Función para actualizar los IDs seleccionados
+    function updateSelectedDoctorIds() {
+        const selectedOptions = Array.from(doctorSelect.selectedOptions).map(option => option.value);
+        selectedDoctorIdsInput.value = selectedOptions.join(',');
+    }
 
+    // Actualiza el input oculto cada vez que cambie la selección
+    doctorSelect.addEventListener('change', updateSelectedDoctorIds);
+
+    // Llamar inicialmente para establecer los IDs de los médicos ya seleccionados
+    updateSelectedDoctorIds();
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+   const daysSelect = document.getElementById('daysSelect');
+   const selectedWorkDaysInput = document.getElementById('selectedWorkDays');
+
+   // Función para actualizar los días seleccionados
+   function updateSelectedWorkDays() {
+       const selectedOptions = Array.from(daysSelect.selectedOptions).map(option => option.value);
+       selectedWorkDaysInput.value = selectedOptions.join(',');
+   }
+
+   // Actualiza el input oculto cada vez que cambie la selección
+   daysSelect.addEventListener('change', updateSelectedWorkDays);
+
+   // Llamar inicialmente para establecer los días de trabajo al cargar la página
+   updateSelectedWorkDays();
+});
     function selectHour(hour) {
       // Colocar la hora seleccionada en el input
       document.getElementById('AppointmentHour').value = hour;

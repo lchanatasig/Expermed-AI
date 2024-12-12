@@ -238,6 +238,8 @@ namespace Expermed_AI.Controllers
             var profiles = await _selectService.GetAllProfilesAsync();
             var specialties = await _selectService.GetAllSpecialtiesAsync();
             var establishments = await _selectService.GetAllEstablishmentsAsync();
+            var countries = await _selectService.GetAllCountriesAsync();
+
             var medics = await _selectService.GetAllMedicsAsync();
 
             // Crear un ViewModel para pasar tanto el usuario como las listas a la vista
@@ -247,6 +249,7 @@ namespace Expermed_AI.Controllers
                 Profiles = profiles,
                 Specialties = specialties,
                 Establishments = establishments,
+                Countries = countries,
                 Users = medics,
                 AssociatedDoctors = user.Doctors // Incluir los médicos asociados si es asistente
             };

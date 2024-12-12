@@ -3,10 +3,6 @@
     public class UserWithDetails
     {
         public int UserId { get; set; }
-        public int UserProfileid { get; set; }
-        public int? UserSpecialtyid { get; set; }
-        public int? UserEstablishmentid { get; set; }
-
         public string DocumentNumber { get; set; }
         public string Names { get; set; }
         public string Surnames { get; set; }
@@ -24,6 +20,11 @@
         public string Login { get; set; }
         public string Password { get; set; }
         public int Status { get; set; }
+        public int? profileSelect { get; set; }
+        public int? UserEstablishmentid { get; set; }
+        public int? UserVatpercentageid { get; set; }
+        public int? UserSpecialtyid { get; set; }
+        public int? UserCountryid { get; set; }
         public string? UserDescription { get; set; }
 
         public string ProfileName { get; set; }
@@ -34,6 +35,7 @@
         public TimeSpan EndTime { get; set; }
         public int AppointmentInterval { get; set; }
         public string WorkDays { get; set; }
+
         public List<DoctorDto> Doctors { get; set; }
     }
     public class DoctorDto

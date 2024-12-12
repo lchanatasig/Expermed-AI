@@ -86,28 +86,34 @@ namespace Expermed_AI.Services
                                                        ? (DateTime?)null
                                                        : reader.GetDateTime(reader.GetOrdinal("user_modificationdate")),
                                     Address = reader.GetString(reader.GetOrdinal("user_address")),
-                                    ProfilePhoto = reader.IsDBNull(reader.GetOrdinal("user_profilephoto")) ? null : reader.GetString(reader.GetOrdinal("user_profilephoto")),
-                                    ProfilePhoto64 = reader.IsDBNull(reader.GetOrdinal("user_prfilephoto64")) ? null : reader.GetString(reader.GetOrdinal("user_prfilephoto64")),
+                                    ProfilePhoto = reader["user_profilephoto"] != DBNull.Value ? (byte[])reader["user_profilephoto"] : null,
+                                    ProfilePhoto64 = reader["user_profilephoto"] != DBNull.Value
+                                        ? "data:image/png;base64," + Convert.ToBase64String((byte[])reader["user_profilephoto"])
+                                        : "assets/images/users/avatar-1.jpg", // Ruta por defecto, // Ruta por defecto
                                     SenecytCode = reader.IsDBNull(reader.GetOrdinal("user_senecytcode")) ? null : reader.GetString(reader.GetOrdinal("user_senecytcode")),
                                     XKeyTaxo = reader.IsDBNull(reader.GetOrdinal("user_xkeytaxo")) ? null : reader.GetString(reader.GetOrdinal("user_xkeytaxo")),
                                     XPassTaxo = reader.IsDBNull(reader.GetOrdinal("user_xpasstaxo")) ? null : reader.GetString(reader.GetOrdinal("user_xpasstaxo")),
                                     SequentialBilling = reader.GetInt32(reader.GetOrdinal("user_sequential_billing")),
                                     Login = reader.GetString(reader.GetOrdinal("user_login")),
                                     Status = reader.GetInt32(reader.GetOrdinal("user_status")),
-                                    ProfileName = reader.GetString(reader.GetOrdinal("profile_name")),
+                                    profileSelect = reader.GetInt32(reader.GetOrdinal("user_profileid")),
+                                    UserCountryid = reader.GetInt32(reader.GetOrdinal("user_countryid")),
+                                    UserDescription = reader.GetString(reader.GetOrdinal("user_description")) ?? "Sin especificar",                                    ProfileName = reader.GetString(reader.GetOrdinal("profile_name")),
                                     EstablishmentName = reader.GetString(reader.GetOrdinal("establishment_name")),
                                     SpecialtyName = reader.GetString(reader.GetOrdinal("speciality_name")),
                                     CountryName = reader.GetString(reader.GetOrdinal("country_name")),
                                     StartTime = reader.GetTimeSpan(reader.GetOrdinal("start_time")),
                                     EndTime = reader.GetTimeSpan(reader.GetOrdinal("end_time")),
                                     AppointmentInterval = reader.GetInt32(reader.GetOrdinal("appointment_interval")),
-                                    WorkDays = reader.GetString(reader.GetOrdinal("works_days")),
+                                    WorkDays = reader.GetString(reader.GetOrdinal("works_days")) ?? "Sin días especificados",
                                     Doctors = doctors
+
+
                                 };
                             }
 
                             // Si es un asistente (profile_id = 3), obtener los médicos relacionados
-                            if (userDetails != null && userDetails.ProfileName == "Assistant")
+                            if (userDetails != null && userDetails.ProfileName == "Asistente")
                             {
                                 // Reabrir el lector para obtener los médicos relacionados
                                 if (await reader.NextResultAsync())
@@ -194,8 +200,6 @@ namespace Expermed_AI.Services
 
 
         //Metodo para  insertar un nuevo usuario
-
-
 
         public async Task<int> CreateUserAsync(UserViewModel usuario, List<int>? associatedDoctorIds = null, List<string>? workDays = null)
         {
@@ -318,13 +322,6 @@ namespace Expermed_AI.Services
                 }
             }
         }
-
-
-
-
-
-
-
 
     }
 }
