@@ -48,16 +48,15 @@
           </div>
 
           <div class="row">
-            <form action="javascript:void(0);">
+            <form asp-action="UpdateUser" asp-controller="Users" method="POST" class="row g-3 needs-validation" novalidate >
              <input asp-for="User.UserId" class="form-control" hidden />
-
               <div class="col-xxl-3">
                 <div class="card mt-n5">
                   <div class="card-body p-4">
                     <div class="text-center">
                       <div class="profile-user position-relative d-inline-block mx-auto mb-4">
                        <img src="@Model.User.ProfilePhoto64" 
-                          class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile">
+                          class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile" name="ProfilePhoto">
                         <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                           <input id="profile-img-file-input" type="file" class="profile-img-file-input" >
                           <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
@@ -93,12 +92,15 @@
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="profileSelect" class="form-label">Select profile</label>
-                                <select class="form-control" id="profileSelect" name="profileSelect" asp-for="@Model.User.profileSelect" data-choices data-choices-sorting-false>
+                                <select class="form-control" id="profileSelect" name="UserProfileid" value="@Model.User.profileSelect" data-choices data-choices-sorting-false required>
                                    @foreach (var profile in Model.Profiles)
                                    {
                                        <option value="@profile.ProfileId">@profile.ProfileName</option>
                                    }
                                 </select>
+                                <div class="invalid-feedback">
+                                  PLEASE THIS FIELD IS REQUIRED
+                                </div>
                             </div>
                           </div>
 
@@ -106,7 +108,7 @@
                             <div class="col-lg-6" id="doctorSelectContainer" style="display: none;"> <!-- Oculto por defecto -->
                                <div class="mb-3">
                                    <label for="doctorSelect" class="form-label">Select the doctor to assign the assistant to</label>
-                                   <select class="form-control" id="doctorSelect" name="doctorSelect" data-choices data-choices-removeItem multiple>
+                                   <select class="form-control" id="doctorSelect" name="doctorSelect" data-choices data-choices-removeItem multiple >
                                        <!-- Médicos ya asignados (si los hay) -->
                                        @if (Model.User.Doctors != null)
                                        {
@@ -135,15 +137,21 @@
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="documentNumberInput" class="form-label">Document number</label>
-                              <input type="text" class="form-control" value="@Model.User.DocumentNumber" id="documentNumberInput" placeholder="1759999999">
+                              <input type="text" class="form-control" name="UserDocumentNumber" value="@Model.User.DocumentNumber" id="documentNumberInput" placeholder="1759999999" required>
+                              <div class="invalid-feedback">
+                                PLEASE THIS FIELD IS REQUIRED
+                              </div> 
                             </div>
                           </div>
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="firstnameInput" class="form-label">First Name</label>
-                              <input type="text" class="form-control" value="@Model.User.Names" id="firstnameInput"
-                                placeholder="Enter your firstname">
+                              <input type="text" class="form-control" value="@Model.User.Names" name="UserNames" id="firstnameInput"
+                                placeholder="Enter your firstname" required>
+                                <div class="invalid-feedback">
+                                  PLEASE THIS FIELD IS REQUIRED
+                                </div>
                             </div>
                           </div>
 
@@ -151,36 +159,45 @@
                             <div class="mb-3">
                               <label for="lastnameInput" class="form-label">Last Name</label>
                               <input type="text" class="form-control" id="lastnameInput"
-                                placeholder="Enter your lastname" value="@Model.User.Surnames">
+                                placeholder="Enter your lastname"  value="@Model.User.Surnames" name="UserSurnames" required>
+                                <div class="invalid-feedback">
+                                  PLEASE THIS FIELD IS REQUIRED
+                                </div>
                             </div>
                           </div>
 
-                          <div class="col-lg-12">
-                            <div class="mb-3">
-                              <label for="addressInput" class="form-label">Address</label>
-                              <div class="input-group">
-                                <!-- Input para ingresar la dirección -->
-                                <input type="text" id="addressInput" class="form-control"
-                                  aria-label="Recipient's username" aria-describedby="button-addon2"
-                                  placeholder="Escribe una dirección" value="@Model.User.Address">
-                                <!-- Botón para mostrar el mapa -->
-                                <button class="btn btn-outline-success" type="button" id="button-addon2"><i
-                                    class="ri-map-pin-line"></i></button>
-                              </div>
 
-                              <!-- Contenedor para el mapa que se generará dinámicamente -->
-                              <div id="map" style="display: none; height: 400px; margin-top: 15px;"></div>
-
-                              <!-- Contenedor de sugerencias que se generará dinámicamente -->
-                              <div id="suggestions" class="suggestions-container" style="display: none;"></div>
+                            <div class="col-lg-12">
+                               <div class="mb-3">
+                                   <label for="addressInput" class="form-label">Address</label>
+                                   <div class="input-group">
+                                       <!-- Input para ingresar la dirección -->
+                                       <input type="text" id="addressInput" class="form-control" class="UserAddress" name="UserAddress" aria-label="Recipient's username" aria-describedby="button-addon2" placeholder="Escribe una dirección" value="@Model.User.Address" required>
+                                       <div class="invalid-feedback">
+                                         PLEASE THIS FIELD IS REQUIRED
+                                       </div>
+                                       <!-- Botón para mostrar el mapa -->
+                                       <button class="btn btn-outline-success" type="button" id="mapButton"><i class="ri-map-pin-line"></i></button>
+                                   </div>
+                          
+                                   <!-- Contenedor para el mapa que se generará dinámicamente -->
+                                   <div id="map" style="display: none; height: 400px; margin-top: 15px;"></div>
+                          
+                                   <!-- Contenedor de sugerencias que se generará dinámicamente -->
+                                   <div id="suggestions" class="suggestions-container" style="display: none;"></div>
+                               </div>
                             </div>
-                          </div>
+
+
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="codeSenecytInput" class="form-label">Code Senecyt</label>
                               <input type="text" class="form-control" id="codeSenecytInput"
-                                placeholder="Enter your Senecyt code" value="@Model.User.SenecytCode">
+                                placeholder="Enter your Senecyt code" name="UserSenecytcode" value="@Model.User.SenecytCode" required>
+                                <div class="invalid-feedback">
+                                  PLEASE THIS FIELD IS REQUIRED
+                                </div>
                             </div>
                           </div>
 
@@ -188,59 +205,82 @@
                             <div class="mb-3">
                               <label for="phonenumberInput" class="form-label">Phone Number</label>
                               <input type="text" class="form-control" id="phonenumberInput"
-                                placeholder="Enter your phone number +(1) 987 6543" value="@Model.User.Phone">
+                                placeholder="Enter your phone number +(1) 987 6543" name="UserPhone" value="@Model.User.Phone" required>
+                                <div class="invalid-feedback">
+                                  PLEASE THIS FIELD IS REQUIRED
+                                </div>
                             </div>
                           </div>
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="emailInput" class="form-label">Email Address</label>
-                              <input type="email" class="form-control" id="emailInput" placeholder="Enter your email"
-                                value="@Model.User.Email">
+                              <input type="email" class="form-control" name="UserEmail" id="emailInput" placeholder="Enter your email"
+                                value="@Model.User.Email" required>
+                                <div class="invalid-feedback">
+                                 
+                                 PLEASE THIS FIELD IS REQUIRED, OR IT IS NOT A VALID EMAIL
+                                </div>
                             </div>
                           </div>
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="specialtySelect" class="form-label">Select specialty</label>
-                                   <select class="form-control" id="choices-single-no-sorting"  value="@Model.User.UserSpecialtyid" data-choices data-choices-sorting-false>
+                                   <select class="form-control" id="choices-single-no-sorting" name="UserSpecialtyid" value="@Model.User.UserSpecialtyid" data-choices data-choices-sorting-false required> 
                                        @foreach (var specialities in Model.Specialties)
                                        {
                                                <option value="@specialities.SpecialityId">@specialities.SpecialityName</option>
                                        }
                                    </select>
+                                   <div class="invalid-feedback">
+                                    
+                                    PLEASE THIS FIELD IS REQUIRED
+                                   </div>
                             </div>
                              </div>
                             
                              <div class="col-lg-6">
                                    <div class="mb-3">
                                        <label for="stablishSelect" class="form-label">Select Country</label>
-                                    <select class="form-control" id="countryId" name="UserCountryid"  asp-for="@Model.User.UserCountryid" data-choices data-choices-sorting-false>
+                                    <select class="form-control" id="countryId" name="UserCountryid"  value="@Model.User.UserCountryid" data-choices data-choices-sorting-false required>
                                            @foreach (var countries in Model.Countries)
                                            {
                                             <option value="@countries.CountryId">@countries.CountryNationality</option>
                                            }
                                     </select>
+                                    <div class="invalid-feedback">
+                                     
+                                     PLEASE THIS FIELD IS REQUIRED
+                                    </div>
                                 </div>
                             </div>
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="stablishSelect" class="form-label">Select establishment</label>
-                                <select class="form-control" id="choices-single-no-sorting" value="@Model.User.UserEstablishmentid" name="choices-single-no-sorting" data-choices data-choices-sorting-false>
+                                <select class="form-control" id="choices-single-no-sorting" value="@Model.User.UserEstablishmentid" name="choices-single-no-sorting" data-choices data-choices-sorting-false required> 
                                     @foreach (var establishment in Model.Establishments)
                                     {
                                      <option value="@establishment.EstablishmentId">@establishment.EstablishmentName</option>
                                     }
                                 </select>
+                                <div class="invalid-feedback">
+                                 
+                                 PLEASE THIS FIELD IS REQUIRED
+                                </div>
                             </div>
                           </div>
 
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="loginInput" class="form-label">Log-in</label>
-                              <input type="text" class="form-control" id="loginInput" placeholder="nickname"
-                                value="@Model.User.Login">
+                              <input type="text" class="form-control" id="loginInput" name="UserLogin" placeholder="nickname"
+                                value="@Model.User.Login" required>
+                                <div class="invalid-feedback">
+                                 
+                                 PLEASE THIS FIELD IS REQUIRED
+                                </div>
                             </div>
                           </div>
 
@@ -248,7 +288,7 @@
                             <div class="mb-3">
                               <label for="passwordInput" class="form-label">Password</label>
                               <input type="password" class="form-control" id="passwordInput"
-                                placeholder="Set the old password, or replace it with a new one" value="@Model.User.Password">
+                                placeholder="Set the old password, or replace it with a new one" name="UserPassword" value="@Model.User.Password">
                             </div>
                           </div>
 
@@ -258,15 +298,24 @@
                             <div class="mb-3">
                               <label for="xkeyInput" class="form-label">X-KEY of the user in taxo</label>
                               <input type="text" class="form-control" id="xkeyInput" placeholder="provided by taxo"
-                               value="@Model.User.XKeyTaxo">
+                               value="@Model.User.XKeyTaxo" required>
+                               <div class="invalid-feedback">
+                                
+                                PLEASE THIS FIELD IS REQUIRED
+                               </div>
                             </div>
                           </div>
+                      
 
                           <div class="col-lg-4">
                             <div class="mb-3">
                               <label for="xpassInput" class="form-label">X-PASS of the user in taxo</label>
                               <input type="text" class="form-control" id="xpassInput" placeholder="provided by taxo"
-                               value="@Model.User.XPassTaxo">
+                               value="@Model.User.XPassTaxo" required>
+                               <div class="invalid-feedback">
+                                
+                                PLEASE THIS FIELD IS REQUIRED
+                               </div>
                             </div>
                           </div>
 
@@ -275,7 +324,11 @@
                               <label for="sequentialBillingInput" class="form-label">Sequential user billing in
                                 taxo</label>
                               <input type="text" class="form-control" id="sequentialBillingInput"
-                                placeholder="provided by taxo" value="@Model.User.SequentialBilling">
+                                placeholder="provided by taxo" value="@Model.User.SequentialBilling" required>
+                                <div class="invalid-feedback">
+                                 
+                                 PLEASE THIS FIELD IS REQUIRED
+                                </div>
                             </div>
                           </div>
 
@@ -294,28 +347,35 @@
                             <div class="col-lg-4">
                              <div class="mb-3">
                                  <label for="startHour" class="form-label">Star Hour</label>
-                                 <input class="form-control" value="@Model.User.StartTime" type="time" id="startHour">
+                                 <input class="form-control" value="@Model.User.StartTime" type="time" id="startHour" required>
+                                 <div class="invalid-feedback">
+                                  
+                                  PLEASE THIS FIELD IS REQUIRED
+                                 </div>
                              </div>
                          </div> 
                          <div class="col-lg-4">
                                <div class="mb-3">
                                    <label for="endHour" class="form-label">End Hour</label>
-                                   <input class="form-control" type="time" id="endHour"value="@Model.User.EndTime">
+                                   <input class="form-control" type="time" id="endHour"value="@Model.User.EndTime" required>
+                                   <div class="invalid-feedback">
+                                    
+                                    PLEASE THIS FIELD IS REQUIRED
+                                   </div>
                                </div>
                            </div>    
                            <div class="col-lg-4">
                                <div class="mb-3">
                                    <label for="endHour" class="form-label">Appointment Interval</label>
-                                   <input class="form-control" type="number" id="appointmentInterval" value="@Model.User.AppointmentInterval">
+                                   <input class="form-control" type="number" id="appointmentInterval" value="@Model.User.AppointmentInterval" required>
+                                   <div class="invalid-feedback">
+                                    
+                                    PLEASE THIS FIELD IS REQUIRED
+                                   </div>
                                </div>
                            </div> 
                              <!--Observacion y Dias de Trabajo-->  
-                           <div class="col-lg-4">
-                               <div class="mb-3">
-                                   <label for="formFile2" class="form-label">Digital signature</label>
-                                   <input class="form-control" type="file" id="formFile2">
-                               </div>
-                           </div> 
+       
                                     <!--Observacion y Dias de Trabajo-->  
 
                           <div class="col-lg-6" id="workDaysSelectContainer"> 
@@ -338,12 +398,15 @@
                                  <input type="hidden" id="selectedWorkDays" name="selectedWorkDays" value="@Model.User.WorkDays">
                              </div>
                            </div>
-                           <div class="col-xxl-5 col-md-12">
-                              <div>
-                                  <label for="exampleFormControlTextarea5" class="form-label">Doctor's description</label>
-                                  <textarea class="form-control" id="exampleFormControlTextarea5" value="@Model.User.UserDescription" rows="5"></textarea>
-                              </div>
-                          </div> 
+                                                   <div class="col-xxl-5 col-md-12">
+                                                       <div>
+                                                           <label for="UserDescription" class="form-label">Doctor's description</label>
+                                                           <textarea class="form-control" type="text" id="UserDescription" name="UserDescription" rows="3" value="@Model.User.UserDescription" required></textarea>
+                                                            <div class="invalid-feedback">
+                                                             PLEASE THIS FIELD IS REQUIRED
+                                                            </div>
+                                                       </div>
+                                                   </div>  
 
                  
                                       
@@ -358,9 +421,9 @@
                                 data-bs-target="#exampleModalgrid">
                                 <i class="ri-calendar-2-line"></i> Schedule an appointment
                               </a>
-                              <button type="button" class="btn btn-soft-secondary">
-                                <i class="ri-close-circle-line"></i> Cancel
-                              </button>
+                              <a type="button" href="@Url.Action("UserList", "Users")" class="btn btn-soft-secondary">
+                                  <i class=" ri-arrow-go-back-line"></i> Cancel
+                              </a>
                             </div>
                           </div>
                           <!--end col-->

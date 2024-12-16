@@ -258,6 +258,114 @@ namespace Expermed_AI.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateUser(UserViewModel usuario, IFormFile? DigitalSignature, IFormFile? ProfilePhoto, string? selectedDoctorIds, string selectedWorkDays)
+        {
+            // Verificar si el modelo es válido
+            if (!ModelState.IsValid)
+            {
+                foreach (var state in ModelState)
+                {
+                    var key = state.Key; // Nombre del campo
+                    var errors = state.Value.Errors; // Lista de errores
+
+                    foreach (var error in errors)
+                    {
+                        // Registra los errores en un log, consola o TempData
+                        Console.WriteLine($"Campo: {key}, Error: {error.ErrorMessage}");
+                    }
+                }
+
+                TempData["ErrorMessage"] = "Datos inválidos. Por favor, revisa los campos e intenta de nuevo.";
+
+                // Consume ambos servicios para recargar datos
+                var profiles = await _selectService.GetAllProfilesAsync();
+                var specialties = await _selectService.GetAllSpecialtiesAsync();
+                var establishment = await _selectService.GetAllEstablishmentsAsync();
+                var medics = await _selectService.GetAllMedicsAsync();
+                var countries = await _selectService.GetAllCountriesAsync();
+                var percentage = await _selectService.GetAllVatPercentageAsync();
+
+                var viewModel = new NewUserViewModel
+                {
+                    Profiles = profiles,
+                    Specialties = specialties,
+                    Establishments = establishment,
+                    Users = medics,
+                    Countries = countries,
+                    VatBillings = percentage,
+                };
+
+                return View(viewModel);
+            }
+
+            // Convierte los archivos a byte[] si fueron proporcionados
+            usuario.UserDigitalsignature = await ConvertFileToByteArray(DigitalSignature);
+            usuario.UserProfilephoto = await ConvertFileToByteArray(ProfilePhoto);
+
+            // Procesa los IDs de médicos seleccionados
+            List<int>? associatedDoctorIds = null;
+            if (!string.IsNullOrEmpty(selectedDoctorIds))
+            {
+                // Convierte la cadena separada por comas en una lista de enteros
+                associatedDoctorIds = selectedDoctorIds
+                    .Split(',')
+                    .Select(id => int.Parse(id))
+                    .ToList();
+            }
+            // Procesa los días de trabajo seleccionados
+            var workDays = selectedWorkDays?.Split(',').ToList();
+
+            try
+            {
+                // Llamar al servicio para actualizar el usuario
+                await _usersService.UpdateUserAsync(usuario, associatedDoctorIds, workDays);
+
+                // Si el proceso de actualización fue exitoso
+                TempData["SuccessMessage"] = "User updated successfully.";
+                return RedirectToAction("UserList", "Users");
+            }
+            catch (Exception ex)
+            {
+                // Manejo de excepciones personalizado
+                if (ex.Message.Contains("El usuario no existe."))
+                {
+                    TempData["ErrorMessage"] = "El usuario no existe.";
+                }
+                else if (ex.Message.Contains("El número de documento ya existe."))
+                {
+                    TempData["ErrorMessage"] = "El número de documento ya existe.";
+                }
+                else if (ex.Message.Contains("El nombre de usuario ya está registrado."))
+                {
+                    TempData["ErrorMessage"] = "El nombre de usuario ya está registrado.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Error inesperado: " + ex.Message;
+                }
+
+                // Consume ambos servicios para recargar datos
+                var profiles = await _selectService.GetAllProfilesAsync();
+                var specialties = await _selectService.GetAllSpecialtiesAsync();
+                var establishment = await _selectService.GetAllEstablishmentsAsync();
+                var medics = await _selectService.GetAllMedicsAsync();
+                var countries = await _selectService.GetAllCountriesAsync();
+                var percentage = await _selectService.GetAllVatPercentageAsync();
+
+                var viewModel = new NewUserViewModel
+                {
+                    Profiles = profiles,
+                    Specialties = specialties,
+                    Establishments = establishment,
+                    Users = medics,
+                    Countries = countries,
+                    VatBillings = percentage,
+                };
+
+                return View(viewModel);
+            }
+        }
 
 
     }

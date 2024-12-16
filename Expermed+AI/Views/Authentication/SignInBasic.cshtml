@@ -98,33 +98,43 @@
 
 
                                     </form>
-                                    <!-- Contenedor para las alertas -->
-                                    <div id="alertContainer" style="display:none;">
-                                        <div class="alert alert-success alert-dismissible fade show" role="alert"
-                                            id="successAlert" style="display:none;">
-                                            <strong>Éxito!</strong> <span id="successMessage"></span>
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                aria-label="Close"></button>
-                                        </div>
 
-                                        <div class="alert alert-danger alert-dismissible fade show" role="alert"
-                                            id="errorAlert" style="display:none;">
-                                            <strong>Error!</strong> <span id="errorMessage"></span>
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                aria-label="Close"></button>
-                                        </div>
-                                    </div>
+                                    <!-- Contenedor para las alertas -->
+                            
+<div id="alertContainer" class="d-none">
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="successAlert">
+        <strong>Éxito!</strong> <span id="successMessage"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert">
+        <strong>Error!</strong> <span id="errorMessage"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+
                                 </div>
                             </div>
                             <!-- end card body -->
                         </div>
                         <!-- end card -->
 
-                        <div id="loadingSpinner" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); z-index: 9999; justify-content: center; align-items: center;">
-                            <div class="spinner-border text-info" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
+                                                                <!-- Spinner de carga -->
+<div id="loadingSpinner" class="d-none">
+    <div class="d-flex flex-column align-items-center">
+        <!-- Imagen o GIF -->
+        <img src="~/assets/images/gif_carga.gif" alt="Cargando..." style="width: 100px; height: auto;">
+
+        <!-- Spinner Bootstrap -->
+        <div class="spinner-border text-info my-3" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+
+        <!-- Texto adicional -->
+        <p id="dynamicText" class="text-info fw-bold">Por favor, espere mientras procesamos su solicitud...</p>
+    </div>
+</div>
+
 
                     </div>
                 </div>
@@ -167,56 +177,88 @@ $(document).ready(function () {
     $("#loginForm").submit(function (event) {
         event.preventDefault();
 
-        // Mostrar la pantalla de carga
-        $("#loadingSpinner").show();
+        // Mostrar el spinner de carga
+        $("#loadingSpinner").removeClass("d-none");
 
         // Ocultar todas las alertas antes de procesar
-        $("#alertContainer").hide();
-        $("#successAlert").hide();
-        $("#errorAlert").hide();
+        $("#alertContainer").addClass("d-none");
+        $("#successAlert").addClass("d-none");
+        $("#errorAlert").addClass("d-none");
 
         var loginUsuario = $("#loginUsuario").val();
         var claveUsuario = $("#claveUsuario").val();
 
+        if (!loginUsuario || !claveUsuario) {
+            $("#errorMessage").text("Por favor, completa todos los campos.");
+            $("#errorAlert").removeClass("d-none");
+            $("#alertContainer").removeClass("d-none");
+            $("#loadingSpinner").addClass("d-none");
+            return;
+        }
+
+        // Frases médicas para mostrar dinámicamente
+        const medicalPhrases = [
+            "Por favor, espere mientras validamos sus datos médicos.",
+            "Estamos verificando la disponibilidad de su historial clínico.",
+            "Analizando la información para brindarle el mejor servicio.",
+            "Cargando detalles de su expediente médico.",
+            "Por favor, espere mientras preparamos su receta digital."
+        ];
+
+        // Función para cambiar el texto dinámico en el spinner
+        function setDynamicText() {
+            const dynamicTextElement = document.getElementById("dynamicText");
+            if (dynamicTextElement) {
+                const randomIndex = Math.floor(Math.random() * medicalPhrases.length);
+                dynamicTextElement.textContent = medicalPhrases[randomIndex];
+            }
+        }
+
+        // Llamar a la función para inicializar el texto dinámico
+        setDynamicText();
+
         $.ajax({
-            url: '@Url.Action("SignInBasic", "Authentication")',
+            url: '@Url.Action("SignInBasic", "Authentication")', // Cambia si usas otro backend
             type: 'POST',
             data: {
                 loginUsuario: loginUsuario,
                 claveUsuario: claveUsuario
             },
             success: function (response) {
-                // Ocultar la pantalla de carga
-                $("#loadingSpinner").hide();
+                // Ocultar el spinner de carga
+                $("#loadingSpinner").addClass("d-none");
 
                 if (response.success) {
                     $("#successMessage").text(response.message);
-                    $("#successAlert").show();
-                    $("#alertContainer").show();
+                    $("#successAlert").removeClass("d-none");
+                    $("#alertContainer").removeClass("d-none");
 
-                    // Redirigir después de un breve tiempo (opcional)
-                    setTimeout(function () {
-                        window.location.href = response.redirectUrl;
-                    }, 2000); // 2 segundos antes de redirigir
+                    // Redirigir después de un breve tiempo
+                    if (response.redirectUrl) {
+                        setTimeout(function () {
+                            window.location.href = response.redirectUrl;
+                        }, 2000);
+                    }
                 } else {
                     $("#errorMessage").text(response.message);
-                    $("#errorAlert").show();
-                    $("#alertContainer").show();
+                    $("#errorAlert").removeClass("d-none");
+                    $("#alertContainer").removeClass("d-none");
                 }
             },
-            error: function (xhr) {
-                // Ocultar la pantalla de carga
-                $("#loadingSpinner").hide();
+            error: function (xhr, textStatus, errorThrown) {
+                // Ocultar el spinner de carga
+                $("#loadingSpinner").addClass("d-none");
 
                 var errorResponse = xhr.responseJSON || {};
-                var errorMessage = errorResponse.message || "Ocurrió un error inesperado.";
+                var errorMessage = errorResponse.message || `Error: ${textStatus} - ${errorThrown}`;
                 $("#errorMessage").text(errorMessage);
-                $("#errorAlert").show();
-                $("#alertContainer").show();
+                $("#errorAlert").removeClass("d-none");
+                $("#alertContainer").removeClass("d-none");
             }
         });
     });
 });
+
 </script>
 
 
