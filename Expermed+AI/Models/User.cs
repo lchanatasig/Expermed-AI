@@ -7,7 +7,7 @@ public partial class User
 {
     public int UsersId { get; set; }
 
-    public string UserDocumentNumber { get; set; } = null!;
+    public string? UserDocumentNumber { get; set; }
 
     public string UserNames { get; set; } = null!;
 
@@ -39,7 +39,7 @@ public partial class User
 
     public string UserLogin { get; set; } = null!;
 
-    public byte[] UserPassword { get; set; } = null!;
+    public string? UserPassword { get; set; }
 
     public int UserStatus { get; set; }
 

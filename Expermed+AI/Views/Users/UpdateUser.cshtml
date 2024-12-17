@@ -5,9 +5,10 @@
   ViewBag.pTitle = "Update User";
   ViewBag.pageTitle = "Update User";
   Layout = null;
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
 
-      var selectedProfileId = Model.User.profileSelect;
-
+      
 }
 
 
@@ -55,10 +56,11 @@
                   <div class="card-body p-4">
                     <div class="text-center">
                       <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                       <img src="@Model.User.ProfilePhoto64" 
-                          class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile" name="ProfilePhoto">
+                       <img 
+                       src="@(!string.IsNullOrEmpty(Model.User.ProfilePhoto64) ? Model.User.ProfilePhoto64 : Url.Content("~/assets/images/profile-bg.jpg"))"
+                          class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile" >
                         <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-                          <input id="profile-img-file-input" type="file" class="profile-img-file-input" >
+                          <input id="profile-img-file-input" type="file" class="profile-img-file-input" name="ProfilePhoto" >
                           <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
                             <span class="avatar-title rounded-circle bg-light text-body">
                               <i class="ri-camera-fill"></i>
@@ -92,7 +94,7 @@
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="profileSelect" class="form-label">Select profile</label>
-                                <select class="form-control" id="profileSelect" name="UserProfileid" value="@Model.User.profileSelect" data-choices data-choices-sorting-false required>
+                                <select class="form-control" id="profileSelect" name="UserProfileid" asp-for="User.profileSelect" data-choices data-choices-sorting-false required>
                                    @foreach (var profile in Model.Profiles)
                                    {
                                        <option value="@profile.ProfileId">@profile.ProfileName</option>
@@ -227,7 +229,7 @@
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="specialtySelect" class="form-label">Select specialty</label>
-                                   <select class="form-control" id="choices-single-no-sorting" name="UserSpecialtyid" value="@Model.User.UserSpecialtyid" data-choices data-choices-sorting-false required> 
+                                   <select class="form-control" id="choices-single-no-sorting" name="UserSpecialtyid" asp-for="User.UserSpecialtyid" data-choices data-choices-sorting-false required> 
                                        @foreach (var specialities in Model.Specialties)
                                        {
                                                <option value="@specialities.SpecialityId">@specialities.SpecialityName</option>
@@ -243,7 +245,7 @@
                              <div class="col-lg-6">
                                    <div class="mb-3">
                                        <label for="stablishSelect" class="form-label">Select Country</label>
-                                    <select class="form-control" id="countryId" name="UserCountryid"  value="@Model.User.UserCountryid" data-choices data-choices-sorting-false required>
+                                    <select class="form-control" id="countryId" name="UserCountryid"  asp-for="User.UserCountryid" data-choices data-choices-sorting-false required>
                                            @foreach (var countries in Model.Countries)
                                            {
                                             <option value="@countries.CountryId">@countries.CountryNationality</option>
@@ -256,21 +258,7 @@
                                 </div>
                             </div>
 
-                          <div class="col-lg-6">
-                            <div class="mb-3">
-                              <label for="stablishSelect" class="form-label">Select establishment</label>
-                                <select class="form-control" id="choices-single-no-sorting" value="@Model.User.UserEstablishmentid" name="choices-single-no-sorting" data-choices data-choices-sorting-false required> 
-                                    @foreach (var establishment in Model.Establishments)
-                                    {
-                                     <option value="@establishment.EstablishmentId">@establishment.EstablishmentName</option>
-                                    }
-                                </select>
-                                <div class="invalid-feedback">
-                                 
-                                 PLEASE THIS FIELD IS REQUIRED
-                                </div>
-                            </div>
-                          </div>
+                          
 
                           <div class="col-lg-6">
                             <div class="mb-3">
@@ -288,12 +276,48 @@
                             <div class="mb-3">
                               <label for="passwordInput" class="form-label">Password</label>
                               <input type="password" class="form-control" id="passwordInput"
-                                placeholder="Set the old password, or replace it with a new one" name="UserPassword" value="@Model.User.Password">
+                                placeholder="Set the old password, or replace it with a new one" name="UserPassword" required>
+                                <div class="invalid-feedback">
+                                  PLEASE THIS FIELD IS REQUIRED
+                                </div> 
                             </div>
                           </div>
 
 
+                                  <!--PARAMETROS DE TAXO-->
+                                                     <div class="divider-with-text">
+                                                         <span>Taxo Parameter Settings</span>
+                                                     </div>
+                                                     <div class="col-lg-6">
+                            <div class="mb-3">
+                              <label for="stablishSelect" class="form-label">Select establishment</label>
+                                <select class="form-control" id="choices-single-no-sorting" asp-for="User.UserEstablishmentid" name="choices-single-no-sorting" data-choices data-choices-sorting-false required> 
+                                                                @foreach (var establishment in Model.Establishments)
+                                                                {
+                                         <option value="@establishment.EstablishmentId">@establishment.EstablishmentName</option>
+                                                                }
+                                </select>
+                                <div class="invalid-feedback">
 
+                                 PLEASE THIS FIELD IS REQUIRED
+                                </div>
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                                                            <div class="mb-3">
+                                                                <label for="stablishSelect" class="form-label">Select the VAT percentage</label>
+                                                             <select class="form-control" id="vatPercentageId" name="UserVatpercentageid" data-choices data-choices-sorting-false required>
+                                                                @foreach (var percentage in Model.VatBillings)
+                                                                {
+                                                                             <option value="@percentage.VatbillingId">@percentage.VatbillingPercentage</option>
+                                                                }
+                                                                </select>
+                                                                 <div class="invalid-feedback">
+                                                                  PLEASE THIS FIELD IS REQUIRED
+                                                                 </div>
+                                                            </div>
+                                                         </div>
                           <div class="col-lg-4">
                             <div class="mb-3">
                               <label for="xkeyInput" class="form-label">X-KEY of the user in taxo</label>
@@ -332,12 +356,12 @@
                             </div>
                           </div>
 
-                          <div class="col-lg-4">
-                            <div class="mb-3">
-                              <label for="formFile2" class="form-label">Digital signature</label>
-                              <input class="form-control" type="file" id="formFile2">
-                            </div>
-                          </div>
+                         <div class="col-lg-4">
+                             <div class="mb-3">
+                                 <label for="formFile2" class="form-label">Digital signature</label>
+                                 <input class="form-control" type="file" id="digitalSignature" name="UserDigitalsignature">
+                             </div>
+                         </div> 
                           
                          <div class="divider-with-text">
                               <span>Settings Office Hours</span>
@@ -532,6 +556,29 @@
   <!-- App js -->
   <script src="~/assets/js/app.js"></script>
 
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+            <script>
+                Swal.fire({
+                    title: '¡Success!',
+                    text: '@successMessage',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            </script>
+    }
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+            <script>
+                Swal.fire({
+                    title: 'Success',
+                    text: '@errorMessage',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            </script>
+    }
   <script>
     document.addEventListener("DOMContentLoaded", function () {
     const profileSelect = document.getElementById("profileSelect");
@@ -602,6 +649,10 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       modalGrid.show();
     }
+
+
+
+
   </script>
 
  

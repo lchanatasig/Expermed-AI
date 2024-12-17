@@ -21,6 +21,8 @@ public partial class Appointment
 
     public int? AppointmentPatientid { get; set; }
 
+    public int? AppointmentStatus { get; set; }
+
     public virtual User? AppointmentCreateuserNavigation { get; set; }
 
     public virtual User? AppointmentModifyuserNavigation { get; set; }

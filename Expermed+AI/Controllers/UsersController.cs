@@ -239,6 +239,7 @@ namespace Expermed_AI.Controllers
             var specialties = await _selectService.GetAllSpecialtiesAsync();
             var establishments = await _selectService.GetAllEstablishmentsAsync();
             var countries = await _selectService.GetAllCountriesAsync();
+            var percentage = await _selectService.GetAllVatPercentageAsync();
 
             var medics = await _selectService.GetAllMedicsAsync();
 
@@ -251,7 +252,9 @@ namespace Expermed_AI.Controllers
                 Establishments = establishments,
                 Countries = countries,
                 Users = medics,
+                VatBillings = percentage,
                 AssociatedDoctors = user.Doctors // Incluir los médicos asociados si es asistente
+
             };
 
             // Devolver la vista con el ViewModel poblado
@@ -259,7 +262,7 @@ namespace Expermed_AI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateUser(UserViewModel usuario, IFormFile? DigitalSignature, IFormFile? ProfilePhoto, string? selectedDoctorIds, string selectedWorkDays)
+        public async Task<IActionResult> UpdateUser(UserViewModel usuario, IFormFile? DigitalSignature, IFormFile? ProfilePhoto, string? selectedDoctorIds, string selectedWorkDays,int id)
         {
             // Verificar si el modelo es válido
             if (!ModelState.IsValid)
@@ -277,8 +280,16 @@ namespace Expermed_AI.Controllers
                 }
 
                 TempData["ErrorMessage"] = "Datos inválidos. Por favor, revisa los campos e intenta de nuevo.";
+                // Obtener los detalles del usuario (incluyendo médicos si es asistente)
+                var user = await _usersService.GetUserDetailsAsync(id);
 
+                // Si el usuario no existe, devolver una respuesta de "No encontrado"
+                if (user == null)
+                {
+                    return NotFound("User Not Found");
+                }
                 // Consume ambos servicios para recargar datos
+                
                 var profiles = await _selectService.GetAllProfilesAsync();
                 var specialties = await _selectService.GetAllSpecialtiesAsync();
                 var establishment = await _selectService.GetAllEstablishmentsAsync();
@@ -288,6 +299,7 @@ namespace Expermed_AI.Controllers
 
                 var viewModel = new NewUserViewModel
                 {
+                    User = user,
                     Profiles = profiles,
                     Specialties = specialties,
                     Establishments = establishment,
@@ -307,18 +319,19 @@ namespace Expermed_AI.Controllers
             List<int>? associatedDoctorIds = null;
             if (!string.IsNullOrEmpty(selectedDoctorIds))
             {
-                // Convierte la cadena separada por comas en una lista de enteros
                 associatedDoctorIds = selectedDoctorIds
                     .Split(',')
+                    .Where(id => int.TryParse(id, out _)) // Verifica si cada ID puede ser convertido a un entero
                     .Select(id => int.Parse(id))
                     .ToList();
             }
+
             // Procesa los días de trabajo seleccionados
             var workDays = selectedWorkDays?.Split(',').ToList();
 
             try
             {
-                // Llamar al servicio para actualizar el usuario
+                // Llama al servicio para actualizar el usuario
                 await _usersService.UpdateUserAsync(usuario, associatedDoctorIds, workDays);
 
                 // Si el proceso de actualización fue exitoso
@@ -345,7 +358,14 @@ namespace Expermed_AI.Controllers
                     TempData["ErrorMessage"] = "Error inesperado: " + ex.Message;
                 }
 
-                // Consume ambos servicios para recargar datos
+                // Obtener los detalles del usuario (incluyendo médicos si es asistente)
+                var user = await _usersService.GetUserDetailsAsync(id);
+
+                // Si el usuario no existe, devolver una respuesta de "No encontrado"
+                if (user == null)
+                {
+                    return NotFound("User Not Found");
+                }
                 var profiles = await _selectService.GetAllProfilesAsync();
                 var specialties = await _selectService.GetAllSpecialtiesAsync();
                 var establishment = await _selectService.GetAllEstablishmentsAsync();
@@ -355,6 +375,7 @@ namespace Expermed_AI.Controllers
 
                 var viewModel = new NewUserViewModel
                 {
+                    User = user,
                     Profiles = profiles,
                     Specialties = specialties,
                     Establishments = establishment,

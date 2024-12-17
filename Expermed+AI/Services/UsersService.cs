@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Data;
+using System.Text;
 using System.Text.Json;
 
 namespace Expermed_AI.Services
@@ -348,13 +349,33 @@ namespace Expermed_AI.Services
 
                     // Parámetros opcionales
                     command.Parameters.AddWithValue("@DigitalSignature", usuario.UserDigitalsignature ?? (object)DBNull.Value);
+
                     command.Parameters.AddWithValue("@ProfilePhoto", usuario.UserProfilephoto ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@ProfilePhoto64", usuario.UserPrfilephoto64 ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@SenecytCode", usuario.UserSenecytcode ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@XKeyTaxo", usuario.UserXkeytaxo ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@XPassTaxo", usuario.UserXpasstaxo ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@SequentialBilling", usuario.UserSequentialBilling ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@Password", usuario.UserPassword ?? (object)DBNull.Value);
+
+                    // Conversión del password de string a nvarchar
+                    // Convierte la contraseña a un arreglo de bytes (Varbinary)
+                    byte[] passwordBytes = string.IsNullOrEmpty(usuario.UserPassword)
+                                            ? null
+                                            : Encoding.UTF8.GetBytes(usuario.UserPassword);
+
+                    // Configura el parámetro @Password como Varbinary
+                    command.Parameters.Add("@Password", SqlDbType.VarBinary);
+
+                    if (passwordBytes == null)
+                    {
+                        // Si no hay contraseña, establece el valor a DBNull
+                        command.Parameters["@Password"].Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        // Asigna los bytes de la contraseña como valor
+                        command.Parameters["@Password"].Value = passwordBytes;
+                    }
                     command.Parameters.AddWithValue("@EstablishmentId", usuario.UserEstablishmentid ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@SpecialtyId", usuario.UserSpecialtyid ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@CountryId", usuario.UserCountryid ?? (object)DBNull.Value);

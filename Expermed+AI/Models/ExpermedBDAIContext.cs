@@ -71,6 +71,9 @@ public partial class ExpermedBDAIContext : DbContext
                 .HasColumnName("appointment_modifydate");
             entity.Property(e => e.AppointmentModifyuser).HasColumnName("appointment_modifyuser");
             entity.Property(e => e.AppointmentPatientid).HasColumnName("appointment_patientid");
+            entity.Property(e => e.AppointmentStatus)
+                .HasDefaultValue(1)
+                .HasColumnName("appointment_status");
 
             entity.HasOne(d => d.AppointmentCreateuserNavigation).WithMany(p => p.AppointmentAppointmentCreateuserNavigations)
                 .HasForeignKey(d => d.AppointmentCreateuser)
@@ -441,7 +444,7 @@ public partial class ExpermedBDAIContext : DbContext
             entity.Property(e => e.UserDescription).HasColumnName("user_description");
             entity.Property(e => e.UserDigitalsignature).HasColumnName("user_digitalsignature");
             entity.Property(e => e.UserDocumentNumber)
-                .HasMaxLength(13)
+                .HasMaxLength(255)
                 .HasColumnName("user_document_number");
             entity.Property(e => e.UserEmail)
                 .HasMaxLength(250)
