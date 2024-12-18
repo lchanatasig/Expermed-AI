@@ -328,7 +328,8 @@ namespace Expermed_AI.Services
 
         //Metodo para actualizar un usuario
 
-        public async Task<int> UpdateUserAsync(UserViewModel usuario, List<int>? associatedDoctorIds = null, List<string>? workDays = null)
+
+        public async Task UpdateUserAsync(int userId, UserViewModel usuario, List<int>? associatedDoctorIds = null, List<string>? workDays = null)
         {
             using (var connection = new SqlConnection(_dbContext.Database.GetDbConnection().ConnectionString))
             {
@@ -336,52 +337,40 @@ namespace Expermed_AI.Services
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
-                    // Agregar parámetros obligatorios
-                    command.Parameters.AddWithValue("@UserId", usuario.UsersId);
+                    // Agregar el parámetro del ID del usuario
+                    command.Parameters.AddWithValue("@UserId", userId);
+
+                    // Agregar los parámetros de datos personales
+                    command.Parameters.Add(new SqlParameter("@ProfilePhoto", SqlDbType.VarBinary)
+                    {
+                        Value = usuario.UserProfilephoto ?? (object)DBNull.Value
+                    });
+                    command.Parameters.AddWithValue("@ProfilePhoto64", usuario.UserPrfilephoto64 ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@ProfileId", usuario.UserProfileid);
                     command.Parameters.AddWithValue("@DocumentNumber", usuario.UserDocumentNumber);
                     command.Parameters.AddWithValue("@Names", usuario.UserNames);
                     command.Parameters.AddWithValue("@Surnames", usuario.UserSurnames);
+                    command.Parameters.AddWithValue("@Address", usuario.UserAddress);
+                    command.Parameters.AddWithValue("@SenecytCode", usuario.UserSenecytcode ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@Phone", usuario.UserPhone);
                     command.Parameters.AddWithValue("@Email", usuario.UserEmail);
-                    command.Parameters.AddWithValue("@Address", usuario.UserAddress);
+                    command.Parameters.AddWithValue("@SpecialtyId", usuario.UserSpecialtyid ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@CountryId", usuario.UserCountryid ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@Login", usuario.UserLogin);
-                    command.Parameters.AddWithValue("@ProfileId", usuario.UserProfileid);
+                    command.Parameters.AddWithValue("@Password", usuario.UserPassword);
 
-                    // Parámetros opcionales
-                    command.Parameters.AddWithValue("@DigitalSignature", usuario.UserDigitalsignature ?? (object)DBNull.Value);
-
-                    command.Parameters.AddWithValue("@ProfilePhoto", usuario.UserProfilephoto ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@ProfilePhoto64", usuario.UserPrfilephoto64 ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@SenecytCode", usuario.UserSenecytcode ?? (object)DBNull.Value);
+                    // Agregar los parámetros de Taxo
+                    command.Parameters.AddWithValue("@EstablishmentId", usuario.UserEstablishmentid ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@VatPercentageId", usuario.UserVatpercentageid ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@XKeyTaxo", usuario.UserXkeytaxo ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@XPassTaxo", usuario.UserXpasstaxo ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@SequentialBilling", usuario.UserSequentialBilling ?? (object)DBNull.Value);
-
-                    // Conversión del password de string a nvarchar
-                    // Convierte la contraseña a un arreglo de bytes (Varbinary)
-                    byte[] passwordBytes = string.IsNullOrEmpty(usuario.UserPassword)
-                                            ? null
-                                            : Encoding.UTF8.GetBytes(usuario.UserPassword);
-
-                    // Configura el parámetro @Password como Varbinary
-                    command.Parameters.Add("@Password", SqlDbType.VarBinary);
-
-                    if (passwordBytes == null)
+                    command.Parameters.Add(new SqlParameter("@DigitalSignature", SqlDbType.VarBinary)
                     {
-                        // Si no hay contraseña, establece el valor a DBNull
-                        command.Parameters["@Password"].Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        // Asigna los bytes de la contraseña como valor
-                        command.Parameters["@Password"].Value = passwordBytes;
-                    }
-                    command.Parameters.AddWithValue("@EstablishmentId", usuario.UserEstablishmentid ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@SpecialtyId", usuario.UserSpecialtyid ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@CountryId", usuario.UserCountryid ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@Status", (object)usuario.UserStatus ?? DBNull.Value);
+                        Value = usuario.UserDigitalsignature ?? (object)DBNull.Value
+                    });
 
-                    // Procesar los médicos asociados
+                    // Agregar los médicos asociados
                     if (associatedDoctorIds != null && associatedDoctorIds.Any())
                     {
                         string doctorIds = string.Join(",", associatedDoctorIds);
@@ -392,7 +381,7 @@ namespace Expermed_AI.Services
                         command.Parameters.AddWithValue("@DoctorIds", DBNull.Value);
                     }
 
-                    // Procesar días de trabajo
+                    // Agregar los días de trabajo
                     if (workDays != null && workDays.Any())
                     {
                         string workDaysStr = string.Join(",", workDays);
@@ -403,10 +392,11 @@ namespace Expermed_AI.Services
                         command.Parameters.AddWithValue("@WorkDays", DBNull.Value);
                     }
 
-                    // Agregar horario de trabajo
+                    // Otros parámetros
                     command.Parameters.AddWithValue("@StartTime", usuario.StartTime == TimeOnly.MinValue ? DBNull.Value : DateTime.Today.Add(usuario.StartTime.ToTimeSpan()));
                     command.Parameters.AddWithValue("@EndTime", usuario.EndTime == TimeOnly.MinValue ? DBNull.Value : DateTime.Today.Add(usuario.EndTime.ToTimeSpan()));
-                    command.Parameters.AddWithValue("@AppointmentInterval", (object)usuario.AppointmentInterval ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@AppointmentInterval", usuario.AppointmentInterval);
+                    command.Parameters.AddWithValue("@Description", usuario.UserDescription ?? (object)DBNull.Value);
 
                     try
                     {
@@ -435,14 +425,8 @@ namespace Expermed_AI.Services
                             // Validar el resultado
                             if (root.TryGetProperty("success", out var success) && success.GetInt32() == 1)
                             {
-                                if (root.TryGetProperty("userId", out var userId))
-                                {
-                                    return userId.GetInt32();
-                                }
-                                else
-                                {
-                                    throw new Exception("El campo 'userId' no se encuentra en el resultado.");
-                                }
+                                // Actualización exitosa
+                                return;
                             }
                             else
                             {
@@ -463,6 +447,7 @@ namespace Expermed_AI.Services
                 }
             }
         }
+
 
     }
 }

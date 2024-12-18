@@ -262,7 +262,7 @@ namespace Expermed_AI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateUser(UserViewModel usuario, IFormFile? DigitalSignature, IFormFile? ProfilePhoto, string? selectedDoctorIds, string selectedWorkDays,int id)
+        public async Task<IActionResult> UpdateUser(UserViewModel usuario,IFormFile? DigitalSignature,IFormFile? ProfilePhoto,string? selectedDoctorIds,string selectedWorkDays,int id)
         {
             // Verificar si el modelo es válido
             if (!ModelState.IsValid)
@@ -274,41 +274,13 @@ namespace Expermed_AI.Controllers
 
                     foreach (var error in errors)
                     {
-                        // Registra los errores en un log, consola o TempData
+                        // Registra los errores en un log o consola
                         Console.WriteLine($"Campo: {key}, Error: {error.ErrorMessage}");
                     }
                 }
 
                 TempData["ErrorMessage"] = "Datos inválidos. Por favor, revisa los campos e intenta de nuevo.";
-                // Obtener los detalles del usuario (incluyendo médicos si es asistente)
-                var user = await _usersService.GetUserDetailsAsync(id);
-
-                // Si el usuario no existe, devolver una respuesta de "No encontrado"
-                if (user == null)
-                {
-                    return NotFound("User Not Found");
-                }
-                // Consume ambos servicios para recargar datos
-                
-                var profiles = await _selectService.GetAllProfilesAsync();
-                var specialties = await _selectService.GetAllSpecialtiesAsync();
-                var establishment = await _selectService.GetAllEstablishmentsAsync();
-                var medics = await _selectService.GetAllMedicsAsync();
-                var countries = await _selectService.GetAllCountriesAsync();
-                var percentage = await _selectService.GetAllVatPercentageAsync();
-
-                var viewModel = new NewUserViewModel
-                {
-                    User = user,
-                    Profiles = profiles,
-                    Specialties = specialties,
-                    Establishments = establishment,
-                    Users = medics,
-                    Countries = countries,
-                    VatBillings = percentage,
-                };
-
-                return View(viewModel);
+                return await ReloadUserEditView(id);
             }
 
             // Convierte los archivos a byte[] si fueron proporcionados
@@ -332,10 +304,10 @@ namespace Expermed_AI.Controllers
             try
             {
                 // Llama al servicio para actualizar el usuario
-                await _usersService.UpdateUserAsync(usuario, associatedDoctorIds, workDays);
+                await _usersService.UpdateUserAsync(id, usuario, associatedDoctorIds, workDays);
 
                 // Si el proceso de actualización fue exitoso
-                TempData["SuccessMessage"] = "User updated successfully.";
+                TempData["SuccessMessage"] = "Usuario actualizado exitosamente.";
                 return RedirectToAction("UserList", "Users");
             }
             catch (Exception ex)
@@ -358,36 +330,43 @@ namespace Expermed_AI.Controllers
                     TempData["ErrorMessage"] = "Error inesperado: " + ex.Message;
                 }
 
-                // Obtener los detalles del usuario (incluyendo médicos si es asistente)
-                var user = await _usersService.GetUserDetailsAsync(id);
-
-                // Si el usuario no existe, devolver una respuesta de "No encontrado"
-                if (user == null)
-                {
-                    return NotFound("User Not Found");
-                }
-                var profiles = await _selectService.GetAllProfilesAsync();
-                var specialties = await _selectService.GetAllSpecialtiesAsync();
-                var establishment = await _selectService.GetAllEstablishmentsAsync();
-                var medics = await _selectService.GetAllMedicsAsync();
-                var countries = await _selectService.GetAllCountriesAsync();
-                var percentage = await _selectService.GetAllVatPercentageAsync();
-
-                var viewModel = new NewUserViewModel
-                {
-                    User = user,
-                    Profiles = profiles,
-                    Specialties = specialties,
-                    Establishments = establishment,
-                    Users = medics,
-                    Countries = countries,
-                    VatBillings = percentage,
-                };
-
-                return View(viewModel);
+                return await ReloadUserEditView(id);
             }
         }
 
+        // Método auxiliar para recargar la vista de edición en caso de error
+        private async Task<IActionResult> ReloadUserEditView(int id)
+        {
+            // Obtener los detalles del usuario
+            var user = await _usersService.GetUserDetailsAsync(id);
+
+            // Si el usuario no existe, devolver una respuesta de "No encontrado"
+            if (user == null)
+            {
+                return NotFound("Usuario no encontrado.");
+            }
+
+            // Obtener datos necesarios para la vista
+            var profiles = await _selectService.GetAllProfilesAsync();
+            var specialties = await _selectService.GetAllSpecialtiesAsync();
+            var establishments = await _selectService.GetAllEstablishmentsAsync();
+            var medics = await _selectService.GetAllMedicsAsync();
+            var countries = await _selectService.GetAllCountriesAsync();
+            var percentage = await _selectService.GetAllVatPercentageAsync();
+
+            var viewModel = new NewUserViewModel
+            {
+                User = user,
+                Profiles = profiles,
+                Specialties = specialties,
+                Establishments = establishments,
+                Users = medics,
+                Countries = countries,
+                VatBillings = percentage,
+            };
+
+            return View(viewModel);
+        }
 
     }
 }

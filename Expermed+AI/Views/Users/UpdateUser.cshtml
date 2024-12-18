@@ -291,7 +291,7 @@
                                                      <div class="col-lg-6">
                             <div class="mb-3">
                               <label for="stablishSelect" class="form-label">Select establishment</label>
-                                <select class="form-control" id="choices-single-no-sorting" asp-for="User.UserEstablishmentid" name="choices-single-no-sorting" data-choices data-choices-sorting-false required> 
+                                <select class="form-control" id="choices-single-no-sorting" asp-for="User.UserEstablishmentid" name="UserEstablishmentid" data-choices data-choices-sorting-false required> 
                                                                 @foreach (var establishment in Model.Establishments)
                                                                 {
                                          <option value="@establishment.EstablishmentId">@establishment.EstablishmentName</option>
@@ -321,7 +321,7 @@
                           <div class="col-lg-4">
                             <div class="mb-3">
                               <label for="xkeyInput" class="form-label">X-KEY of the user in taxo</label>
-                              <input type="text" class="form-control" id="xkeyInput" placeholder="provided by taxo"
+                              <input type="text" class="form-control" id="xkeyInput" name="UserXkeytaxo" placeholder="provided by taxo"
                                value="@Model.User.XKeyTaxo" required>
                                <div class="invalid-feedback">
                                 
@@ -334,7 +334,7 @@
                           <div class="col-lg-4">
                             <div class="mb-3">
                               <label for="xpassInput" class="form-label">X-PASS of the user in taxo</label>
-                              <input type="text" class="form-control" id="xpassInput" placeholder="provided by taxo"
+                              <input type="text" class="form-control" id="xpassInput"  name="UserXpasstaxo" placeholder="provided by taxo"
                                value="@Model.User.XPassTaxo" required>
                                <div class="invalid-feedback">
                                 
@@ -348,7 +348,7 @@
                               <label for="sequentialBillingInput" class="form-label">Sequential user billing in
                                 taxo</label>
                               <input type="text" class="form-control" id="sequentialBillingInput"
-                                placeholder="provided by taxo" value="@Model.User.SequentialBilling" required>
+                                placeholder="provided by taxo" value="@Model.User.SequentialBilling"  name="UserSequentialBilling" required>
                                 <div class="invalid-feedback">
                                  
                                  PLEASE THIS FIELD IS REQUIRED
@@ -371,7 +371,7 @@
                             <div class="col-lg-4">
                              <div class="mb-3">
                                  <label for="startHour" class="form-label">Star Hour</label>
-                                 <input class="form-control" value="@Model.User.StartTime" type="time" id="startHour" required>
+                                 <input class="form-control" value="@Model.User.StartTime" type="time" id="startHour" name="StartTime" required>
                                  <div class="invalid-feedback">
                                   
                                   PLEASE THIS FIELD IS REQUIRED
@@ -381,7 +381,7 @@
                          <div class="col-lg-4">
                                <div class="mb-3">
                                    <label for="endHour" class="form-label">End Hour</label>
-                                   <input class="form-control" type="time" id="endHour"value="@Model.User.EndTime" required>
+                                   <input class="form-control" type="time" id="endHour"value="@Model.User.EndTime" name="EndTime" required>
                                    <div class="invalid-feedback">
                                     
                                     PLEASE THIS FIELD IS REQUIRED
@@ -391,7 +391,7 @@
                            <div class="col-lg-4">
                                <div class="mb-3">
                                    <label for="endHour" class="form-label">Appointment Interval</label>
-                                   <input class="form-control" type="number" id="appointmentInterval" value="@Model.User.AppointmentInterval" required>
+                                   <input class="form-control" type="number" id="appointmentInterval" value="@Model.User.AppointmentInterval" name="AppointmentInterval" required>
                                    <div class="invalid-feedback">
                                     
                                     PLEASE THIS FIELD IS REQUIRED
@@ -467,6 +467,12 @@
                                <div class="modal-body">
                                  <form action="javascript:void(0);">
                                    <div class="row g-3">
+                                      <div class="col-xxl-6">
+                                       <div>
+                                         <label for="UserId" class="form-label">Hour of Appointment</label>
+                                         <input type="text" class="form-control" id="UserId" placeholder="">
+                                       </div>
+                                     </div><!--end col-->
                                      <div class="col-xxl-6">
                                        <div>
                                          <label for="exampleInputdate" class="form-label">Input Date</label>
@@ -649,6 +655,65 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       modalGrid.show();
     }
+
+
+
+
+
+
+
+    // Llamar al API para obtener las horas disponibles
+async function fetchAvailableHours(userId, date) {
+    try {
+        const response = await fetch(`/api/appointment/available-hours?userId=${userId}&date=${date}`);
+        if (response.ok) {
+            const hours = await response.json();
+            updateAvailableHoursModal(hours);
+        } else {
+            alert("No available hours found.");
+        }
+    } catch (error) {
+        console.error("Error fetching available hours:", error);
+        alert("An error occurred while fetching available hours.");
+    }
+}
+
+// Actualizar el contenido del modal con las horas disponibles
+function updateAvailableHoursModal(hours) {
+    const modalBody = document.querySelector("#myModalHour .modal-body .row");
+    modalBody.innerHTML = ""; // Limpiar contenido anterior
+
+    hours.forEach(hour => {
+        const col = document.createElement("div");
+        col.classList.add("col-4");
+        col.innerHTML = `
+            <button class="btn btn-outline-primary w-100" onclick="selectHour('${hour}')">
+                ${hour}
+            </button>`;
+        modalBody.appendChild(col);
+    });
+}
+
+// Seleccionar una hora y actualizar el campo en el primer modal
+function selectHour(hour) {
+    document.getElementById("AppointmentHour").value = hour;
+    const modal = bootstrap.Modal.getInstance(document.getElementById("myModalHour"));
+    modal.hide();
+}
+
+// Manejar el botón de "View Hours Availables" en el primer modal
+function handleViewAvailableHours() {
+    const userId = document.getElementByID("UserId"); // Cambiar por el valor real del usuario (obtener dinámicamente)
+    const date = document.getElementById("exampleInputdate").value;
+
+    if (!date) {
+        alert("Please select a date.");
+        return;
+    }
+
+    fetchAvailableHours(userId, date);
+}
+
 
 
 
