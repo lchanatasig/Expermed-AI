@@ -15,5 +15,8 @@
         public List<Country> Countries { get; set; }
         public List<Province> Provinces { get; set; }
 
+        public Patient Patient { get; set; }  // For user details
+
+
     }
 }

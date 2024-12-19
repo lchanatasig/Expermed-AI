@@ -296,7 +296,6 @@ public partial class ExpermedBDAIContext : DbContext
 
             entity.HasOne(d => d.PatientDocumenttypeNavigation).WithMany(p => p.PatientPatientDocumenttypeNavigations)
                 .HasForeignKey(d => d.PatientDocumenttype)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_patient_documenttype");
 
             entity.HasOne(d => d.PatientGenderNavigation).WithMany(p => p.PatientPatientGenderNavigations)

@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Http
 @{
-    ViewBag.Title = "Create Patient";
-    ViewBag.pTitle = "Create Patient";
-    ViewBag.pageTitle = "Create Patient";
+    ViewBag.Title = "Modify Patient";
+    ViewBag.pTitle = "Modify Patient";
+    ViewBag.pageTitle = "Modify Patient";
     Layout = null;
         var usuarioId = ViewContext.HttpContext.Session.GetInt32("UsuarioId");
 
@@ -42,11 +42,11 @@
                                     </div>
 
                                      <div class="row">
-                                    <form asp-action="NewPatient" asp-controller="Patient" method="POST" class="row g-3 needs-validation" novalidate enctype="multipart/form-data">
-                                        
-                                        <input type="hidden" name="PatientCode" value="null"/>
-                                        <input type="hidden" name="PatientCreationuser" value="@usuarioId"/>
-                                        <input type="hidden" name="PatientModificationuser" value="@usuarioId"/>
+                                    <form asp-action="UpdatePatient" asp-controller="Patient" method="POST" class="row g-3 needs-validation" novalidate enctype="multipart/form-data">
+                                        <input asp-for="Patient.PatientId" class="form-control" hidden />
+                                        <input type="hidden" name="patient.PatientCode" value="null"/>
+                                        <input type="hidden" name="patient.PatientCreationuser" value="@usuarioId"/>
+                                        <input type="hidden" name="patient.PatientModificationuser" value="@usuarioId"/>
 
 
                                    <div class="col-xxl-9">
@@ -72,7 +72,7 @@
                                                             <div class="col-lg-3">
                                                                <div class="mb-3">
                                                                    <label for="documentNumberInput" class="form-label">First Last Name *</label>
-                                                                   <input type="text" class="form-control" id="firstlastnameInput" name="PatientFirstsurname" placeholder="Enter your Surcename" required>
+                                                                   <input type="text" class="form-control" id="firstlastnameInput" name="patient.PatientFirstsurname" value="@Model.Patient.PatientFirstsurname" placeholder="Enter your Surcename" required>
             
                                                                          <div class="invalid-feedback">
                                                                            PLEASE THIS FIELD IS REQUIRED
@@ -83,14 +83,14 @@
                                                               <div class="col-lg-3">
                                                                  <div class="mb-3">
                                                                      <label for="documentNumberInput" class="form-label">Second Last Name</label>
-                                                                     <input type="text" class="form-control" id="Input" name="PatientSecondlastname" placeholder="Enter your second lastname">
+                                                                     <input type="text" class="form-control" id="Input" name="patient.PatientSecondlastname" value="@Model.Patient.PatientSecondlastname" placeholder="Enter your second lastname">
                                                                  </div>
                                                               </div>
 
                                                               <div class="col-lg-3">
                                                                  <div class="mb-3">
                                                                      <label for="documentNumberInput" class="form-label">First Name *</label>
-                                                                     <input type="text" class="form-control" id="firstnameInput" name="PatientFirstname" placeholder="Enter your first name" required>
+                                                                     <input type="text" class="form-control" id="firstnameInput" name="patient.PatientFirstname" value="@Model.Patient.PatientFirstname" placeholder="Enter your first name" required>
                                                               
                                                                            <div class="invalid-feedback">
                                                                              PLEASE THIS FIELD IS REQUIRED
@@ -101,7 +101,7 @@
                                                               <div class="col-lg-3">
                                                                  <div class="mb-3">
                                                                      <label for="documentNumberInput" class="form-label">Middle Name</label>
-                                                                     <input type="text" class="form-control" id="Input" name="PatientMiddlename" placeholder="Enter your middle name">
+                                                                     <input type="text" class="form-control" id="Input" name="patient.PatientMiddlename" value="@Model.Patient.PatientMiddlename" placeholder="Enter your middle name">
                                                                  </div>
                                                               </div>
 
@@ -109,7 +109,7 @@
                                                               <div class="col-lg-3">
                                                                  <div class="mb-3">
                                                                  <label for="specialtySelect" class="form-label">Select Document Type *</label>
-                                                                 <select class="form-control" id="documenttyoeId" name="PatientDocumenttype" data-choices data-choices-sorting-false required>
+                                                                 <select class="form-control" id="documenttyoeId" name="patient.PatientDocumenttype" asp-for="Patient.PatientDocumenttype" data-choices data-choices-sorting-false required>
                                                                      @foreach (var documenttype in Model.DocumentTypes)    
                                                                      {
                                                                              <option value="@documenttype.CatalogId">@documenttype.CatalogName</option>
@@ -126,7 +126,7 @@
                                                              <div class="col-lg-3">
                                                                    <div class="mb-3">
                                                                        <label for="lastnameInput" class="form-label">Document Number *</label>
-                                                                       <input type="text" class="form-control" id="documentnumber" name="PatientDocumentnumber" placeholder="Enter the document number" required>
+                                                                       <input type="text" class="form-control" id="documentnumber" name="patient.PatientDocumentnumber" value="@Model.Patient.PatientDocumentnumber" placeholder="Enter the document number" required>
                                                                           <div class="invalid-feedback">
                                                                            PLEASE THIS FIELD IS REQUIRED
                                                                          </div>
@@ -135,7 +135,7 @@
                                                               <div class="col-lg-3">
                                                                  <div class="mb-3">
                                                                  <label for="specialtySelect" class="form-label">Select Blood Type</label>
-                                                                 <select class="form-control" id="bloodtype" name="PatientBloodtype" data-choices data-choices-sorting-false>
+                                                                 <select class="form-control" id="bloodtype" name="patient.PatientBloodtype" asp-for="Patient.PatientBloodtype" data-choices data-choices-sorting-false>
                                                                      @foreach (var bloodtype in Model.BloodTypes)    
                                                                      {
                                                                              <option value="@bloodtype.CatalogId">@bloodtype.CatalogName</option>
@@ -148,7 +148,7 @@
                                                                <div class="col-lg-2">
                                                                   <div class="mb-3">
                                                                   <label for="specialtySelect" class="form-label">He is donor? </label>
-                                                                  <select class="form-control" id="documenttyoeId" name="PatientDonor" data-choices data-choices-sorting-false >
+                                                                  <select class="form-control" id="documenttyoeId" name="patient.PatientDonor" asp-for="Patient.PatientDonor" data-choices data-choices-sorting-false >
                                                                                 <option value="Yes">Yes</option>
                                                                                 <option value="No">No</option>
                                                                   </select>
@@ -156,20 +156,22 @@
                                                                   </div>
                                                                </div>
 
-                                                               <div class="col-lg-3">
-                                                                     <div class="mb-3">
-                                                                         <label for="lastnameInput" class="form-label">Date of Birthdate *</label>
-                                                                         <input type="date" class="form-control" id="birhdate"  name="PatientBirthdate" required>
+                                                                    <div class="col-lg-3">
+                                                                        <div class="mb-3">
+                                                                            <label for="lastnameInput" class="form-label">Date of Birthdate *</label>
+                                                                            <input type="date" class="form-control" id="birthdate" name="patient.PatientBirthdate"
+                                                                                   value="@((Model.Patient.PatientBirthdate.HasValue) ? Model.Patient.PatientBirthdate.Value.ToString("yyyy-MM-dd") : string.Empty)" required>
                                                                             <div class="invalid-feedback">
-                                                                             PLEASE THIS FIELD IS REQUIRED
-                                                                           </div>
-                                                                     </div>
-                                                               </div>
+                                                                                PLEASE THIS FIELD IS REQUIRED
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    
 
                                                                <div class="col-lg-2">
                                                                      <div class="mb-3">
                                                                          <label for="lastnameInput" class="form-label">Age</label>
-                                                                         <input type="number" class="form-control" id="agePatient"  name="PatientAge">
+                                                                         <input type="number" class="form-control" id="agePatient"  name="patient.PatientAge" value="@Model.Patient.PatientAge">
                                                                            
                                                                      </div>
                                                                </div>
@@ -177,7 +179,7 @@
                                                                <div class="col-lg-3">
                                                                  <div class="mb-3">
                                                                  <label for="specialtySelect" class="form-label">Select Gender</label>
-                                                                 <select class="form-control" id="genderPatient" name="PatientGender" data-choices data-choices-sorting-false>
+                                                                 <select class="form-control" id="genderPatient" name="patient.PatientGender" asp-for="Patient.PatientGender" data-choices data-choices-sorting-false>
                                                                      @foreach (var gendertype in Model.GenderTypes)    
                                                                      {
                                                                              <option value="@gendertype.CatalogId">@gendertype.CatalogName</option>
@@ -190,7 +192,7 @@
                                                                <div class="col-lg-3">
                                                                  <div class="mb-3">
                                                                  <label for="specialtySelect" class="form-label">Select Marital Status</label>
-                                                                 <select class="form-control" id="maritalStatus" name="PatientMaritalstatus" data-choices data-choices-sorting-false>
+                                                                 <select class="form-control" id="maritalStatus" name="patient.PatientMaritalstatus" asp-for="Patient.PatientMaritalstatus"  data-choices data-choices-sorting-false>
                                                                      @foreach (var maritalStatus in Model.CivilTypes)    
                                                                      {
                                                                                  <option value="@maritalStatus.CatalogId">@maritalStatus.CatalogName</option>
@@ -203,7 +205,7 @@
                                                                <div class="col-lg-3">
                                                                  <div class="mb-3">
                                                                  <label for="specialtySelect" class="form-label">Select Professional training</label>
-                                                                 <select class="form-control" id="vocationalTraining" name="PatientVocationalTraining" data-choices data-choices-sorting-false>
+                                                                 <select class="form-control" id="vocationalTraining" name="patient.PatientVocationalTraining" asp-for="Patient.PatientVocationalTraining" data-choices data-choices-sorting-false>
                                                                      @foreach (var professionaltraining in Model.ProfessionalTrainingTypes)    
                                                                      {
                                                                                  <option value="@professionaltraining.CatalogId">@professionaltraining.CatalogName</option>
@@ -222,7 +224,7 @@
                                                               <div class="col-lg-3">
                                                                 <div class="mb-3">
                                                                 <label for="specialtySelect" class="form-label">Select your Nationality</label>
-                                                                <select class="form-control" id="nationalitytypeId" name="PatientNationality" data-choices data-choices-sorting-false>
+                                                                <select class="form-control" id="nationalitytypeId" name="patient.PatientNationality" asp-for="Patient.PatientNationality" data-choices data-choices-sorting-false>
                                                                     @foreach (var nacionality in Model.Countries)    
                                                                     {
                                                                                 <option value="@nacionality.CountryId">@nacionality.CountryNationality</option>
@@ -231,10 +233,10 @@
                                                              
                                                                 </div>
                                                              </div>
-                                                              <div class="col-lg-4">
+                                                              <div class="col-lg-6">
                                                                 <div class="mb-3">
                                                                 <label for="specialtySelect" class="form-label">Select your Province</label>
-                                                                <select class="form-control" id="provincetypeId" name="PatientProvince" data-choices data-choices-sorting-false>
+                                                                <select class="form-control" id="provincetypeId" name="patient.PatientProvince" asp-for="Patient.PatientProvince" data-choices data-choices-sorting-false>
                                                                     @foreach (var provinces in Model.Provinces)    
                                                                     {
                                                                                 <option value="@provinces.ProvinceId">@provinces.ProvinceName</option>
@@ -248,7 +250,7 @@
                                                                      <label for="addressInput" class="form-label">Address</label>
                                                                      <div class="input-group">
                                                                          <!-- Input para ingresar la dirección -->
-                                                                         <input type="text" id="addressInput" class="form-control" name="PatientAddress" aria-label="Recipient's username" aria-describedby="button-addon2" placeholder="Write your address" required>
+                                                                         <input type="text" id="addressInput" class="form-control" name="patient.PatientAddress" value="@Model.Patient.PatientAddress" aria-label="Recipient's username" aria-describedby="button-addon2" placeholder="Write your address" required>
                                                                          <div class="invalid-feedback">
                                                                            PLEASE THIS FIELD IS REQUIRED
                                                                          </div>
@@ -267,7 +269,7 @@
                                                                 <div class="col-lg-4">
                                                                     <div class="mb-3">
                                                                         <label for="codeSenecytInput" class="form-label">Landline Phone Number</label>
-                                                                        <input type="text" class="form-control" id="landlinetInput" name="PatientLandlinePhone" placeholder="Enter your landline phone number">
+                                                                        <input type="text" class="form-control" id="landlinetInput" name="patient.PatientLandlinePhone" value="@Model.Patient.PatientLandlinePhone" placeholder="Enter your landline phone number">
                                                                       
                                                                     </div>
                                                                 </div>
@@ -275,7 +277,7 @@
                                                                 <div class="col-lg-4">
                                                                     <div class="mb-3">
                                                                         <label for="phonenumberInput" class="form-label">Cellular Phone Number</label>
-                                                                        <input type="text" class="form-control" id="phonenumberInput" name="PatientCellularPhone" placeholder="Enter your phone number +(1) 987 6543">
+                                                                        <input type="text" class="form-control" id="phonenumberInput" name="patient.PatientCellularPhone" value="@Model.Patient.PatientCellularPhone" placeholder="Enter your phone number +(1) 987 6543">
                                                                     
                                                                     </div>
                                                                 </div>
@@ -283,7 +285,7 @@
                                                                 <div class="col-lg-4">
                                                                     <div class="mb-3">
                                                                         <label for="emailInput" class="form-label">Email Address *</label>
-                                                                        <input type="email" class="form-control" id="emailInput" name="PatientEmail" placeholder="Enter your email" required>
+                                                                        <input type="email" class="form-control" id="emailInput" name="patient.PatientEmail" value="@Model.Patient.PatientEmail" placeholder="Enter your email" required>
                                                                         <div class="invalid-feedback">
                                                                          
                                                                          PLEASE THIS FIELD IS REQUIRED, OR IT IS NOT A VALID EMAIL 
@@ -294,14 +296,14 @@
                                                                 <div class="col-lg-4">
                                                                     <div class="mb-3">
                                                                         <label for="phonenumberInput" class="form-label">Ocupation</label>
-                                                                        <input type="text" class="form-control" id="phonenumberInput" name="PatientOcupation" placeholder="Enter your Ocupation">
+                                                                        <input type="text" class="form-control" id="phonenumberInput" name="patient.PatientOcupation" value="@Model.Patient.PatientOcupation" placeholder="Enter your Ocupation">
                                                                     
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-4">
                                                                     <div class="mb-3">
                                                                         <label for="phonenumberInput" class="form-label">Company</label>
-                                                                        <input type="text" class="form-control" id="phonenumberInput" name="PatientCompany" placeholder="Enter your company">
+                                                                        <input type="text" class="form-control" id="phonenumberInput" name="patient.PatientCompany" value="@Model.Patient.PatientCompany" placeholder="Enter your company">
                                                                     
                                                                     </div>
                                                                 </div>
@@ -310,7 +312,7 @@
                                                                  <div class="col-lg-3">
                                                                     <div class="mb-3">
                                                                     <label for="specialtySelect" class="form-label">Select your health insurance</label>
-                                                                    <select class="form-control" id="healtInsurancetyoeId" name="PatientHealthInsurance" data-choices data-choices-sorting-false required>
+                                                                    <select class="form-control" id="healtInsurancetyoeId" name="patient.PatientHealthInsurance" asp-for="Patient.PatientHealthInsurance" data-choices data-choices-sorting-false required>
                                                                         @foreach (var healtinsurance in Model.SureHealthTypes)    
                                                                         {
                                                                                 <option value="@healtinsurance.CatalogId">@healtinsurance.CatalogName</option>
@@ -322,7 +324,8 @@
                                                                     </div>
                                                                  </div>
 
-                                                                 <input type="hidden" name="PatientStatus" value="1"/>
+                                                                 <input type="hidden" name="patient.PatientStatus" value="1"/>
+
                                                     <div class="col-lg-12" style="padding-top: 3px">
                                                         <div class="hstack gap-2 justify-content-end">
 

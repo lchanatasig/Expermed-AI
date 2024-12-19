@@ -15,7 +15,7 @@ public partial class Patient
 
     public int? PatientModificationuser { get; set; }
 
-    public int PatientDocumenttype { get; set; }
+    public int? PatientDocumenttype { get; set; }
 
     public string PatientDocumentnumber { get; set; } = null!;
 
@@ -69,7 +69,7 @@ public partial class Patient
 
     public virtual User? PatientCreationuserNavigation { get; set; }
 
-    public virtual Catalog PatientDocumenttypeNavigation { get; set; } = null!;
+    public virtual Catalog? PatientDocumenttypeNavigation { get; set; }
 
     public virtual Catalog? PatientGenderNavigation { get; set; }
 

@@ -23,6 +23,7 @@ namespace Expermed_AI
             builder.Services.AddScoped<AuthenticationServices>();
             builder.Services.AddScoped<UsersService>();
             builder.Services.AddScoped<SelectsService>();
+            builder.Services.AddScoped<PatientService>();
             builder.Services.AddHttpClient(); // Registrar HttpClient
             builder.Services.AddLogging(); // Asegúrate de que la inyección de dependencias de logging esté habilitada
 
