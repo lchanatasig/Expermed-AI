@@ -8,58 +8,55 @@ namespace Expermed_AI.Services
     public class AppointmentService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ILogger<UsersService> _logger;
+        private readonly ILogger<AppointmentService> _logger;
         private readonly ExpermedBDAIContext _dbContext;
-       
-        //Obtener las horas disponibles
-        public async Task<List<TimeSpan>> GetAvailableHoursAsync(int userId, DateTime date)
+
+
+
+        public async Task<DataTable> ListAllAppointmentsAsync(int appointmentStatus, int userProfile, int userId, int? doctorId = null)
         {
-            var availableHours = new List<TimeSpan>();
+            DataTable dtAppointments = new DataTable();
 
-            using (var connection = new SqlConnection(_dbContext.Database.GetConnectionString()))
+            try
             {
-                using (var command = new SqlCommand("sp_GetAvailableHours", connection))
+                using (SqlConnection connection = new SqlConnection(_dbContext.Database.GetConnectionString()))
                 {
-                    command.CommandType = CommandType.StoredProcedure;
+                    await connection.OpenAsync();
 
-                    // Agregar parámetros
-                    command.Parameters.AddWithValue("@UserId", userId);
-                    command.Parameters.AddWithValue("@Date", date);
-
-                    try
+                    using (SqlCommand command = new SqlCommand("sp_ListAllAppointment", connection))
                     {
-                        await connection.OpenAsync();
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@AppointmentStatus", appointmentStatus);
+                        command.Parameters.AddWithValue("@UserProfile", userProfile);
+                        command.Parameters.AddWithValue("@UserId", userId);
 
-                        using (var reader = await command.ExecuteReaderAsync())
+                        if (doctorId.HasValue)
                         {
-                            while (await reader.ReadAsync())
-                            {
-                                // Obtener cada hora disponible como TimeSpan
-                                if (!reader.IsDBNull(0))
-                                {
-                                    availableHours.Add(reader.GetTimeSpan(0));
-                                }
-                            }
+                            command.Parameters.AddWithValue("@DoctorId", doctorId.Value);
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        // Manejo de errores
-                        throw new Exception($"Error al obtener horas disponibles: {ex.Message}", ex);
-                    }
-                    finally
-                    {
-                        if (connection.State == ConnectionState.Open)
-                        {
-                            await connection.CloseAsync();
-                        }
+
+                        SqlDataAdapter dataAdapter = new SqlDataAdapter(command);
+                        dataAdapter.Fill(dtAppointments);
                     }
                 }
             }
+            catch (SqlException sqlEx)
+            {
+                // Handle SQL exceptions, e.g., connection issues, syntax errors
+                Console.WriteLine("SQL Error: " + sqlEx.Message);
+                // Optionally, log the error
+            }
+            catch (Exception ex)
+            {
+                // Handle other exceptions
+                Console.WriteLine("Error: " + ex.Message);
+                // Optionally, log the error
+            }
 
-            return availableHours;
+            return dtAppointments;
         }
-    
+
+
 
     }
 }

@@ -34,7 +34,7 @@
                                                 <div class="text-end p-3">
                                                     <div class="p-0 ms-auto rounded-circle profile-photo-edit">
                                                         <input id="profile-foreground-img-file-input" type="file" class="profile-foreground-img-file-input">
-                                                          <h1 class="cabeceras"> <i class=" ri-survey-fill"></i>REGISTER NEW PATIENT</h1>
+                                                          <h1 class="cabeceras"> <i class=" ri-survey-fill"></i>MODIFY PATIENT</h1>
                                                     </div>
                                                 </div>
                                             </div>
@@ -55,7 +55,7 @@
                                               <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
                                                   <li class="nav-item">
                                                       <a class="nav-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
-                                                          <i class="fas fa-home"></i> New Patient Details
+                                                          <i class="fas fa-home"></i> Modify Patient Details
                                                       </a>
                                                   </li>
                                               </ul>
@@ -63,7 +63,7 @@
 
                                            <div class="card-body p-4">
                                                <div class="tab-content">
-                                                   <h6 class="camp">Campos obligatorios*</h6>
+                                                   <h6 class="camp">Required fields*</h6>
                                                     <div class="tab-pane active" id="personalDetails" role="tabpanel">
                                                         <div class="row">
                                                              <div class="divider-with-text">
@@ -331,9 +331,12 @@
 
                                                            
                                                             <button type="submit" id="btnCreatepatient" class="btn btn-primary">
-                                                                <i class="ri-user-add-line"></i> Register
+                                                                <i class="ri-user-add-line"></i> Update
                                                             </button>
-                                                            <a type="button" href="@Url.Action("PatientList", "Patient")" class="btn btn-soft-secondary">
+                                                            <a type="button" class="btn btn-soft-info" data-bs-toggle="modal" data-bs-target="#appointmentModalgrid">
+                                                               <i class="ri-calendar-todo-fill"></i> Schedule an appointment
+                                                            </a>
+                                                            <a type="button" href="@Url.Action("PatientList", "Patient")" class="btn btn-soft-danger">
                                                                 <i class=" ri-arrow-go-back-line"></i> Cancel
                                                             </a>
                                                         </div>
@@ -342,7 +345,143 @@
                                                 </div>
                                                 <!--end row-->
                                             </form>
+
                                         </div>
+
+
+<!--Modal agendar cita disponibles--> 
+<div class="modal flip" id="appointmentModalgrid" tabindex="-1" aria-labelledby="appointmentModalgridLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="appointmentModalgridLabel">Grid Modals</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3 needs-validation" novalidate>
+                    <div class="row g-3">
+
+                        <div class="col-xxl-6" hidden>
+                            <div>
+                                <label for="firstName" class="form-label">Patient Id</label>
+                                <input type="text" class="form-control" id="firstName" asp-for="Patient.PatientId" placeholder="Enter firstname">
+                            </div>
+                        </div><!--end col-->
+
+                        <div class="col-xxl-6" hidden>
+                            <div>
+                                <label for="firstName" class="form-label">User creation Id</label>
+                                <input type="text" class="form-control" id="firstName" value="@usuarioId" placeholder="Enter firstname">
+                            </div>
+                        </div><!--end col-->
+                         
+                        <div class="col-xxl-6" hidden>
+                            <div>
+                                <label for="firstName" class="form-label">User modification Id</label>
+                                <input type="text" class="form-control" id="firstName" value="@usuarioId" placeholder="Enter firstname">
+                            </div>
+                        </div><!--end col-->
+
+                        <div class="col-xxl-6">
+                            <div>
+                                <label for="selectedDate" class="form-label">Select a date</label>
+                                <input type="date" class="form-control" id="selectedDate" required>
+                                <div class="invalid-feedback">
+                                 PLEASE THIS FIELD IS REQUIRED
+                                </div>
+                            </div>
+                        </div><!--end col-->
+
+                        <div class="col-xxl-6">
+                            <div>
+                                <label for="selectTime" class="form-label">Selected time</label>
+                                <input type="time" class="form-control" id="selectTime" required readonly>
+                                <div class="invalid-feedback">
+                                 PLEASE THIS FIELD IS REQUIRED
+                                </div>
+                            </div>
+                        </div><!--end col-->
+
+                
+                        <div class="col-lg-12">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-soft-info" id="viewHoursButton">
+                                    <i class="ri-eye-fill"></i> View Hours Available
+                                </button>
+                                <button type="submit" id="hoursModal" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div><!--end col-->
+
+                    </div><!--end row-->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+
+.hour-card {
+    cursor: pointer;
+    width: 100px;
+    border-radius: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+    .hour-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .hour-card.selected {
+        background-color: #0d6efd;
+        color: white;
+        box-shadow: 0px 4px 8px rgba(13, 110, 253, 0.5);
+    }
+</style>
+
+<!--Modal de las horas disponibles-->
+<div class="modal flip" id="hoursModalgrid" tabindex="-1" aria-labelledby="hoursModalgridLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="hoursModalgrid">Hours Available</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-lg-12">
+                        <div class="d-flex flex-wrap gap-2 justify-content-center">
+                            <!-- Hour cards -->
+                            <div class="hour-card border p-3 text-center" data-time="08:00">
+                                <strong>08:00 AM</strong>
+                            </div>
+                            <div class="hour-card border p-3 text-center" data-time="09:00">
+                                <strong>09:00 AM</strong>
+                            </div>
+                            <div class="hour-card border p-3 text-center" data-time="10:00">
+                                <strong>10:00 AM</strong>
+                            </div>
+                            <div class="hour-card border p-3 text-center" data-time="11:00">
+                                <strong>11:00 AM</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mt-3">
+                        <div class="hstack gap-2 justify-content-end">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                            <button type="button" id="submitTimeButton" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div><!--end col-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+
+
+
                                         <!--end tab-pane-->
                                     </div>
                                 </div>
@@ -376,7 +515,59 @@
         // Set the age value
         document.getElementById('agePatient').value = age;
     });
+
+   
+      
+
 </script>
+
+<script>
+let selectedHour = null;
+
+    // Handle hour card selection
+    document.querySelectorAll('.hour-card').forEach(card => {
+        card.addEventListener('click', function () {
+            // Remove selection from all cards
+            document.querySelectorAll('.hour-card').forEach(c => c.classList.remove('selected'));
+            // Mark the clicked card as selected
+            this.classList.add('selected');
+            selectedHour = this.getAttribute('data-time');
+        });
+    });
+
+    // Open the second modal if a date is selected
+    document.getElementById('viewHoursButton').addEventListener('click', function () {
+        const selectedDate = document.getElementById('selectedDate').value;
+
+        if (!selectedDate) {
+            alert('Please select a date before viewing available hours.');
+        } else {
+            // Close the first modal
+            const appointmentModal = bootstrap.Modal.getInstance(document.getElementById('appointmentModalgrid'));
+            appointmentModal.hide();
+
+            // Open the second modal
+            const hoursModal = new bootstrap.Modal(document.getElementById('hoursModalgrid'));
+            hoursModal.show();
+        }
+    });
+
+    // Transfer selected time back to the first modal
+    document.getElementById('submitTimeButton').addEventListener('click', function () {
+        if (!selectedHour) {
+            alert('Please select a time before submitting.');
+            return;
+        }
+
+        // Set the selected time in the first modal
+        document.getElementById('selectTime').value = selectedHour;
+
+        // Close the second modal
+        const hoursModal = bootstrap.Modal.getInstance(document.getElementById('hoursModalgrid'));
+        hoursModal.hide();
+    });
+</script>
+
 
     <!-- profile-setting init js -->
     <script src="~/assets/js/pages/profile-setting.init.js"></script>

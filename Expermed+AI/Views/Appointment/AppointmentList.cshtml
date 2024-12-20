@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@model List<Expermed_AI.Models.Appointment>
 
 @section styles {
     <!--datatable css-->
@@ -14,12 +15,17 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 }
 
-
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title mb-0">Appointment List</h5>
+                <div class="btn-group mt-3" role="group" aria-label="Basic radio toggle button group">
+                    <button type="button" class="btn btn-secondary" onclick="filterAppointments(0)">Paid</button>
+                    <button type="button" class="btn btn-secondary" onclick="filterAppointments(1)">Active</button>
+                    <button type="button" class="btn btn-secondary" onclick="filterAppointments(2)">Canceled</button>
+                    <button type="button" class="btn btn-secondary" onclick="filterAppointments(3)">Follow-up</button>
+                </div>
             </div>
             <div class="card-body">
                 <table id="alternative-pagination"
@@ -36,35 +42,54 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>01</td>
-                            <td>
-                                <div class="d-flex align-items-center fw-medium">
-                                    <img src="assets/images/svg/crypto-icons/btc.svg" alt="" class="avatar-xxs me-2">
-                                    <a href="javascript:void(0);" class="currency_name">Bitcoin (BTC)</a>
-                                </div>
-                            </td>
-                            <td>$47,071.60</td>
-                            <td>BTC/USD</td>
-                            <td>$28,722.76</td>
-
-                            <td>
-                                <h6 class="text-success fs-13 mb-0"><i
-                                        class="mdi mdi-trending-up align-middle me-1"></i>1.50%</h6>
-                            </td>
-                            <td>
-                                <a href="@Url.Action("UpdateUser", "Users")" class="btn btn-sm btn-soft-info"> <i
-                                        class="ri-edit-line"></i> Review</a>
-                            </td>
-                        </tr>
-
+                        @foreach (var appointment in Model)
+                        {
+                            <tr>
+                                <td>@appointment.AppointmentId</td>
+                                <td>
+                                    <div class="d-flex align-items-center fw-medium">
+                                        <img src="assets/images/svg/crypto-icons/btc.svg" alt="" class="avatar-xxs me-2">
+                                        <a href="javascript:void(0);" class="currency_name">@appointment.AppointmentDate.ToString("dd/MM/yyyy")</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    @appointment.AppointmentPatient.PatientFirstname + " " + @appointment.AppointmentPatient.PatientSecondlastname
+                                </td>
+                                <td>
+                                    <!-- Aquí puedes colocar el motivo de la consulta o cualquier otro detalle relevante -->
+                                </td>
+                                <td>
+                                    <!-- Mostrar la especialidad del doctor -->
+                                    @appointment.AppointmentCreateuserNavigation.UserSpecialty.SpecialityName
+                                </td>
+                                <td>
+                                    @switch (appointment.AppointmentStatus)
+                                    {
+                                        case 0:
+                                            <span class="badge bg-success">Paid</span>
+                                            break;
+                                        case 1:
+                                            <span class="badge bg-warning">Active</span>
+                                            break;
+                                        case 2:
+                                            <span class="badge bg-danger">Canceled</span>
+                                            break;
+                                        case 3:
+                                            <span class="badge bg-info">Follow-up</span>
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("UpdateUser", "Users", new { id = appointment.AppointmentId })" class="btn btn-sm btn-soft-info"> <i class="ri-edit-line"></i> Review</a>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
-
 
 @section scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -85,4 +110,11 @@
 
     <!-- App js -->
     <script src="~/assets/js/app.js"></script>
+
+    <script>
+        function filterAppointments(status) {
+            var doctorId = @ViewBag.DoctorId;
+            window.location.href = '@Url.Action("ListAllAppointments", "Appointment")?appointmentStatus=' + status + '&doctorId=' + doctorId;
+        }
+    </script>
 }
