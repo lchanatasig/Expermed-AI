@@ -4,7 +4,9 @@
     ViewBag.pTitle = "Modify Patient";
     ViewBag.pageTitle = "Modify Patient";
     Layout = null;
-        var usuarioId = ViewContext.HttpContext.Session.GetInt32("UsuarioId");
+ var usuarioId = ViewContext.HttpContext.Session.GetInt32("UsuarioId");
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
 
 }
 @model NewPatientViewModel
@@ -326,8 +328,8 @@
 
                                                                  <input type="hidden" name="patient.PatientStatus" value="1"/>
 
-                                                    <div class="col-lg-12" style="padding-top: 3px">
-                                                        <div class="hstack gap-2 justify-content-end">
+                                                        <div class="col-lg-12" style="padding-top: 3px">
+                                                            <div class="hstack gap-2 justify-content-end">
 
                                                            
                                                             <button type="submit" id="btnCreatepatient" class="btn btn-primary">
@@ -349,138 +351,87 @@
                                         </div>
 
 
-<!--Modal agendar cita disponibles--> 
-<div class="modal flip" id="appointmentModalgrid" tabindex="-1" aria-labelledby="appointmentModalgridLabel">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="appointmentModalgridLabel">Grid Modals</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form class="row g-3 needs-validation" novalidate>
-                    <div class="row g-3">
-
-                        <div class="col-xxl-6" hidden>
-                            <div>
-                                <label for="firstName" class="form-label">Patient Id</label>
-                                <input type="text" class="form-control" id="firstName" asp-for="Patient.PatientId" placeholder="Enter firstname">
-                            </div>
-                        </div><!--end col-->
-
-                        <div class="col-xxl-6" hidden>
-                            <div>
-                                <label for="firstName" class="form-label">User creation Id</label>
-                                <input type="text" class="form-control" id="firstName" value="@usuarioId" placeholder="Enter firstname">
-                            </div>
-                        </div><!--end col-->
-                         
-                        <div class="col-xxl-6" hidden>
-                            <div>
-                                <label for="firstName" class="form-label">User modification Id</label>
-                                <input type="text" class="form-control" id="firstName" value="@usuarioId" placeholder="Enter firstname">
-                            </div>
-                        </div><!--end col-->
-
-                        <div class="col-xxl-6">
-                            <div>
-                                <label for="selectedDate" class="form-label">Select a date</label>
-                                <input type="date" class="form-control" id="selectedDate" required>
-                                <div class="invalid-feedback">
-                                 PLEASE THIS FIELD IS REQUIRED
-                                </div>
-                            </div>
-                        </div><!--end col-->
-
-                        <div class="col-xxl-6">
-                            <div>
-                                <label for="selectTime" class="form-label">Selected time</label>
-                                <input type="time" class="form-control" id="selectTime" required readonly>
-                                <div class="invalid-feedback">
-                                 PLEASE THIS FIELD IS REQUIRED
-                                </div>
-                            </div>
-                        </div><!--end col-->
-
-                
-                        <div class="col-lg-12">
-                            <div class="hstack gap-2 justify-content-end">
-                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-soft-info" id="viewHoursButton">
-                                    <i class="ri-eye-fill"></i> View Hours Available
-                                </button>
-                                <button type="submit" id="hoursModal" class="btn btn-primary">Submit</button>
-                            </div>
-                        </div><!--end col-->
-
-                    </div><!--end row-->
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<style>
-
-.hour-card {
-    cursor: pointer;
-    width: 100px;
-    border-radius: 8px;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-    .hour-card:hover {
-        transform: scale(1.05);
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .hour-card.selected {
-        background-color: #0d6efd;
-        color: white;
-        box-shadow: 0px 4px 8px rgba(13, 110, 253, 0.5);
-    }
-</style>
-
-<!--Modal de las horas disponibles-->
-<div class="modal flip" id="hoursModalgrid" tabindex="-1" aria-labelledby="hoursModalgridLabel">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="hoursModalgrid">Hours Available</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-lg-12">
-                        <div class="d-flex flex-wrap gap-2 justify-content-center">
-                            <!-- Hour cards -->
-                            <div class="hour-card border p-3 text-center" data-time="08:00">
-                                <strong>08:00 AM</strong>
-                            </div>
-                            <div class="hour-card border p-3 text-center" data-time="09:00">
-                                <strong>09:00 AM</strong>
-                            </div>
-                            <div class="hour-card border p-3 text-center" data-time="10:00">
-                                <strong>10:00 AM</strong>
-                            </div>
-                            <div class="hour-card border p-3 text-center" data-time="11:00">
-                                <strong>11:00 AM</strong>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 mt-3">
-                        <div class="hstack gap-2 justify-content-end">
-                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                            <button type="button" id="submitTimeButton" class="btn btn-primary">Submit</button>
-                        </div>
-                    </div><!--end col-->
-                </div>
-            </div>
-        </div>
-    </div>
-</div> 
+                                        <style>
+                                        
+                                        .hour-card {
+                                            cursor: pointer;
+                                            width: 100px;
+                                            border-radius: 8px;
+                                            transition: transform 0.2s, box-shadow 0.2s;
+                                        }
+                                        
+                                            .hour-card:hover {
+                                                transform: scale(1.05);
+                                                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+                                            }
+                                        
+                                            .hour-card.selected {
+                                                background-color: #0d6efd;
+                                                color: white;
+                                                box-shadow: 0px 4px 8px rgba(13, 110, 253, 0.5);
+                                            }
+                                        </style>
+                                        
+                                        
+                                        <!-- Modal agendar cita disponibles -->
+                                        <div class="modal flip" id="appointmentModalgrid" tabindex="-1" aria-labelledby="appointmentModalgridLabel">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="appointmentModalgridLabel">Agendar Cita</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form class="row g-3 needs-validation" novalidate>
+                                                            <div class="col-xxl-6">
+                                                                <label for="patientId" class="form-label">Patient Id</label>
+                                                                <input hidden type="number" class="form-control" value="@Model.Patient.PatientId" id="patientId" required>
+                                                            </div>
 
 
+                                                            <!-- Input de usuarioId y fecha -->
+                                                            <div class="col-xxl-6">
+                                                                <label for="selectedDate" class="form-label">Select a date</label>
+                                                                <input type="date" class="form-control" id="selectedDate" required>
+                                                            </div>
+                                        
+                                                            <div class="col-xxl-6">
+                                                                <label for="appointmentTime" class="form-label">Your appointment time is:</label>
+                                                                <input type="time" class="form-control" id="appointmentTime" required readonly>
+                                                            </div>
+
+
+                                                            <div class="col-xxl-6">
+                                                                <button type="button" class="btn btn-soft-info" id="viewHoursButton">
+                                                                    <i class="ri-eye-fill"></i> View Hours Available
+                                                                </button>
+                                                            </div>
+                                        
+                                                            <!-- Modal de las horas disponibles -->
+                                                            <div class="modal flip" id="hoursModalgrid" tabindex="-1" aria-labelledby="hoursModalgridLabel">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="hoursModalgrid">Hours Available</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <div class="d-flex flex-wrap gap-2 justify-content-center" id="availableHoursContainer">
+                                                                                <!-- Aquí se mostrarán las horas disponibles -->
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                                                            <button type="button" id="submitTimeButton" class="btn btn-primary">Submit</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         <!--end tab-pane-->
                                     </div>
@@ -521,52 +472,129 @@
 
 </script>
 
+
 <script>
-let selectedHour = null;
+$(document).ready(function () {
+    // Al hacer clic en el botón para ver las horas disponibles
+    $('#viewHoursButton').click(function () {
+        var userId = @usuarioId;  // Este valor debe ser dinámico, por ejemplo, extraído de la sesión o del usuario autenticado
+        var selectedDate = $('#selectedDate').val();
 
-    // Handle hour card selection
-    document.querySelectorAll('.hour-card').forEach(card => {
-        card.addEventListener('click', function () {
-            // Remove selection from all cards
-            document.querySelectorAll('.hour-card').forEach(c => c.classList.remove('selected'));
-            // Mark the clicked card as selected
-            this.classList.add('selected');
-            selectedHour = this.getAttribute('data-time');
-        });
-    });
-
-    // Open the second modal if a date is selected
-    document.getElementById('viewHoursButton').addEventListener('click', function () {
-        const selectedDate = document.getElementById('selectedDate').value;
+        console.log('User ID:', userId);
+        console.log('Selected Date:', selectedDate);
 
         if (!selectedDate) {
-            alert('Please select a date before viewing available hours.');
-        } else {
-            // Close the first modal
-            const appointmentModal = bootstrap.Modal.getInstance(document.getElementById('appointmentModalgrid'));
-            appointmentModal.hide();
-
-            // Open the second modal
-            const hoursModal = new bootstrap.Modal(document.getElementById('hoursModalgrid'));
-            hoursModal.show();
-        }
-    });
-
-    // Transfer selected time back to the first modal
-    document.getElementById('submitTimeButton').addEventListener('click', function () {
-        if (!selectedHour) {
-            alert('Please select a time before submitting.');
+            alert('Please select a date.');
             return;
         }
 
-        // Set the selected time in the first modal
-        document.getElementById('selectTime').value = selectedHour;
+        // Realizar la solicitud AJAX al backend
+        $.ajax({
+            url: '@Url.Action("GetAvailableHours", "Appointment")',
+            type: 'GET',
+            data: {
+                userId: userId,
+                date: selectedDate
+            },
+            success: function (response) {
+                $('#availableHoursContainer').empty();  // Limpiar el contenedor de horas disponibles
 
-        // Close the second modal
-        const hoursModal = bootstrap.Modal.getInstance(document.getElementById('hoursModalgrid'));
-        hoursModal.hide();
+                if (response.length > 0) {
+                    // Mostrar las horas en el contenedor
+                    response.forEach(function (hour) {
+                        $('#availableHoursContainer').append(
+                            '<button type="button" class="btn btn-outline-primary btn-sm" data-hour="' + hour + '">' + hour + '</button>'
+                        );
+                    });
+                } else {
+                    // Si no hay horas disponibles
+                    $('#availableHoursContainer').append(
+                        '<p>No available hours for this date.</p>'
+                    );
+                }
+
+                $('#hoursModalgrid').modal('show');  // Mostrar el modal con las horas disponibles
+            },
+            error: function (xhr, status, error) {
+                alert('An error occurred while fetching available hours: ' + error);
+            }
+        });
     });
+
+    // Al hacer clic en una de las horas disponibles
+    $('#availableHoursContainer').on('click', 'button', function () {
+        // Obtener la hora seleccionada desde el atributo 'data-hour' del botón
+        var selectedHour = $(this).data('hour');
+
+        // Establecer la hora seleccionada en el campo de entrada
+        $('#appointmentTime').val(selectedHour);
+
+        console.log('Selected Hour:', selectedHour);
+        console.log('Selected Date:', $('#selectedDate').val());
+        console.log('Patient ID:', $('#patientId').val());
+
+        // Mostrar SweetAlert para confirmación
+        var selectedDate = $('#selectedDate').val(); // Obtener la fecha seleccionada
+        var patientId = $('#patientId').val();  // Obtener el ID del paciente
+
+        Swal.fire({
+            title: 'Confirm Appointment',
+            text: 'You have selected ' + selectedHour + ' on ' + selectedDate + '. Do you want to confirm this appointment?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, confirm it!',
+            cancelButtonText: 'No, choose again',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Si el usuario confirma, enviamos la cita al backend
+                var userId = @usuarioId; // Obtener el ID del usuario
+                var appointmentDate = selectedDate; // Mantener la fecha
+                var appointmentTime = selectedHour; // Mantener la hora seleccionada
+
+                // Realizamos la solicitud AJAX para crear la cita
+                $.ajax({
+                    url: '@Url.Action("CreateAppointment", "Appointment")',  // Cambia la URL al método correspondiente en tu controlador
+                    type: 'POST',
+                    contentType: 'application/json', // Asegúrate de especificar el tipo de contenido
+                    data: JSON.stringify({
+                        patientId: patientId,  // ID del paciente
+                        selectedDate: appointmentDate,  // Solo la fecha
+                        appointmentTime: appointmentTime  // Solo la hora
+                    }),
+                    success: function (response) {
+                        if (response.success) {
+                            // Mostrar mensaje de éxito
+                            Swal.fire('Appointment confirmed!', response.message, 'success');
+                        } else {
+                            // Si algo salió mal
+                            Swal.fire('Error', response.message, 'error');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Manejo de errores si la solicitud falla
+                        Swal.fire('Error', 'There was an issue scheduling your appointment. Please try again.', 'error');
+                    }
+                });
+
+                // Imprimir datos de la solicitud para depuración
+                console.log('Sending data to backend:', JSON.stringify({
+                    patientId: patientId,
+                    selectedDate: appointmentDate,
+                    appointmentTime: appointmentTime
+                }));
+
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                // Si el usuario cancela, cerramos el modal
+                $('#hoursModalgrid').modal('hide');
+            }
+        });
+    });
+});
+
+
 </script>
+
 
 
     <!-- profile-setting init js -->

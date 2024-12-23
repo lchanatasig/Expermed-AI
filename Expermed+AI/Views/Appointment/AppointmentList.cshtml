@@ -1,88 +1,92 @@
-﻿@{
+﻿@model List<Appointment>
+@{
     ViewBag.Title = "Appointment List";
-
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
 }
 
-@model List<Expermed_AI.Models.Appointment>
-
 @section styles {
-    <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
-    <!--datatable responsive css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
-
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 }
 
 <div class="row">
     <div class="col-lg-12">
+        @if (TempData["Error"] != null)
+        {
+                <div class="alert alert-danger">
+                @TempData["Error"]
+                </div>
+        }
+
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title mb-0">Appointment List</h5>
-                <div class="btn-group mt-3" role="group" aria-label="Basic radio toggle button group">
-                    <button type="button" class="btn btn-secondary" onclick="filterAppointments(0)">Paid</button>
-                    <button type="button" class="btn btn-secondary" onclick="filterAppointments(1)">Active</button>
-                    <button type="button" class="btn btn-secondary" onclick="filterAppointments(2)">Canceled</button>
-                    <button type="button" class="btn btn-secondary" onclick="filterAppointments(3)">Follow-up</button>
+                <div class="btn-group mt-3" role="group">
+                    <button type="button" class="btn btn-soft-success @(ViewBag.CurrentStatus == 0 ? "active" : "")" 
+                            onclick="filterAppointments(0)">Paid</button>
+                    <button type="button" class="btn btn-soft-warning @(ViewBag.CurrentStatus == 1 ? "active" : "")" 
+                            onclick="filterAppointments(1)">Active</button>
+                    <button type="button" class="btn btn-soft-danger @(ViewBag.CurrentStatus == 2 ? "active" : "")" 
+                            onclick="filterAppointments(2)">Canceled</button>
+                    <button type="button" class="btn btn-soft-info @(ViewBag.CurrentStatus == 3 ? "active" : "")" 
+                            onclick="filterAppointments(3)">Follow-up</button>
                 </div>
             </div>
             <div class="card-body">
-                <table id="alternative-pagination"
-                    class="table nowrap dt-responsive align-middle table-hover table-bordered" style="width:100%">
+                <table id="appointmentTable" class="table nowrap dt-responsive align-middle table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th>Appointment Id.</th>
-                            <th>Appointment Date</th>
+                            <th hidden>ID</th>
+                            <th>Date of Appointment</th>
                             <th>Patient Name</th>
-                            <th>Reason for consultation</th>
-                            <th>Consultation specialty</th>
-                            <th>Appointment status</th>
-                            <th>Action</th>
+                            <th>Specialty Appointment</th>
+                            <th>Status of Appointment</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var appointment in Model)
                         {
-                            <tr>
-                                <td>@appointment.AppointmentId</td>
-                                <td>
-                                    <div class="d-flex align-items-center fw-medium">
-                                        <img src="assets/images/svg/crypto-icons/btc.svg" alt="" class="avatar-xxs me-2">
-                                        <a href="javascript:void(0);" class="currency_name">@appointment.AppointmentDate.ToString("dd/MM/yyyy")</a>
-                                    </div>
-                                </td>
-                                <td>
-                                    @appointment.AppointmentPatient.PatientFirstname + " " + @appointment.AppointmentPatient.PatientSecondlastname
-                                </td>
-                                <td>
-                                    <!-- Aquí puedes colocar el motivo de la consulta o cualquier otro detalle relevante -->
-                                </td>
-                                <td>
-                                    <!-- Mostrar la especialidad del doctor -->
-                                    @appointment.AppointmentCreateuserNavigation.UserSpecialty.SpecialityName
-                                </td>
-                                <td>
-                                    @switch (appointment.AppointmentStatus)
-                                    {
-                                        case 0:
-                                            <span class="badge bg-success">Paid</span>
-                                            break;
-                                        case 1:
-                                            <span class="badge bg-warning">Active</span>
-                                            break;
-                                        case 2:
-                                            <span class="badge bg-danger">Canceled</span>
-                                            break;
-                                        case 3:
-                                            <span class="badge bg-info">Follow-up</span>
-                                            break;
+                                <tr>
+                                    <td hidden>@appointment.AppointmentId</td>
+                                    <td>@appointment.AppointmentDate.ToString("dd/MM/yyyy") @appointment.AppointmentHour.ToString()</td>
+                                    <td>@($"{appointment.AppointmentPatient?.PatientFirstname} {appointment.AppointmentPatient?.PatientMiddlename} {appointment.AppointmentPatient?.PatientFirstsurname} {appointment.AppointmentPatient?.PatientSecondlastname}")</td>
+                                    <td>@appointment.AppointmentCreateuserNavigation?.UserSpecialty?.SpecialityName</td>
+                                    <td>
+                                    @{
+                                        var (statusClass, statusText) = appointment.AppointmentStatus switch
+                                        {
+                                            0 => ("bg-success", "Paid"),
+                                            1 => ("bg-warning", "Active"),
+                                            2 => ("bg-danger", "Canceled"),
+                                            3 => ("bg-info", "Follow-up"),
+                                            _ => ("bg-secondary", "Unknown")
+                                        };
                                     }
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("UpdateUser", "Users", new { id = appointment.AppointmentId })" class="btn btn-sm btn-soft-info"> <i class="ri-edit-line"></i> Review</a>
-                                </td>
-                            </tr>
+                                        <span class="badge @statusClass">@statusText</span>
+                                    </td>
+                                   <td>
+                                        @if (appointment.AppointmentStatus == 0 || appointment.AppointmentStatus == 2) 
+                                        {
+                                            <!-- Si la cita está pagada o cancelada, deshabilitar el botón -->
+                                            <span class="btn btn-sm btn-soft-secondary" style="pointer-events: none;">
+                                                <i class="ri-edit-line"></i> Review
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <!-- Si la cita está activa o en seguimiento, mostrar el botón -->
+                                            <a href="@Url.Action("Review", "Appointment", new { id = appointment.AppointmentId })" 
+                                               class="btn btn-sm btn-soft-info">
+                                                <i class="ri-edit-line"></i> Review
+                                            </a>
+                                        }
+                                    </td>
+
+                                </tr>
                         }
                     </tbody>
                 </table>
@@ -92,29 +96,40 @@
 </div>
 
 @section scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-    <!--datatable js-->
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+            <!--datatable js-->
+            <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+            <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
-    <script src="~/assets/js/pages/datatables.init.js"></script>
+            <script src="~/assets/js/pages/datatables.init.js"></script>
 
-    <!-- App js -->
-    <script src="~/assets/js/app.js"></script>
+            <!-- App js -->
+            <script src="~/assets/js/app.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#appointmentTable').DataTable({
+                    responsive: true,
+                    pageLength: 10,
+                    order: [[1, 'desc']]
+                });
+            });
 
-    <script>
-        function filterAppointments(status) {
-            var doctorId = @ViewBag.DoctorId;
-            window.location.href = '@Url.Action("ListAllAppointments", "Appointment")?appointmentStatus=' + status + '&doctorId=' + doctorId;
-        }
-    </script>
+            function filterAppointments(status) {
+                        window.location.href = '@Url.Action("AppointmentList", "Appointment")?' + new URLSearchParams({
+                    appointmentStatus: status,
+                    userProfile: '@ViewBag.UserProfile',
+                    userId: '@ViewBag.UserId',
+                    doctorId: '@(ViewBag.DoctorId ?? "null")'
+                }).toString();
+            }
+        </script>
 }
