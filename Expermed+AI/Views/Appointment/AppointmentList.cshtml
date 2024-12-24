@@ -12,88 +12,215 @@
         <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 }
 
-<div class="row">
-    <div class="col-lg-12">
-        @if (TempData["Error"] != null)
-        {
-                <div class="alert alert-danger">
-                @TempData["Error"]
-                </div>
-        }
+       <div class="row">
+           <div class="col-lg-12">
+               @if (TempData["Error"] != null)
+               {
+                       <div class="alert alert-danger">
+                       @TempData["Error"]
+                       </div>
+               }
+       
+               <div class="card">
+                   <div class="card-header">
+                       <h5 class="card-title mb-0">Appointment List</h5>
+                       <div class="btn-group mt-3" role="group">
+                           <button type="button" class="btn btn-soft-success @(ViewBag.CurrentStatus == 0 ? "active" : "")" 
+                                   onclick="filterAppointments(0)">Paid</button>
+                           <button type="button" class="btn btn-soft-warning @(ViewBag.CurrentStatus == 1 ? "active" : "")" 
+                                   onclick="filterAppointments(1)">Active</button>
+                           <button type="button" class="btn btn-soft-danger @(ViewBag.CurrentStatus == 2 ? "active" : "")" 
+                                   onclick="filterAppointments(2)">Canceled</button>
+                           <button type="button" class="btn btn-soft-info @(ViewBag.CurrentStatus == 3 ? "active" : "")" 
+                                   onclick="filterAppointments(3)">Follow-up</button>
+                       </div>
+                   </div>
+                   <div class="card-body">
+                       <table id="appointmentTable" class="table nowrap dt-responsive align-middle table-hover table-bordered">
+                           <thead>
+                               <tr>
+                                   <th hidden>ID</th>
+                                   <th>Date of Appointment</th>
+                                   <th>Patient Name</th>
+                                   <th>Specialty Appointment</th>
+                                   <th>Status of Appointment</th>
+                                   <th>Actions</th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                               @foreach (var appointment in Model)
+                               {
+                                       <tr>
+                                           <td hidden>@appointment.AppointmentId</td>
+                                           <td>@appointment.AppointmentDate.ToString("dd/MM/yyyy") @appointment.AppointmentHour.ToString()</td>
+                                           <td>@($"{appointment.AppointmentPatient?.PatientFirstname} {appointment.AppointmentPatient?.PatientMiddlename} {appointment.AppointmentPatient?.PatientFirstsurname} {appointment.AppointmentPatient?.PatientSecondlastname}")</td>
+                                           <td>@appointment.AppointmentCreateuserNavigation?.UserSpecialty?.SpecialityName</td>
+                                           <td>
+                                           @{
+                                               var (statusClass, statusText) = appointment.AppointmentStatus switch
+                                               {
+                                                   0 => ("bg-success", "Paid"),
+                                                   1 => ("bg-warning", "Active"),
+                                                   2 => ("bg-danger", "Canceled"),
+                                                   3 => ("bg-info", "Follow-up"),
+                                                   _ => ("bg-secondary", "Unknown")
+                                               };
+                                           }
+                                               <span class="badge @statusClass">@statusText</span>
+                                           </td>
+                                          <td>
+                                               @if (appointment.AppointmentStatus == 0 || appointment.AppointmentStatus == 2) 
+                                               {
+                                                   <!-- Si la cita está pagada o cancelada, deshabilitar el botón -->
+                                                   <span class="btn btn-sm btn-soft-secondary" style="pointer-events: none;">
+                                                       <i class="ri-edit-line"></i> Review
+                                                   </span>
+                                               }
+                                               else
+                                               {
+                                                   <!-- Si la cita está activa o en seguimiento, mostrar el botón -->
+                                                   <a href="#" class="btn btn-sm btn-soft-info"
+                                                   data-bs-toggle="modal" data-bs-target="#optionModal" 
+                                                   onclick="openOptionModal(@appointment.AppointmentId)">
+                                                   <i class="ri-edit-line"></i> Review
+                                                   </a>
 
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Appointment List</h5>
-                <div class="btn-group mt-3" role="group">
-                    <button type="button" class="btn btn-soft-success @(ViewBag.CurrentStatus == 0 ? "active" : "")" 
-                            onclick="filterAppointments(0)">Paid</button>
-                    <button type="button" class="btn btn-soft-warning @(ViewBag.CurrentStatus == 1 ? "active" : "")" 
-                            onclick="filterAppointments(1)">Active</button>
-                    <button type="button" class="btn btn-soft-danger @(ViewBag.CurrentStatus == 2 ? "active" : "")" 
-                            onclick="filterAppointments(2)">Canceled</button>
-                    <button type="button" class="btn btn-soft-info @(ViewBag.CurrentStatus == 3 ? "active" : "")" 
-                            onclick="filterAppointments(3)">Follow-up</button>
-                </div>
+                                               }
+                                           </td>
+       
+                                       </tr>
+                               }
+                           </tbody>
+                       </table>
+                   </div>
+               </div>
+           </div>
+       </div>
+
+
+      <!--Modal modificacion cita-->
+      <div class="modal flip" id="optionModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Hidden input to store AppointmentId -->
+            <input type="hidden" id="appointmentIdInput" name="AppointmentId" />
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="optionModal">What do you want to do on this appointment?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="card-body">
-                <table id="appointmentTable" class="table nowrap dt-responsive align-middle table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th hidden>ID</th>
-                            <th>Date of Appointment</th>
-                            <th>Patient Name</th>
-                            <th>Specialty Appointment</th>
-                            <th>Status of Appointment</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var appointment in Model)
-                        {
-                                <tr>
-                                    <td hidden>@appointment.AppointmentId</td>
-                                    <td>@appointment.AppointmentDate.ToString("dd/MM/yyyy") @appointment.AppointmentHour.ToString()</td>
-                                    <td>@($"{appointment.AppointmentPatient?.PatientFirstname} {appointment.AppointmentPatient?.PatientMiddlename} {appointment.AppointmentPatient?.PatientFirstsurname} {appointment.AppointmentPatient?.PatientSecondlastname}")</td>
-                                    <td>@appointment.AppointmentCreateuserNavigation?.UserSpecialty?.SpecialityName</td>
-                                    <td>
-                                    @{
-                                        var (statusClass, statusText) = appointment.AppointmentStatus switch
-                                        {
-                                            0 => ("bg-success", "Paid"),
-                                            1 => ("bg-warning", "Active"),
-                                            2 => ("bg-danger", "Canceled"),
-                                            3 => ("bg-info", "Follow-up"),
-                                            _ => ("bg-secondary", "Unknown")
-                                        };
-                                    }
-                                        <span class="badge @statusClass">@statusText</span>
-                                    </td>
-                                   <td>
-                                        @if (appointment.AppointmentStatus == 0 || appointment.AppointmentStatus == 2) 
-                                        {
-                                            <!-- Si la cita está pagada o cancelada, deshabilitar el botón -->
-                                            <span class="btn btn-sm btn-soft-secondary" style="pointer-events: none;">
-                                                <i class="ri-edit-line"></i> Review
-                                            </span>
-                                        }
-                                        else
-                                        {
-                                            <!-- Si la cita está activa o en seguimiento, mostrar el botón -->
-                                            <a href="@Url.Action("Review", "Appointment", new { id = appointment.AppointmentId })" 
-                                               class="btn btn-sm btn-soft-info">
-                                                <i class="ri-edit-line"></i> Review
-                                            </a>
-                                        }
-                                    </td>
 
-                                </tr>
-                        }
-                    </tbody>
-                </table>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <!-- Buttons Group -->
+                    <div class="col-4">
+                        <button type="button" class="btn btn-soft-info btn-sm w-100 waves-effect waves-light"
+                                onclick="rescheduleAppointment()">
+                            <i class="ri-restart-line"></i> Reschedule appointment
+                        </button>
+                    </div>
+
+                    <div class="col-4">
+                        <button type="button" class="btn btn-soft-danger w-100 btn-icon waves-effect waves-light"
+                                onclick="cancelAppointment()">
+                            <i class="ri-error-warning-fill"></i> Cancel appointment
+                        </button>
+                    </div>
+
+                    <div class="col-4">
+                        <button type="button" class="btn btn-soft-success w-100 btn-icon waves-effect waves-light"
+                                onclick="payAppointment()">
+                            <i class="ri-secure-payment-line"></i> Pay appointment
+                        </button>
+                    </div>
+                </div><!--end row-->
             </div>
         </div>
     </div>
 </div>
+
+      
+      <style>
+      
+      .hour-card {
+          cursor: pointer;
+          width: 100px;
+          border-radius: 8px;
+          transition: transform 0.2s, box-shadow 0.2s;
+      }
+      
+          .hour-card:hover {
+              transform: scale(1.05);
+              box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+          }
+      
+          .hour-card.selected {
+              background-color: #0d6efd;
+              color: white;
+              box-shadow: 0px 4px 8px rgba(13, 110, 253, 0.5);
+          }
+      </style>
+      
+      
+      
+      
+      <!-- Modal agendar cita disponibles -->
+      <div class="modal flip" id="appointmentModalgrid" tabindex="-1" aria-labelledby="appointmentModalgridLabel">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="appointmentModalgridLabel"> What do you want to do on this appointment?</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      <form class="row g-3 needs-validation" novalidate name="formData">
+                          <div class="col-xxl-6">
+                              <label for="patientId" class="form-label">Patient Id</label>
+                              <input type="hidden" class="form-control"  id="patientId" required>
+                          </div>
+      
+      
+                          <!-- Input de usuarioId y fecha -->
+                          <div class="col-xxl-6">
+                              <label for="selectedDate" class="form-label">Select a date</label>
+                              <input type="date" class="form-control" id="selectedDate" required>
+                          </div>
+      
+                          <div class="col-xxl-6">
+                              <label for="ui" class="form-label">Your appointment time is:</label>
+                              <input type="time" class="form-control" id="appointmentTime" required>
+                          </div>
+                          </form>
+      
+                          <div class="col-xxl-6">
+                              <button type="button" class="btn btn-soft-info" id="viewHoursButton">
+                                  <i class="ri-eye-fill"></i> View Hours Available
+                              </button>
+                          </div>
+      
+                          <!-- Modal de las horas disponibles -->
+                          <div class="modal flip" id="hoursModalgrid" tabindex="-1" aria-labelledby="hoursModalgridLabel">
+                              <div class="modal-dialog">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h5 class="modal-title" id="hoursModalgrid">Hours Available</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                          <div class="d-flex flex-wrap gap-2 justify-content-center" id="availableHoursContainer">
+                                              <!-- Aquí se mostrarán las horas disponibles -->
+                                          </div>
+                                      </div>
+                                      <div class="modal-footer">
+                                          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                    </div>
+              </div>
+          </div>
+      </div>
 
 @section scripts {
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -131,5 +258,12 @@
                     doctorId: '@(ViewBag.DoctorId ?? "null")'
                 }).toString();
             }
+        </script>
+
+
+        <script>
+
+
+
         </script>
 }

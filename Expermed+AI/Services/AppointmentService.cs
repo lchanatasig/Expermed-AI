@@ -82,6 +82,9 @@ namespace Expermed_AI.Services
         }
 
 
+       
+
+        //Obtener horas disponibles por medico
         public List<string> GetAvailableHours(int userId, DateTime date)
         {
             List<string> availableHours = new List<string>();
@@ -116,42 +119,110 @@ namespace Expermed_AI.Services
             return availableHours;
         }
 
-
-
-        public bool CreateAppointment(Appointment model)
+        //Obtener cita por ID
+        public Appointment GetAppointmentById(int appointmentId)
         {
-            try
+            Appointment appointment = null;
+
+            using (SqlConnection connection = new SqlConnection(_dbContext.Database.GetConnectionString()))
             {
-                using (SqlConnection conn = new SqlConnection(_dbContext.Database.GetConnectionString()))
+                using (SqlCommand command = new SqlCommand("sp_GetAppointmentById", connection))
                 {
-                    using (SqlCommand cmd = new SqlCommand("sp_CreateAppointment", conn))
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@appointment_id", appointmentId);
+
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        // Pasar parámetros al procedimiento almacenado
-                        cmd.Parameters.AddWithValue("@appointment_createdate", model.AppointmentCreatedate);
-                        cmd.Parameters.AddWithValue("@appointment_modifydate", model.AppointmentModifydate);
-                        cmd.Parameters.AddWithValue("@appointment_createuser", model.AppointmentCreateuser);
-                        cmd.Parameters.AddWithValue("@appointment_modifyuser", model.AppointmentModifyuser);
-                        cmd.Parameters.AddWithValue("@appointment_date", model.AppointmentDate);
-                        cmd.Parameters.AddWithValue("@appointment_hour", model.AppointmentHour);
-                        cmd.Parameters.AddWithValue("@appointment_patientid", model.AppointmentPatientid);
-                        cmd.Parameters.AddWithValue("@appointment_status", model.AppointmentStatus);
-
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
-                        conn.Close();
+                        if (reader.Read())
+                        {
+                            appointment = new Appointment
+                            {
+                                AppointmentId = reader.GetInt32(reader.GetOrdinal("appointment_id")),
+                                AppointmentCreatedate = reader.GetDateTime(reader.GetOrdinal("appointment_createdate")),
+                                AppointmentModifydate = reader.GetDateTime(reader.GetOrdinal("appointment_modifydate")),
+                                AppointmentCreateuser = reader.GetInt32(reader.GetOrdinal("appointment_createuser")),
+                                AppointmentModifyuser = reader.GetInt32(reader.GetOrdinal("appointment_modifyuser")),
+                                AppointmentDate = reader.GetDateTime(reader.GetOrdinal("appointment_date")),
+                                AppointmentHour = TimeOnly.FromTimeSpan(reader.GetTimeSpan(reader.GetOrdinal("appointment_hour"))),
+                                AppointmentPatientid = reader.GetInt32(reader.GetOrdinal("appointment_patientid")),
+                                AppointmentStatus = reader.GetInt32(reader.GetOrdinal("appointment_status"))
+                            };
+                        }
                     }
                 }
-
-                return true; // Cita creada exitosamente
             }
-            catch (Exception ex)
+
+            return appointment;
+        }
+
+        //CREAR UNA NUEVA CITA
+        public async Task CreateAppointmentAsync(Appointment appointmentDto)
+        {
+            using (var connection = new SqlConnection(_dbContext.Database.GetConnectionString()))
             {
-                // En caso de error, se puede registrar o manejar el error aquí
-                return false; // Retorna falso si ocurre un error
+                await connection.OpenAsync();
+
+                using (var command = new SqlCommand("sp_CreateAppointment", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@appointment_createdate", DateTime.Now);
+                    command.Parameters.AddWithValue("@appointment_modifydate", DateTime.Now);
+                    command.Parameters.AddWithValue("@appointment_createuser", appointmentDto.AppointmentCreateuser);
+                    command.Parameters.AddWithValue("@appointment_modifyuser", appointmentDto.AppointmentModifyuser);
+                    command.Parameters.AddWithValue("@appointment_date", appointmentDto.AppointmentDate);
+                    command.Parameters.AddWithValue("@appointment_hour", appointmentDto.AppointmentHour);
+                    command.Parameters.AddWithValue("@appointment_patientid", appointmentDto.AppointmentPatientid);
+                    command.Parameters.AddWithValue("@appointment_status", appointmentDto.AppointmentStatus);
+
+                    try
+                    {
+                        await command.ExecuteNonQueryAsync();
+                    }
+                    catch (SqlException ex)
+                    {
+                        throw new ApplicationException("Error al crear la cita: " + ex.Message);
+                    }
+                }
             }
         }
+
+        //MODIFICAR UNA CITA
+        public async Task ModifyAppointmentAsync(Appointment appointmentDto)
+        {
+            using (var connection = new SqlConnection(_dbContext.Database.GetConnectionString()))
+            {
+                await connection.OpenAsync();
+
+                using (var command = new SqlCommand("sp_ModifyAppointment", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    // Parámetros para el procedimiento almacenado
+                    command.Parameters.AddWithValue("@appointment_id", appointmentDto.AppointmentId);
+                    command.Parameters.AddWithValue("@appointment_modifydate", DateTime.Now);
+                    command.Parameters.AddWithValue("@appointment_modifyuser", appointmentDto.AppointmentModifyuser);
+                    command.Parameters.AddWithValue("@appointment_date", appointmentDto.AppointmentDate);
+                    command.Parameters.AddWithValue("@appointment_hour", appointmentDto.AppointmentHour);
+                    command.Parameters.AddWithValue("@appointment_patientid", appointmentDto.AppointmentPatientid);
+                    command.Parameters.AddWithValue("@appointment_status", appointmentDto.AppointmentStatus);
+
+                    try
+                    {
+                        // Ejecutar el procedimiento almacenado
+                        await command.ExecuteNonQueryAsync();
+                    }
+                    catch (SqlException ex)
+                    {
+                        // Manejo de errores, si ocurre algún problema al ejecutar el SP
+                        throw new ApplicationException("Error al modificar la cita: " + ex.Message);
+                    }
+                }
+            }
+        }
+
 
     }
 }

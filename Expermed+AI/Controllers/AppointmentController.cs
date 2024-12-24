@@ -65,6 +65,32 @@ namespace Expermed_AI.Controllers
         }
 
 
+        [HttpGet]
+        public async Task<IActionResult> AppointmentGetById(int id)
+        {
+            try
+            {
+                var appointment = _appointmentService.GetAppointmentById(id);
+
+                // Validar si la cita no existe
+                if (appointment == null)
+                {
+                    return NotFound("Appointment Not Found");
+                }
+
+                // Redirigir a la lista de citas si se encuentra la cita
+                return RedirectToAction("AppointmentList", "Appointment");
+            }
+            catch (Exception ex)
+            {
+                // Registrar el error y devolver un mensaje de error genérico
+                // Puedes usar un sistema de logging como Serilog, NLog, etc.
+                Console.Error.WriteLine($"Error fetching appointment: {ex.Message}");
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
+        }
+
+
         [HttpGet("available-hours")]
         public IActionResult GetAvailableHours([FromQuery] int userId, [FromQuery] DateTime date)
         {
@@ -86,62 +112,68 @@ namespace Expermed_AI.Controllers
         }
 
 
-        [HttpPost]
-        public IActionResult CreateAppointment([FromBody] Appointment request)
+        // En el controlador de tu backend
+        [HttpPost("CreateAppointment")]
+        public async Task<IActionResult> CreateAppointment([FromBody] Appointment request)
         {
             try
             {
-                var userId = HttpContext.Session.GetInt32("UsuarioId");
+                var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
 
-                if (!userId.HasValue)
-                {
-                    TempData["ErrorMessage"] = "No se pudo obtener el ID del usuario. Por favor, inicie sesión.";
-                    return RedirectToAction("Login", "Account");
-                }
-
-                if (string.IsNullOrEmpty(request.AppointmentHour) || request.AppointmentDate == DateTime.MinValue || request.AppointmentPatientid == 0)
-                {
-                    TempData["ErrorMessage"] = "Faltan datos necesarios para la cita.";
-                    return RedirectToAction("PatientList", "Patient");
-                }
-
-                // Convertir la hora de la cita (appointmentTime) de string a TimeOnly
-                TimeOnly appointmentHour = TimeOnly.Parse(request.AppointmentHour);
-
-                // Crear el modelo de la cita
-                Appointment appointment = new Appointment
+                // Lógica para crear la cita
+                var appointment = new Appointment
                 {
                     AppointmentCreatedate = DateTime.Now,
                     AppointmentModifydate = DateTime.Now,
-                    AppointmentCreateuser = userId.Value,
-                    AppointmentModifyuser = userId.Value,
-                    AppointmentDate = request.AppointmentDate.Date,
-                    AppointmentHour = appointmentHour,
+                    AppointmentCreateuser = usuarioId,
+                    AppointmentModifyuser = usuarioId,
+                    AppointmentDate = request.AppointmentDate,
+                    AppointmentHour = request.AppointmentHour,
                     AppointmentPatientid = request.AppointmentPatientid,
                     AppointmentStatus = 1
                 };
 
-                bool result = _appointmentService.CreateAppointment(appointment);
+                await _appointmentService.CreateAppointmentAsync(appointment);
 
-                if (result)
-                {
-                    TempData["SuccessMessage"] = "Cita creada exitosamente.";
-                    return RedirectToAction("AppointmentList");
-                }
-                else
-                {
-                    TempData["ErrorMessage"] = "Error al crear la cita. Inténtalo de nuevo.";
-                }
-
-                return RedirectToAction("PatientList", "Patient");
+                return Ok(new { success = true, message = "Appointment created successfully" });
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Error: " + ex.Message;
-                return RedirectToAction("PatientList", "Patient");
+                return BadRequest(new { success = false, message = ex.Message });
             }
         }
 
+
+        //Modificar una cita
+        // En el controlador de tu backend
+        [HttpPost("ModifyAppointment")]
+        public async Task<IActionResult> ModifyAppointment([FromBody] Appointment request)
+        {
+            try
+            {
+                var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
+
+                // Lógica para modificar la cita
+                var appointment = new Appointment
+                {
+                    AppointmentId = request.AppointmentId,                  // ID de la cita a modificar
+                    AppointmentModifydate = DateTime.Now,                   // Fecha de modificación
+                    AppointmentModifyuser = usuarioId ?? 0,                 // Usuario que realiza la modificación
+                    AppointmentDate = request.AppointmentDate,              // Nueva fecha de la cita
+                    AppointmentHour = request.AppointmentHour,              // Nueva hora de la cita
+                    AppointmentPatientid = request.AppointmentPatientid,    // ID del paciente
+                    AppointmentStatus = request.AppointmentStatus ?? 1      // Estado de la cita (por defecto 1 si no se especifica)
+                };
+
+                await _appointmentService.ModifyAppointmentAsync(appointment);
+
+                return Ok(new { success = true, message = "Appointment modified successfully" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+        }
 
 
     }

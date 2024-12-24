@@ -382,10 +382,10 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form class="row g-3 needs-validation" novalidate>
+                                                        <form class="row g-3 needs-validation" novalidate name="formData">
                                                             <div class="col-xxl-6">
                                                                 <label for="patientId" class="form-label">Patient Id</label>
-                                                                <input hidden type="number" class="form-control" value="@Model.Patient.PatientId" id="patientId" required>
+                                                                <input type="hidden" class="form-control" value="@Model.Patient.PatientId" id="patientId" required>
                                                             </div>
 
 
@@ -396,10 +396,10 @@
                                                             </div>
                                         
                                                             <div class="col-xxl-6">
-                                                                <label for="appointmentTime" class="form-label">Your appointment time is:</label>
-                                                                <input type="time" class="form-control" id="appointmentTime" required readonly>
+                                                                <label for="ui" class="form-label">Your appointment time is:</label>
+                                                                <input type="time" class="form-control" id="appointmentTime" required>
                                                             </div>
-
+                                                            </form>
 
                                                             <div class="col-xxl-6">
                                                                 <button type="button" class="btn btn-soft-info" id="viewHoursButton">
@@ -422,12 +422,11 @@
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                                            <button type="button" id="submitTimeButton" class="btn btn-primary">Submit</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </form>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -550,7 +549,7 @@ $(document).ready(function () {
                 // Si el usuario confirma, enviamos la cita al backend
                 var userId = @usuarioId; // Obtener el ID del usuario
                 var appointmentDate = selectedDate; // Mantener la fecha
-                var appointmentTime = selectedHour; // Mantener la hora seleccionada
+                // Mantener la hora seleccionada
 
                 // Realizamos la solicitud AJAX para crear la cita
                 $.ajax({
@@ -558,17 +557,19 @@ $(document).ready(function () {
                     type: 'POST',
                     contentType: 'application/json', // Asegúrate de especificar el tipo de contenido
                     data: JSON.stringify({
-                        patientId: patientId,  // ID del paciente
-                        selectedDate: appointmentDate,  // Solo la fecha
-                        appointmentTime: appointmentTime  // Solo la hora
+                        AppointmentPatientid: patientId,  // ID del paciente
+                        AppointmentDate: selectedDate,  // Solo la fecha
+                        AppointmentHour: selectedHour  // Solo la hora
                     }),
                     success: function (response) {
                         if (response.success) {
                             // Mostrar mensaje de éxito
-                            Swal.fire('Appointment confirmed!', response.message, 'success');
+                            Swal.fire('Appointment confirmed!', response.message, 'success').then(() => {
+                                window.location.href = '@Url.Action("AppointmentList", "Appointment")'; // Redirigir a la lista de citas
+                            });
                         } else {
                             // Si algo salió mal
-                            Swal.fire('Error', response.message, 'error');
+                            Swal.fire('Error', response.message || 'There was an issue scheduling your appointment.', 'error');
                         }
                     },
                     error: function (xhr, status, error) {
@@ -579,9 +580,9 @@ $(document).ready(function () {
 
                 // Imprimir datos de la solicitud para depuración
                 console.log('Sending data to backend:', JSON.stringify({
-                    patientId: patientId,
-                    selectedDate: appointmentDate,
-                    appointmentTime: appointmentTime
+                    AppointmentPatientid: patientId,
+                    AppointmentDate: appointmentDate,
+                    AppointmentHour: selectedHour
                 }));
 
             } else if (result.dismiss === Swal.DismissReason.cancel) {

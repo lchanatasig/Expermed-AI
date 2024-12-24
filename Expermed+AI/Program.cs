@@ -2,6 +2,8 @@ using Expermed_AI.Models;
 using Expermed_AI.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Expermed_AI
 {
@@ -12,14 +14,21 @@ namespace Expermed_AI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews()
+                .AddJsonOptions(options =>
+                {
+                    // Agregar convertidores personalizados para TimeOnly
+                    options.JsonSerializerOptions.Converters.Add(new TimeOnlyJsonConverter());
+                });
+
             builder.Services.AddDbContext<ExpermedBDAIContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
             builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
             // Registrar IHttpContextAccessor
             builder.Services.AddHttpContextAccessor();
-            // Registrar el servicio de autenticación
+
+            // Registrar servicios personalizados
             builder.Services.AddScoped<AuthenticationServices>();
             builder.Services.AddScoped<UsersService>();
             builder.Services.AddScoped<SelectsService>();
@@ -36,7 +45,6 @@ namespace Expermed_AI
                 options.Cookie.SameSite = SameSiteMode.None; // Permite el uso de la cookie en solicitudes de diferentes sitios
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Asegúrate de que la cookie sea segura
             });
-
 
             builder.Services.AddLogging();
 
@@ -67,6 +75,22 @@ namespace Expermed_AI
             });
 
             app.Run();
+        }
+    }
+
+    // Conversor JSON para TimeOnly
+    public class TimeOnlyJsonConverter : JsonConverter<TimeOnly>
+    {
+        private const string TimeFormat = "HH:mm";
+
+        public override TimeOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            return TimeOnly.ParseExact(reader.GetString()!, TimeFormat);
+        }
+
+        public override void Write(Utf8JsonWriter writer, TimeOnly value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value.ToString(TimeFormat));
         }
     }
 }
