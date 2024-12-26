@@ -99,12 +99,11 @@
                         aria-haspopup="true" aria-expanded="false">
                         <i class='bx bx-bell fs-22'></i>
                         <span
-                            class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">3<span
-                                class="visually-hidden">unread messages</span></span>
+                            class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger" id="notification-count">0</span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                         aria-labelledby="page-header-notifications-dropdown">
-
+                
                         <div class="dropdown-head bg-primary bg-pattern rounded-top">
                             <div class="p-3">
                                 <div class="row align-items-center">
@@ -112,69 +111,31 @@
                                         <h6 class="m-0 fs-16 fw-semibold text-white"> Notifications </h6>
                                     </div>
                                     <div class="col-auto dropdown-tabs">
-                                        <span class="badge bg-light-subtle text-body fs-13"> 4 New</span>
+                                        <span class="badge bg-light-subtle text-body fs-13"> <span id="new-notifications-count">0</span> New</span>
                                     </div>
                                 </div>
                             </div>
-
+                
                             <div class="px-2 pt-2">
                                 <ul class="nav nav-tabs dropdown-tabs nav-tabs-custom" data-dropdown-tabs="true"
                                     id="notificationItemsTab">
                                     <li class="nav-item waves-effect waves-light">
-                                        <a class="nav-link active" data-bs-toggle="tab" href="#all-noti-tab" role="tab"
+                                        <a class="nav-link active" data-bs-toggle="tab" href="#appointments-noti-tab" role="tab"
                                             aria-selected="true">
                                             Appointments
                                         </a>
                                     </li>
-
                                 </ul>
                             </div>
-
                         </div>
-
+                
                         <div class="tab-content position-relative" id="notificationItemsTabContent">
-                            <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
-                                <div data-simplebar style="max-height: 300px;" class="pe-2">
-                                    <div class="text-reset notification-item d-block dropdown-item position-relative">
-                                        <div class="d-flex">
-                                            <div class="avatar-xs me-3">
-                                                <span
-                                                    class="avatar-title bg-info-subtle text-info rounded-circle fs-16">
-                                                    <i class="bx bx-badge-check"></i>
-                                                </span>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <a href="#!" class="stretched-link">
-                                                    <h6 class="mt-0 mb-2 lh-base">Your <b>Elite</b> author Graphic
-                                                        Optimization <span class="text-secondary">reward</span> is
-                                                        ready!
-                                                    </h6>
-                                                </a>
-                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                    <span><i class="mdi mdi-clock-outline"></i> Just 30 sec ago</span>
-                                                </p>
-                                            </div>
-                                            <div class="px-2 fs-15">
-                                                <div class="form-check notification-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="all-notification-check01">
-                                                    <label class="form-check-label"
-                                                        for="all-notification-check01"></label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="my-3 text-center view-all">
-                                        <a type="button" href="@Url.Action("AppointmentList","Appointment")"
-                                            class="btn btn-soft-success waves-effect waves-light">View
-                                            All Appointments <i class="ri-arrow-right-line align-middle"></i></a>
-                                    </div>
+                            <div class="tab-pane fade show active py-2 ps-2" id="appointments-noti-tab" role="tabpanel">
+                                <div data-simplebar style="max-height: 300px;" class="pe-2" id="notification-list">
+                                    <!-- Las notificaciones se cargarán aquí dinámicamente -->
                                 </div>
-
                             </div>
-
-
+                
                             <div class="notification-actions" id="notification-actions">
                                 <div class="d-flex text-muted justify-content-center">
                                     Select <div id="select-content" class="text-body fw-semibold px-1">0</div> Result
@@ -248,3 +209,59 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<script>
+    // Generar la URL desde Razor
+    const fetchUrl = '@Url.Action("GetAppointmentsForToday", "Appointment")';
+
+    // Función para obtener notificaciones
+    async function fetchNotifications(userProfile, userId) {
+        try {
+            // Construir la URL con los parámetros
+            const url = `${fetchUrl}?userProfile=${userProfile}&userId=${userId}`;
+            const response = await fetch(url);
+            const notifications = await response.json();
+
+            // Actualizar el contador de notificaciones
+            document.getElementById('notification-count').textContent = notifications.length;
+            document.getElementById('new-notifications-count').textContent = notifications.length;
+
+            // Mostrar las notificaciones
+            const notificationList = document.getElementById('notification-list');
+            notificationList.innerHTML = '';
+
+            notifications.forEach(notification => {
+                const notificationItem = document.createElement('div');
+                notificationItem.classList.add('text-reset', 'notification-item', 'd-block', 'dropdown-item', 'position-relative');
+
+                notificationItem.innerHTML = `
+                    <div class="d-flex">
+                        <div class="avatar-xs me-3">
+                            <span class="avatar-title bg-info-subtle text-info rounded-circle fs-16">
+                                <i class="bx bx-calendar-check"></i>
+                            </span>
+                        </div>
+                        <div class="flex-grow-1">
+                            <a href="#!" class="stretched-link">
+                                <h6 class="mt-0 mb-2 lh-base">Appointment with <b>${notification.DoctorName}</b> on <span class="text-secondary">${notification.AppointmentDate}</span></h6>
+                            </a>
+                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                <span><i class="mdi mdi-clock-outline"></i> ${notification.TimeAgo}</span>
+                            </p>
+                        </div>
+                    </div>
+                `;
+
+                notificationList.appendChild(notificationItem);
+            });
+
+        } catch (error) {
+            console.error("Error fetching notifications:", error);
+        }
+    }
+
+    // Llamar a la función para cargar notificaciones al cargar la página
+    document.addEventListener("DOMContentLoaded", function () {
+        // Asegúrate de reemplazar estos valores con los correctos
+        fetchNotifications(@perfilId, @usuarioId);  // Por ejemplo, userProfile 2 y userId 123
+    });
+</script>

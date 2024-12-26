@@ -224,5 +224,72 @@ namespace Expermed_AI.Services
         }
 
 
+        //Cancelar una Cita
+        public void DesactivateAppointment(int appointmentId, int modifiedBy)
+        {
+            using (SqlConnection connection = new SqlConnection(_dbContext.Database.GetConnectionString()))
+            {
+                try
+                {
+                    connection.Open();
+
+                    // Crear el comando para ejecutar el SP
+                    using (SqlCommand cmd = new SqlCommand("sp_DesactiveAppointment", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        // Agregar parámetros
+                        cmd.Parameters.Add(new SqlParameter("@AppointmentId", SqlDbType.Int)).Value = appointmentId;
+                        cmd.Parameters.Add(new SqlParameter("@ModifiedBy", SqlDbType.Int)).Value = modifiedBy;
+
+                        // Ejecutar el procedimiento almacenado
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Manejo de errores
+                    Console.WriteLine($"Error al desactivar la cita: {ex.Message}");
+                }
+            }
+        }
+
+        //Obtener cita por dia 
+        public async Task<DataTable> GetAppointmentsForToday(int userProfile, int userId)
+        {
+            using (var connection = new SqlConnection(_dbContext.Database.GetConnectionString()))
+            {
+                try
+                {
+                    // Abrimos la conexión a la base de datos
+                    await connection.OpenAsync();
+
+                    // Creamos el comando para ejecutar el SP
+                    using (var command = new SqlCommand("sp_GetAppointmentsForToday", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Agregar los parámetros al procedimiento almacenado
+                        command.Parameters.Add(new SqlParameter("@user_profile", SqlDbType.Int) { Value = userProfile });
+                        command.Parameters.Add(new SqlParameter("@user_id", SqlDbType.Int) { Value = userId });
+
+                        // Ejecutamos el SP y obtenemos el resultado
+                        var dataTable = new DataTable();
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            dataTable.Load(reader);
+                        }
+
+                        return dataTable;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Manejo de errores
+                    throw new Exception("Error al obtener citas", ex);
+                }
+            }
+        }
+
     }
 }

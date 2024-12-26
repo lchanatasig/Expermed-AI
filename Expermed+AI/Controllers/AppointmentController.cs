@@ -65,6 +65,7 @@ namespace Expermed_AI.Controllers
         }
 
 
+
         [HttpGet]
         public async Task<IActionResult> AppointmentGetById(int id)
         {
@@ -72,23 +73,26 @@ namespace Expermed_AI.Controllers
             {
                 var appointment = _appointmentService.GetAppointmentById(id);
 
-                // Validar si la cita no existe
                 if (appointment == null)
                 {
-                    return NotFound("Appointment Not Found");
+                    return NotFound(new { message = "Appointment Not Found" });
                 }
 
-                // Redirigir a la lista de citas si se encuentra la cita
-                return RedirectToAction("AppointmentList", "Appointment");
+                // Devuelve la información de la cita como JSON
+                return Json(new
+                {
+                    Patient = appointment.AppointmentPatientid,
+                    Date = appointment.AppointmentDate.ToString("yyyy-MM-dd"),
+                    Time = appointment.AppointmentHour.ToString("HH:mm")
+                });
             }
             catch (Exception ex)
             {
-                // Registrar el error y devolver un mensaje de error genérico
-                // Puedes usar un sistema de logging como Serilog, NLog, etc.
                 Console.Error.WriteLine($"Error fetching appointment: {ex.Message}");
-                return StatusCode(500, "An error occurred while processing your request.");
+                return StatusCode(500, new { message = "An error occurred while processing your request." });
             }
         }
+
 
 
         [HttpGet("available-hours")]
@@ -100,6 +104,7 @@ namespace Expermed_AI.Controllers
 
                 if (availableHours.Count == 0)
                 {
+                    TempData["ErrorMessage"] = "No available hours for the selected date.";  // Almacenar el mensaje en TempData
                     return NoContent();  // Si no hay horas disponibles, devolver un estado 204 No Content
                 }
 
@@ -107,9 +112,11 @@ namespace Expermed_AI.Controllers
             }
             catch (Exception ex)
             {
+                TempData["ErrorMessage"] = $"An error occurred: {ex.Message}";  // Almacenar el mensaje de error en TempData
                 return StatusCode(500, new { message = ex.Message });  // Manejo de errores en caso de fallos en el servicio
             }
         }
+
 
 
         // En el controlador de tu backend
@@ -175,6 +182,55 @@ namespace Expermed_AI.Controllers
             }
         }
 
+        [HttpPost("desactivate")]
+        public IActionResult DesactivateAppointment([FromBody] Appointment request)
+        {
+            // Validar que la petición sea correcta
+            if (request.AppointmentId <= 0 || request.AppointmentModifyuser <= 0)
+            {
+                return BadRequest(new { message = "Los parámetros proporcionados no son válidos." });
+            }
+
+            try
+            {
+                // Llamar al servicio para desactivar la cita
+                _appointmentService.DesactivateAppointment(request.AppointmentId, request.AppointmentModifyuser ?? 0);
+
+                // Retornar una respuesta exitosa en formato JSON
+                return Ok(new { message = "Cita desactivada correctamente." });
+            }
+            catch (Exception ex)
+            {
+                // En caso de error, devolver mensaje de error en formato JSON
+                return StatusCode(500, new { message = $"Error al desactivar la cita: {ex.Message}" });
+            }
+        }
+
+        [HttpGet("appointmentsfortoday")]
+        public async Task<IActionResult> GetAppointmentsForToday([FromQuery] int userProfile, [FromQuery] int userId)
+        {
+            try
+            {
+                var appointments = await _appointmentService.GetAppointmentsForToday(userProfile, userId);
+
+                // Transformar las citas a un formato adecuado para el frontend
+                var notifications = appointments.AsEnumerable().Select(row => new
+                {
+                    AppointmentId = row["appointment_id"],
+                    AppointmentDate = row["appointment_date"],
+                    Time = row["appointment_hour"],
+                    PatientId = row["appointment_patientid"],
+                    Status = row["appointment_status"],
+                    TimeAgo = "Just now"  // Este campo se puede calcular dependiendo de la diferencia entre la fecha actual y la cita
+                }).ToList();
+
+                return Ok(notifications);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex.Message);
+            }
+        }
 
     }
 }
