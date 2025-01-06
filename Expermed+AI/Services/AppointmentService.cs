@@ -255,6 +255,7 @@ namespace Expermed_AI.Services
         }
 
         //Obtener cita por dia 
+
         public async Task<DataTable> GetAppointmentsForToday(int userProfile, int userId)
         {
             using (var connection = new SqlConnection(_dbContext.Database.GetConnectionString()))
@@ -280,6 +281,17 @@ namespace Expermed_AI.Services
                             dataTable.Load(reader);
                         }
 
+                        // Modificar las columnas del DataTable para combinar nombres y apellidos
+                        if (dataTable.Columns.Contains("patient_name") && dataTable.Columns.Contains("patient_surname"))
+                        {
+                            dataTable.Columns.Add("FullPatientName", typeof(string), "patient_name + ' ' + patient_surname");
+                        }
+
+                        if (dataTable.Columns.Contains("doctor_name") && dataTable.Columns.Contains("doctor_lastname"))
+                        {
+                            dataTable.Columns.Add("FullDoctorName", typeof(string), "doctor_name + ' ' + doctor_lastname");
+                        }
+
                         return dataTable;
                     }
                 }
@@ -290,6 +302,7 @@ namespace Expermed_AI.Services
                 }
             }
         }
+
 
     }
 }

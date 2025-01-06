@@ -214,6 +214,11 @@
     const fetchUrl = '@Url.Action("GetAppointmentsForToday", "Appointment")';
 
     // Función para obtener notificaciones
+
+                notificationList.appendChild(notificationItem);
+            });
+
+        } catch (error) {
     async function fetchNotifications(userProfile, userId) {
         try {
             // Construir la URL con los parámetros
@@ -250,11 +255,6 @@
                         </div>
                     </div>
                 `;
-
-                notificationList.appendChild(notificationItem);
-            });
-
-        } catch (error) {
             console.error("Error fetching notifications:", error);
         }
     }
