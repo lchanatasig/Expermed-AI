@@ -214,11 +214,6 @@
     const fetchUrl = '@Url.Action("GetAppointmentsForToday", "Appointment")';
 
     // Función para obtener notificaciones
-
-                notificationList.appendChild(notificationItem);
-            });
-
-        } catch (error) {
     async function fetchNotifications(userProfile, userId) {
         try {
             // Construir la URL con los parámetros
@@ -255,6 +250,10 @@
                         </div>
                     </div>
                 `;
+                notificationList.appendChild(notificationItem);
+            });
+
+        } catch (error) {
             console.error("Error fetching notifications:", error);
         }
     }
@@ -262,6 +261,6 @@
     // Llamar a la función para cargar notificaciones al cargar la página
     document.addEventListener("DOMContentLoaded", function () {
         // Asegúrate de reemplazar estos valores con los correctos
-        fetchNotifications(@perfilId, @usuarioId);  // Por ejemplo, userProfile 2 y userId 123
+        fetchNotifications(@perfilId, @usuarioId); // Por ejemplo, userProfile 2 y userId 123
     });
 </script>
