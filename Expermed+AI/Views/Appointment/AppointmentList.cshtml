@@ -102,7 +102,7 @@
        </div>
 
 
-          <!--Modal modificacion cita-->
+          <!--Modal opciones cita-->
             <div class="modal flip" id="optionModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
                <div class="modal-dialog">
                    <div class="modal-content">
@@ -553,13 +553,59 @@
     });
 
 
-        //Metodo para empezar una consulta
+        // Método para empezar una consulta
+    function startConsultation() {
+        // Obtener el ID de la cita desde el campo oculto
+        const appointmentId = document.getElementById("appointmentIdInput").value;
+        console.log("Appointment ID:", appointmentId);  // Verificar el appointmentId
 
-        function startConsultation(){
-
-
-
+        if (!appointmentId) {
+            alert("No appointment ID found.");
+            return;
         }
+
+        // Paso 1: Obtener los datos del paciente asociados a la cita
+        const urlGetPatient = '@Url.Action("GetPatientByAppointment", "Appointment")';  // Cambié aquí "Patients" por "Appointment"
+        const apiUrl = `${urlGetPatient}?appointmentId=${appointmentId}`;  // Agregar el appointmentId a la URL generada
+        console.log("API URL to fetch patient data:", apiUrl);  // Verificar la URL
+
+        fetch(apiUrl)
+            .then(response => {
+                console.log("Response status:", response.status);  // Verificar el estado de la respuesta
+                if (!response.ok) {
+                    throw new Error("Failed to fetch patient details.");
+                }
+                return response.json();
+            })
+            .then(patientData => {
+                console.log("Patient data received:", patientData);  // Verificar los datos del paciente
+
+                if (!patientData) {
+                    alert("Patient not found for this appointment.");
+                    return;
+                }
+
+                const patientId = patientData.patientId; // Asegúrate de que `patientId` esté en los datos
+                console.log("Patient ID from data:", patientId);  // Verificar el patientId
+
+                if (!patientId) {
+                    alert("No patient ID found in patient data.");
+                    return;
+                }
+
+                // Redirigir al controlador con el patientId
+                const urlNewConsultation = '@Url.Action("NewConsultation", "Consultation")';
+                const consultationUrl = `${urlNewConsultation}?patientId=${patientId}`; // Construir la URL para la nueva consulta
+                console.log("Redirecting to consultation URL:", consultationUrl);  // Verificar la URL de redirección
+                window.location.href = consultationUrl;
+            })
+            .catch(error => {
+                console.error("Error during consultation start:", error);  // Verificar el error completo
+                alert("An error occurred while starting the consultation.");
+            });
+    }
+
+
 
 
 

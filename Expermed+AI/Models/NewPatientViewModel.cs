@@ -17,6 +17,8 @@
 
         public Patient Patient { get; set; }  // For user details
 
+        public DetailsPatientConsult DetailsPatient { get; set; }
+
 
     }
 }

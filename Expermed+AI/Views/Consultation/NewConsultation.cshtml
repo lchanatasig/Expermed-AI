@@ -78,35 +78,35 @@
                                     <div class="col-lg-3">
                                         <div class="mb-3">
                                             <label class="form-label" for="firstName">First Last Name</label>
-                                            <input type="text" class="form-control" id="firstlastnameInput" name="PatientFirstsurname" disabled>
+                                            <input type="text" class="form-control" id="firstlastnameInput" name="PatientFirstsurname" value="@Model.Patient.PatientFirstsurname" disabled>
                                        </div>
                                     </div>
 
                                     <div class="col-lg-3">
                                          <div class="mb-3">
                                              <label for="documentNumberInput" class="form-label">Second Last Name</label>
-                                             <input type="text" class="form-control" id="Input" name="PatientSecondlastname" disabled>
+                                             <input type="text" class="form-control" id="Input" name="PatientSecondlastname" value="@Model.Patient.PatientSecondlastname" disabled>
                                          </div>
                                     </div>
                                     
                                     <div class="col-lg-3">
                                        <div class="mb-3">
                                            <label for="documentNumberInput" class="form-label">First Name</label>
-                                           <input type="text" class="form-control" id="firstnameInput" name="PatientFirstname"  disabled>
+                                           <input type="text" class="form-control" id="firstnameInput" name="PatientFirstname" value="@Model.Patient.PatientFirstname"  disabled>
                                        </div>
                                     </div>
 
                                     <div class="col-lg-3">
                                        <div class="mb-3">
                                            <label for="documentNumberInput" class="form-label">Middle Name</label>
-                                           <input type="text" class="form-control" id="Input" name="PatientMiddlename" disabled>
+                                           <input type="text" class="form-control" id="Input" name="PatientMiddlename" value="@Model.Patient.PatientMiddlename" disabled>
                                        </div>
                                     </div>
 
                                     <div class="col-lg-3">
                                        <div class="mb-3">
                                        <label for="specialtySelect" class="form-label">Select Document Type *</label>
-                                       <select class="form-control" id="documenttyoeId" name="PatientDocumenttype" data-choices data-choices-sorting-false disabled>
+                                       <select class="form-control" asp-for="Patient.PatientDocumenttype" id="documenttyoeId" name="PatientDocumenttype" data-choices data-choices-sorting-false disabled>
                                                                     @foreach (var documenttype in Model.DocumentTypes)
                                                                     {
                                                        <option value="@documenttype.CatalogId">@documenttype.CatalogName</option>
@@ -119,7 +119,7 @@
                                     <div class="col-lg-3">
                                           <div class="mb-3">
                                               <label for="lastnameInput" class="form-label">Document Number *</label>
-                                              <input type="text" class="form-control" id="documentnumber" name="PatientDocumentnumber" disabled>
+                                              <input type="text" class="form-control" id="documentnumber" name="PatientDocumentnumber" value="@Model.Patient.PatientDocumentnumber" disabled>
                                                  
                                           </div>
                                     </div>
@@ -127,7 +127,7 @@
                                     <div class="col-lg-3">
                                         <div class="mb-3">
                                         <label for="specialtySelect" class="form-label">Select Blood Type</label>
-                                        <select class="form-control" id="bloodtype" name="PatientBloodtype" data-choices data-choices-sorting-false disabled>
+                                        <select class="form-control" id="bloodtype" name="PatientBloodtype" asp-for="Patient.PatientBloodtype" data-choices data-choices-sorting-false disabled>
                                             @foreach (var bloodtype in Model.BloodTypes)    
                                             {
                                                     <option value="@bloodtype.CatalogId">@bloodtype.CatalogName</option>
@@ -140,7 +140,7 @@
                                      <div class="col-lg-2">
                                         <div class="mb-3">
                                         <label for="specialtySelect" class="form-label">He is donor? </label>
-                                        <select class="form-control" id="documenttyoeId" name="PatientDonor" data-choices data-choices-sorting-false disabled >
+                                        <select class="form-control" id="documenttyoeId" name="PatientDonor" asp-for="Patient.PatientDonor" data-choices data-choices-sorting-false disabled >
                                                       <option value="Yes">Yes</option>
                                                       <option value="No">No</option>
                                         </select>
@@ -151,7 +151,7 @@
                                      <div class="col-lg-3">
                                            <div class="mb-3">
                                                <label for="lastnameInput" class="form-label">Date of Birthdate *</label>
-                                               <input type="date" class="form-control" id="birhdate"  name="PatientBirthdate" disabled>
+                                               <input type="date" class="form-control" id="birhdate"  name="PatientBirthdate" value="@((Model.Patient.PatientBirthdate.HasValue) ? Model.Patient.PatientBirthdate.Value.ToString("yyyy-MM-dd") : string.Empty)" disabled>
                                                  
                                            </div>
                                      </div>
@@ -159,7 +159,7 @@
                                      <div class="col-lg-2">
                                            <div class="mb-3">
                                                <label for="lastnameInput" class="form-label">Age</label>
-                                               <input type="number" class="form-control" id="agePatient"  name="PatientAge" disabled>
+                                               <input type="number" class="form-control" id="agePatient"  name="PatientAge"  value="@Model.Patient.PatientAge" disabled>
                                                  
                                            </div>
                                      </div>
@@ -167,7 +167,7 @@
                                       <div class="col-lg-3">
                                         <div class="mb-3">
                                         <label for="specialtySelect" class="form-label">Select Marital Status</label>
-                                        <select class="form-control" id="maritalStatus" name="PatientMaritalstatus" data-choices data-choices-sorting-false disabled>
+                                        <select class="form-control" id="maritalStatus" name="PatientMaritalstatus" asp-for="Patient.PatientMaritalstatus" data-choices data-choices-sorting-false disabled>
                                             @foreach (var maritalStatus in Model.CivilTypes)    
                                             {
                                                         <option value="@maritalStatus.CatalogId">@maritalStatus.CatalogName</option>
@@ -180,7 +180,7 @@
                                      <div class="col-lg-3">
                                        <div class="mb-3">
                                        <label for="specialtySelect" class="form-label">Select Professional training</label>
-                                       <select class="form-control" id="vocationalTraining" name="PatientVocationalTraining" data-choices data-choices-sorting-false disabled>
+                                       <select class="form-control" id="vocationalTraining" name="PatientVocationalTraining" asp-for="Patient.PatientVocationalTraining" data-choices data-choices-sorting-false disabled>
                                            @foreach (var professionaltraining in Model.ProfessionalTrainingTypes)    
                                            {
                                                        <option value="@professionaltraining.CatalogId">@professionaltraining.CatalogName</option>
@@ -197,7 +197,7 @@
                                       <div class="col-lg-3">
                                         <div class="mb-3">
                                         <label for="specialtySelect" class="form-label">Select your Nationality</label>
-                                        <select class="form-control" id="nationalitytypeId" name="PatientNationality" data-choices data-choices-sorting-false disabled>
+                                        <select class="form-control" id="nationalitytypeId" name="PatientNationality" asp-for="Patient.PatientNationality" data-choices data-choices-sorting-false disabled>
                                             @foreach (var nacionality in Model.Countries)    
                                             {
                                                         <option value="@nacionality.CountryId">@nacionality.CountryNationality</option>
@@ -207,10 +207,10 @@
                                         </div>
                                      </div>
 
-                                     <div class="col-lg-4">
+                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                         <label for="specialtySelect" class="form-label">Select your Province</label>
-                                        <select class="form-control" id="provincetypeId" name="PatientProvince" data-choices data-choices-sorting-false disabled>
+                                        <select class="form-control" id="provincetypeId" name="PatientProvince" asp-for="Patient.PatientProvince" data-choices data-choices-sorting-false disabled>
                                             @foreach (var provinces in Model.Provinces)    
                                             {
                                                         <option value="@provinces.ProvinceId">@provinces.ProvinceName</option>
@@ -225,7 +225,7 @@
                                             <label for="addressInput" class="form-label">Address</label>
                                             <div class="input-group">
                                                 <!-- Input para ingresar la dirección -->
-                                                <input type="text" id="addressInput" class="form-control" name="PatientAddress" aria-label="Recipient's username" aria-describedby="button-addon2" placeholder="Write your address" disabled
+                                                <input type="text" id="addressInput" class="form-control" name="PatientAddress" value="@Model.Patient.PatientAddress" aria-label="Recipient's username" aria-describedby="button-addon2" placeholder="Write your address" disabled
 
                                                 <!-- Botón para mostrar el mapa -->
                                                 <button class="btn btn-outline-success" type="button" id="mapButton" disabled><i class="ri-map-pin-line"></i></button>
@@ -242,7 +242,7 @@
                                       <div class="col-lg-4">
                                           <div class="mb-3">
                                               <label for="codeSenecytInput" class="form-label">Landline Phone Number</label>
-                                              <input type="text" class="form-control" id="landlinetInput" name="PatientLandlinePhone" placeholder="Enter your landline phone number" disabled>
+                                              <input type="text" class="form-control" id="landlinetInput" name="PatientLandlinePhone" value="@Model.Patient.PatientLandlinePhone" placeholder="Enter your landline phone number" disabled>
                                             
                                           </div>
                                       </div>
@@ -250,21 +250,21 @@
                                       <div class="col-lg-4">
                                           <div class="mb-3">
                                               <label for="phonenumberInput" class="form-label">Cellular Phone Number</label>
-                                              <input type="text" class="form-control" id="phonenumberInput" name="PatientCellularPhone" placeholder="Enter your phone number +(1) 987 6543" disabled>
+                                              <input type="text" class="form-control" id="phonenumberInput" name="PatientCellularPhone" value="@Model.Patient.PatientCellularPhone" placeholder="Enter your phone number +(1) 987 6543" disabled>
                                            </div>
                                       </div>
 
                                       <div class="col-lg-4">
                                           <div class="mb-3">
                                               <label for="emailInput" class="form-label">Email Address</label>
-                                              <input type="email" class="form-control" id="steparrow-gen-info-email-input" name="PatientEmail" >
+                                              <input type="email" class="form-control" id="steparrow-gen-info-email-input" name="PatientEmail" value="@Model.Patient.PatientEmail">
                                           </div>
                                       </div>
 
                                       <div class="col-lg-4">
                                           <div class="mb-3">
                                               <label for="phonenumberInput" class="form-label">Ocupation</label>
-                                              <input type="text" class="form-control" id="phonenumberInput" name="PatientOcupation" placeholder="Enter your Ocupation" disabled>
+                                              <input type="text" class="form-control" id="phonenumberInput" name="PatientOcupation" placeholder="Enter your Ocupation" value="@Model.Patient.PatientOcupation" disabled>
                                           
                                           </div>
                                       </div>
@@ -272,7 +272,7 @@
                                       <div class="col-lg-4">
                                           <div class="mb-3">
                                               <label for="phonenumberInput" class="form-label">Company</label>
-                                              <input type="text" class="form-control" id="phonenumberInput" name="PatientCompany" placeholder="Enter your company" disabled>
+                                              <input type="text" class="form-control" id="phonenumberInput" name="PatientCompany" placeholder="Enter your company" value="@Model.Patient.PatientCompany" disabled>
                                           
                                           </div>
                                       </div>
@@ -280,7 +280,7 @@
                                        <div class="col-lg-3">
                                           <div class="mb-3">
                                           <label for="specialtySelect" class="form-label">Select your health insurance</label>
-                                          <select class="form-control" id="healtInsurancetyoeId" name="PatientHealthInsurance" data-choices data-choices-sorting-false disabled>
+                                          <select class="form-control" id="healtInsurancetyoeId" name="PatientHealthInsurance" asp-for="Patient.PatientHealthInsurance" data-choices data-choices-sorting-false disabled>
                                               @foreach (var healtinsurance in Model.SureHealthTypes)    
                                               {
                                                       <option value="@healtinsurance.CatalogId">@healtinsurance.CatalogName</option>
@@ -293,7 +293,7 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="steparrow-gen-info-username-input">History Clinic</label>
-                                            <input type="text" class="form-control" id="historyClinic" placeholder="Enter History Clinic" required>
+                                            <input type="text" class="form-control" id="historyClinic" placeholder="Enter History Clinic" value="@Model.Patient.PatientDocumentnumber" required readonly>
                                             <div class="invalid-feedback">Please enter a History Clinic</div>
                                         </div>
                                     </div>
@@ -308,15 +308,36 @@
 
                         <div class="tab-pane fade" id="steparrow-description-info" role="tabpanel" aria-labelledby="steparrow-description-info-tab">
                             <div>
-                                <div class="mb-3">
-                                    <label for="formFile" class="form-label">Upload Image</label>
-                                    <input class="form-control" type="file" id="formFile" />
-                                </div>
-                                <div>
-                                    <label class="form-label" for="des-info-description-input">Description</label>
-                                    <textarea class="form-control" placeholder="Enter Description" id="des-info-description-input" rows="3" required></textarea>
-                                    <div class="invalid-feedback">Please enter a description</div>
-                                </div>
+                                
+
+                          <!-- Striped Rows -->
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <td style="font-size: 0.7rem;">
+                                        <i class="ri-account-circle-fill"></i> <br/> 
+                                        Patient <br/> @Model.Patient.PatientFirstname @Model.Patient.PatientFirstsurname
+                                    </td>
+                                    <td style="font-size: 0.7rem;"><i class="ri-bank-card-fill"></i> <br/> Document Number <br/> @Model.Patient.PatientDocumentnumber </td>
+                                    <td style="font-size: 0.7rem;"><i class="mdi-gender-male-female"></i> <br/> Gender <br /> @Model.Patient.PatientGenderNavigation?.CatalogName ?? "No disponible"</td>
+                                    <td style="font-size: 0.7rem;">$2,410</td>
+                                    <td style="font-size: 0.7rem;"><span class="badge bg-success-subtle text-success">Confirmed</span></td>
+                                </tr>
+                                <tr>
+                                    <th style="font-size: 0.8rem;">
+                                        <i class="ri-account-circle-fill"></i>  
+                                    </th>
+                                    <td style="font-size: 0.8rem;">Bobby Davis</td>
+                                    <td style="font-size: 0.8rem;">Nov 14, 2021</td>
+                                    <td style="font-size: 0.8rem;">$2,410</td>
+                                    <td style="font-size: 0.8rem;"><span class="badge bg-success-subtle text-success">Confirmed</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+
+
                             </div>
                             <div class="d-flex align-items-start gap-3 mt-4">
                                 <button type="button" class="btn btn-light btn-label previestab" data-previous="steparrow-gen-info-tab"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to General</button>
