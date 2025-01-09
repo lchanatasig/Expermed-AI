@@ -78,35 +78,35 @@
                                     <div class="col-lg-3">
                                         <div class="mb-3">
                                             <label class="form-label" for="firstName">First Last Name</label>
-                                            <input type="text" class="form-control" id="firstlastnameInput" name="PatientFirstsurname" value="@Model.Patient.PatientFirstsurname" disabled>
+                                            <input type="text" class="form-control" id="firstlastnameInput" name="PatientFirstsurname" value="@Model.DetailsPatient.PatientFirstsurname" disabled>
                                        </div>
                                     </div>
 
                                     <div class="col-lg-3">
                                          <div class="mb-3">
                                              <label for="documentNumberInput" class="form-label">Second Last Name</label>
-                                             <input type="text" class="form-control" id="Input" name="PatientSecondlastname" value="@Model.Patient.PatientSecondlastname" disabled>
+                                             <input type="text" class="form-control" id="Input" name="PatientSecondlastname" value="@Model.DetailsPatient.PatientSecondlastname" disabled>
                                          </div>
                                     </div>
                                     
                                     <div class="col-lg-3">
                                        <div class="mb-3">
                                            <label for="documentNumberInput" class="form-label">First Name</label>
-                                           <input type="text" class="form-control" id="firstnameInput" name="PatientFirstname" value="@Model.Patient.PatientFirstname"  disabled>
+                                           <input type="text" class="form-control" id="firstnameInput" name="PatientFirstname" value="@Model.DetailsPatient.PatientFirstname"  disabled>
                                        </div>
                                     </div>
 
                                     <div class="col-lg-3">
                                        <div class="mb-3">
                                            <label for="documentNumberInput" class="form-label">Middle Name</label>
-                                           <input type="text" class="form-control" id="Input" name="PatientMiddlename" value="@Model.Patient.PatientMiddlename" disabled>
+                                           <input type="text" class="form-control" id="Input" name="PatientMiddlename" value="@Model.DetailsPatient.PatientMiddlename" disabled>
                                        </div>
                                     </div>
 
                                     <div class="col-lg-3">
                                        <div class="mb-3">
                                        <label for="specialtySelect" class="form-label">Select Document Type *</label>
-                                       <select class="form-control" asp-for="Patient.PatientDocumenttype" id="documenttyoeId" name="PatientDocumenttype" data-choices data-choices-sorting-false disabled>
+                                       <select class="form-control" asp-for="DetailsPatient.PatientDocumenttype" id="documenttyoeId" name="PatientDocumenttype" data-choices data-choices-sorting-false disabled>
                                                                     @foreach (var documenttype in Model.DocumentTypes)
                                                                     {
                                                        <option value="@documenttype.CatalogId">@documenttype.CatalogName</option>
@@ -119,7 +119,7 @@
                                     <div class="col-lg-3">
                                           <div class="mb-3">
                                               <label for="lastnameInput" class="form-label">Document Number *</label>
-                                              <input type="text" class="form-control" id="documentnumber" name="PatientDocumentnumber" value="@Model.Patient.PatientDocumentnumber" disabled>
+                                              <input type="text" class="form-control" id="documentnumber" name="PatientDocumentnumber" value="@Model.DetailsPatient.PatientDocumentnumber" disabled>
                                                  
                                           </div>
                                     </div>
@@ -127,7 +127,7 @@
                                     <div class="col-lg-3">
                                         <div class="mb-3">
                                         <label for="specialtySelect" class="form-label">Select Blood Type</label>
-                                        <select class="form-control" id="bloodtype" name="PatientBloodtype" asp-for="Patient.PatientBloodtype" data-choices data-choices-sorting-false disabled>
+                                        <select class="form-control" id="bloodtype" name="PatientBloodtype" asp-for="DetailsPatient.PatientBloodtype" data-choices data-choices-sorting-false disabled>
                                             @foreach (var bloodtype in Model.BloodTypes)    
                                             {
                                                     <option value="@bloodtype.CatalogId">@bloodtype.CatalogName</option>
@@ -140,7 +140,7 @@
                                      <div class="col-lg-2">
                                         <div class="mb-3">
                                         <label for="specialtySelect" class="form-label">He is donor? </label>
-                                        <select class="form-control" id="documenttyoeId" name="PatientDonor" asp-for="Patient.PatientDonor" data-choices data-choices-sorting-false disabled >
+                                        <select class="form-control" id="documenttyoeId" name="PatientDonor" asp-for="DetailsPatient.PatientDonor" data-choices data-choices-sorting-false disabled >
                                                       <option value="Yes">Yes</option>
                                                       <option value="No">No</option>
                                         </select>
@@ -151,7 +151,7 @@
                                      <div class="col-lg-3">
                                            <div class="mb-3">
                                                <label for="lastnameInput" class="form-label">Date of Birthdate *</label>
-                                               <input type="date" class="form-control" id="birhdate"  name="PatientBirthdate" value="@((Model.Patient.PatientBirthdate.HasValue) ? Model.Patient.PatientBirthdate.Value.ToString("yyyy-MM-dd") : string.Empty)" disabled>
+                                               <input type="date" class="form-control" id="birhdate"  name="PatientBirthdate" value="@((Model.DetailsPatient.PatientBirthdate.HasValue) ? Model.DetailsPatient.PatientBirthdate.Value.ToString("yyyy-MM-dd") : string.Empty)" disabled>
                                                  
                                            </div>
                                      </div>
@@ -159,7 +159,7 @@
                                      <div class="col-lg-2">
                                            <div class="mb-3">
                                                <label for="lastnameInput" class="form-label">Age</label>
-                                               <input type="number" class="form-control" id="agePatient"  name="PatientAge"  value="@Model.Patient.PatientAge" disabled>
+                                               <input type="number" class="form-control" id="agePatient"  name="PatientAge"  value="@Model.DetailsPatient.PatientAge" disabled>
                                                  
                                            </div>
                                      </div>
@@ -167,7 +167,7 @@
                                       <div class="col-lg-3">
                                         <div class="mb-3">
                                         <label for="specialtySelect" class="form-label">Select Marital Status</label>
-                                        <select class="form-control" id="maritalStatus" name="PatientMaritalstatus" asp-for="Patient.PatientMaritalstatus" data-choices data-choices-sorting-false disabled>
+                                        <select class="form-control" id="maritalStatus" name="PatientMaritalstatus" asp-for="DetailsPatient.PatientMaritalstatus" data-choices data-choices-sorting-false disabled>
                                             @foreach (var maritalStatus in Model.CivilTypes)    
                                             {
                                                         <option value="@maritalStatus.CatalogId">@maritalStatus.CatalogName</option>
@@ -180,7 +180,7 @@
                                      <div class="col-lg-3">
                                        <div class="mb-3">
                                        <label for="specialtySelect" class="form-label">Select Professional training</label>
-                                       <select class="form-control" id="vocationalTraining" name="PatientVocationalTraining" asp-for="Patient.PatientVocationalTraining" data-choices data-choices-sorting-false disabled>
+                                       <select class="form-control" id="vocationalTraining" name="PatientVocationalTraining" asp-for="DetailsPatient.PatientVocationalTraining" data-choices data-choices-sorting-false disabled>
                                            @foreach (var professionaltraining in Model.ProfessionalTrainingTypes)    
                                            {
                                                        <option value="@professionaltraining.CatalogId">@professionaltraining.CatalogName</option>
@@ -197,7 +197,7 @@
                                       <div class="col-lg-3">
                                         <div class="mb-3">
                                         <label for="specialtySelect" class="form-label">Select your Nationality</label>
-                                        <select class="form-control" id="nationalitytypeId" name="PatientNationality" asp-for="Patient.PatientNationality" data-choices data-choices-sorting-false disabled>
+                                        <select class="form-control" id="nationalitytypeId" name="PatientNationality" asp-for="DetailsPatient.PatientNationality" data-choices data-choices-sorting-false disabled>
                                             @foreach (var nacionality in Model.Countries)    
                                             {
                                                         <option value="@nacionality.CountryId">@nacionality.CountryNationality</option>
@@ -210,7 +210,7 @@
                                      <div class="col-lg-6">
                                         <div class="mb-3">
                                         <label for="specialtySelect" class="form-label">Select your Province</label>
-                                        <select class="form-control" id="provincetypeId" name="PatientProvince" asp-for="Patient.PatientProvince" data-choices data-choices-sorting-false disabled>
+                                        <select class="form-control" id="provincetypeId" name="PatientProvince" asp-for="DetailsPatient.PatientProvince" data-choices data-choices-sorting-false disabled>
                                             @foreach (var provinces in Model.Provinces)    
                                             {
                                                         <option value="@provinces.ProvinceId">@provinces.ProvinceName</option>
@@ -225,7 +225,7 @@
                                             <label for="addressInput" class="form-label">Address</label>
                                             <div class="input-group">
                                                 <!-- Input para ingresar la dirección -->
-                                                <input type="text" id="addressInput" class="form-control" name="PatientAddress" value="@Model.Patient.PatientAddress" aria-label="Recipient's username" aria-describedby="button-addon2" placeholder="Write your address" disabled
+                                                <input type="text" id="addressInput" class="form-control" name="PatientAddress" value="@Model.DetailsPatient.PatientAddress" aria-label="Recipient's username" aria-describedby="button-addon2" placeholder="Write your address" disabled
 
                                                 <!-- Botón para mostrar el mapa -->
                                                 <button class="btn btn-outline-success" type="button" id="mapButton" disabled><i class="ri-map-pin-line"></i></button>
@@ -242,7 +242,7 @@
                                       <div class="col-lg-4">
                                           <div class="mb-3">
                                               <label for="codeSenecytInput" class="form-label">Landline Phone Number</label>
-                                              <input type="text" class="form-control" id="landlinetInput" name="PatientLandlinePhone" value="@Model.Patient.PatientLandlinePhone" placeholder="Enter your landline phone number" disabled>
+                                              <input type="text" class="form-control" id="landlinetInput" name="PatientLandlinePhone" value="@Model.DetailsPatient.PatientLandlinePhone" placeholder="Enter your landline phone number" disabled>
                                             
                                           </div>
                                       </div>
@@ -250,21 +250,21 @@
                                       <div class="col-lg-4">
                                           <div class="mb-3">
                                               <label for="phonenumberInput" class="form-label">Cellular Phone Number</label>
-                                              <input type="text" class="form-control" id="phonenumberInput" name="PatientCellularPhone" value="@Model.Patient.PatientCellularPhone" placeholder="Enter your phone number +(1) 987 6543" disabled>
+                                              <input type="text" class="form-control" id="phonenumberInput" name="PatientCellularPhone" value="@Model.DetailsPatient.PatientCellularPhone" placeholder="Enter your phone number +(1) 987 6543" disabled>
                                            </div>
                                       </div>
 
                                       <div class="col-lg-4">
                                           <div class="mb-3">
                                               <label for="emailInput" class="form-label">Email Address</label>
-                                              <input type="email" class="form-control" id="steparrow-gen-info-email-input" name="PatientEmail" value="@Model.Patient.PatientEmail">
+                                              <input type="email" class="form-control" id="steparrow-gen-info-email-input" name="PatientEmail" value="@Model.DetailsPatient.PatientEmail">
                                           </div>
                                       </div>
 
                                       <div class="col-lg-4">
                                           <div class="mb-3">
                                               <label for="phonenumberInput" class="form-label">Ocupation</label>
-                                              <input type="text" class="form-control" id="phonenumberInput" name="PatientOcupation" placeholder="Enter your Ocupation" value="@Model.Patient.PatientOcupation" disabled>
+                                              <input type="text" class="form-control" id="phonenumberInput" name="PatientOcupation" placeholder="Enter your Ocupation" value="@Model.DetailsPatient.PatientOcupation" disabled>
                                           
                                           </div>
                                       </div>
@@ -272,7 +272,7 @@
                                       <div class="col-lg-4">
                                           <div class="mb-3">
                                               <label for="phonenumberInput" class="form-label">Company</label>
-                                              <input type="text" class="form-control" id="phonenumberInput" name="PatientCompany" placeholder="Enter your company" value="@Model.Patient.PatientCompany" disabled>
+                                              <input type="text" class="form-control" id="phonenumberInput" name="PatientCompany" placeholder="Enter your company" value="@Model.DetailsPatient.PatientCompany" disabled>
                                           
                                           </div>
                                       </div>
@@ -280,7 +280,7 @@
                                        <div class="col-lg-3">
                                           <div class="mb-3">
                                           <label for="specialtySelect" class="form-label">Select your health insurance</label>
-                                          <select class="form-control" id="healtInsurancetyoeId" name="PatientHealthInsurance" asp-for="Patient.PatientHealthInsurance" data-choices data-choices-sorting-false disabled>
+                                          <select class="form-control" id="healtInsurancetyoeId" name="PatientHealthInsurance" asp-for="DetailsPatient.PatientHealthInsurance" data-choices data-choices-sorting-false disabled>
                                               @foreach (var healtinsurance in Model.SureHealthTypes)    
                                               {
                                                       <option value="@healtinsurance.CatalogId">@healtinsurance.CatalogName</option>
@@ -293,7 +293,7 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="steparrow-gen-info-username-input">History Clinic</label>
-                                            <input type="text" class="form-control" id="historyClinic" placeholder="Enter History Clinic" value="@Model.Patient.PatientDocumentnumber" required readonly>
+                                            <input type="text" class="form-control" id="historyClinic" placeholder="Enter History Clinic" value="@Model.DetailsPatient.PatientDocumentnumber" required readonly>
                                             <div class="invalid-feedback">Please enter a History Clinic</div>
                                         </div>
                                     </div>
@@ -301,52 +301,444 @@
                                
                             </div>
                             <div class="d-flex align-items-start gap-3 mt-4">
-                                <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab" data-nexttab="steparrow-description-info-tab"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Go to more info</button>
+                                <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab" data-nexttab="steparrow-consultation-data"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Consultation Data</button>
                             </div>
                         </div>
                         <!-- end tab pane -->
 
-                        <div class="tab-pane fade" id="steparrow-description-info" role="tabpanel" aria-labelledby="steparrow-description-info-tab">
+                        <div class="tab-pane fade" id="steparrow-consultation-data" role="tabpanel" aria-labelledby="steparrow-description-info-tab">
                             <div>
                                 
-
+                             <div class="divider-with-text">
+                                <i class="ri-user-search-fill" id="icons"></i>  <span> Contact Data </span>
+                             </div>
                           <!-- Striped Rows -->
                         <table class="table table-striped">
                             <tbody>
                                 <tr>
                                     <td style="font-size: 0.7rem;">
                                         <i class="ri-account-circle-fill"></i> <br/> 
-                                        Patient <br/> @Model.Patient.PatientFirstname @Model.Patient.PatientFirstsurname
+                                        Patient <br/> @Model.DetailsPatient.PatientFirstname @Model.DetailsPatient.PatientFirstsurname
                                     </td>
-                                    <td style="font-size: 0.7rem;"><i class="ri-bank-card-fill"></i> <br/> Document Number <br/> @Model.Patient.PatientDocumentnumber </td>
-                                    <td style="font-size: 0.7rem;"><i class="mdi-gender-male-female"></i> <br/> Gender <br /> @Model.Patient.PatientGenderNavigation?.CatalogName ?? "No disponible"</td>
-                                    <td style="font-size: 0.7rem;">$2,410</td>
-                                    <td style="font-size: 0.7rem;"><span class="badge bg-success-subtle text-success">Confirmed</span></td>
+                                    <td style="font-size: 0.7rem;"><i class="ri-bank-card-fill"></i> <br/> Document Number <br/> @Model.DetailsPatient.PatientDocumentnumber </td>
+                                    <td style="font-size: 0.7rem;"><i class="mdi-gender-male-female"></i> <br/> Gender <br /> @Model.DetailsPatient.PatientGenderName</td>
+                                    <td style="font-size: 0.7rem;"><i class="ri-drop-fill"></i> <br /> Blood Type <br /> @Model.DetailsPatient.PatientBloodtypeName</td>
+                                    <td style="font-size: 0.7rem;"><i class="ri-calendar-event-fill"></i> <br /> Date of Birthday <br /> @((Model.DetailsPatient.PatientBirthdate.HasValue) ? Model.DetailsPatient.PatientBirthdate.Value.ToString("yyyy-MM-dd") : string.Empty) </span></td>
+                                    <td style="font-size: 0.7rem;"><i class="ri-calendar-event-fill"></i> <br /> Age <br /> @Model.DetailsPatient.PatientAge</td>
+
                                 </tr>
                                 <tr>
-                                    <th style="font-size: 0.8rem;">
-                                        <i class="ri-account-circle-fill"></i>  
-                                    </th>
-                                    <td style="font-size: 0.8rem;">Bobby Davis</td>
-                                    <td style="font-size: 0.8rem;">Nov 14, 2021</td>
-                                    <td style="font-size: 0.8rem;">$2,410</td>
-                                    <td style="font-size: 0.8rem;"><span class="badge bg-success-subtle text-success">Confirmed</span></td>
+
+                                    <td style="font-size: 0.7rem;"> <i class="ri-file-user-fill"></i><br/> Status maried <br/> @Model.DetailsPatient.PatientMaritalstatusName</td>
+                                    <td style="font-size: 0.7rem;"> <i class="ri-honour-fill"></i><br/>Professional Training  <br/>@Model.PatientVocationalTrainingNavigation</td>
+                                    <td style="font-size: 0.7rem;"> <i class="ri-flag-fill"></i><br/> Nationality <br/>@Model.DetailsPatient.PatientNationalityName</td>
+                                    <td style="font-size: 0.7rem;"> <i class="ri-phone-fill"></i><br/>Phone  <br/>@Model.DetailsPatient.PatientLandlinePhone </td>
+                                    <td style="font-size: 0.7rem;"> <i class="ri-smartphone-fill"></i><br/>Cellphone <br/>@Model.DetailsPatient.PatientCellularPhone </td>
+                                    <td style="font-size: 0.7rem;"> <i class="ri-mail-fill"></i><br/>Email <br/>@Model.DetailsPatient.PatientEmail </td>
                                 </tr>
                             </tbody>
                         </table>
 
 
-
-
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="mb-3">
+                                    <label for="phonenumberInput" class="form-label">Name of companion</label>
+                                    <input type="text" class="form-control" id="phonenumberInput" name="PatientCompany" placeholder="Name(s), Lastname(s)">
+                                
+                                </div>
                             </div>
+
+
+                            <div class="col-lg-3">
+                               <div class="mb-3">
+                               <label for="specialtySelect" class="form-label">Select your parent</label>
+                               <select class="form-control" id="parentsId" name="Parents" data-choices data-choices-sorting-false>
+                                   @foreach (var parents in Model.Parents)    
+                                   {
+                                           <option value="@parents.CatalogId">@parents.CatalogName</option>
+                                   }
+                               </select>
+                            
+                               </div>
+                            </div>
+
+
+                             <div class="col-lg-4">
+                                <div class="mb-3">
+                                    <label for="phonenumberInput" class="form-label">Phone of companion</label>
+                                    <input type="text" class="form-control" id="phonenumberInput" name="PhoneCompanation" placeholder="0900000000">
+                                
+                                </div>
+                            </div>
+
+
+                             <div class="col-lg-12">
+                                <div class="mb-3">
+                                    <label for="phonenumberInput" class="form-label">Reason for consultation *</label>
+                                    <input type="text" class="form-control" id="reasonforConsultation" name="reasonConsultation" placeholder="Enter your reason for consultation" required>
+
+                                </div>
+                            </div>
+
+
+                             <div class="divider-with-text">
+                                <i class="ri-user-3-fill" id="icons"></i>  <span> Personal background </span>
+                             </div>
+
+                             <div class="col-lg-12">
+                                <div class="mb-3">
+                                
+                                    <textarea class="form-control" id="exampleFormControlTextarea5" rows="3" placeholder="Enter a brief description, if you want to speak press the microphone"></textarea>
+                                </div>
+                            </div>
+
+
+                                <!-- Contenedor del select de alergias -->
+                                
+                            <div class="col-lg-12" id="allergiesSelectContainer"> <!-- Oculto por defecto -->
+                                <div class="mb-3">
+                                    <label for="allergiesSelect" class="form-label">Select the allergies</label>
+                                    <select class="form-control" id="allergiesSelect" name="allergiesSelect" data-choices data-choices-removeItem multiple>
+                                        @foreach (var allergies in Model.AllergiesTypes)
+                                        {
+                                            <option value="@allergies.CatalogId"> @allergies.CatalogName</option>
+                                        }
+                                    </select>
+                                    <!-- Input oculto para enviar los IDs seleccionados -->
+                                    <input type="hidden" id="selectedDoctorIds" name="selectedDoctorIds">
+                                </div>
+                            </div>
+
+
+                               <!-- Contenedor del select de cirugias -->
+                                
+                            <div class="col-lg-12" id="surgeriesSelectContainer"> <!-- Oculto por defecto -->
+                                <div class="mb-3">
+                                    <label for="allergiesSelect" class="form-label">Select the surgeries</label>
+                                    <select class="form-control" id="surgeriesSelect" name="surgeriesSelect" data-choices data-choices-removeItem multiple>
+                                        @foreach (var surgeries in Model.SurgeriesTypes)
+                                        {
+                                            <option value="@surgeries.CatalogId"> @surgeries.CatalogName</option>
+                                        }
+                                    </select>
+                                    <!-- Input oculto para enviar los IDs seleccionados -->
+                                    <input type="hidden" id="selectedDoctorIds" name="selectedDoctorIds">
+                                </div>
+                            </div>
+
+                            <!--Antecedentes familiares-->
+                             <div class="divider-with-text">
+                                <i class="ri-arrow-go-back-fill" id="icons"></i>  <span> Familiary background </span>
+                             </div>
+
+                      
+                                 <!--Cardiopatia-->
+                                    <div class="form-check form-switch">
+                                       <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" >
+                                       <label class="form-check-label" for="SwitchCheckHeartdiasease">Heart disease</label>
+                                   </div>
+
+                                   <div class="col-lg-5">
+                                      <div class="mb-3">
+                                      
+                                         <select class="form-control" id="FamilyMembers" name="familyMemberHeartDisease" data-choices data-choices-sorting-false>
+                                             <option value="">Select your family member</option>
+                                             @foreach (var familyMember in Model.FamilyMember)    
+                                             {
+                                                     <option value="@familyMember.CatalogId">@familyMember.CatalogName</option>
+                                             }
+                                         </select>
+
+                                      </div>
+                                  </div>
+                                
+                                  <div class="col-lg-5">
+                                    <div class="mb-3">
+                                    
+                                        <input type="text" class="form-control" id="observationHeartDisease" name="observationHeartDisease" placeholder="Enter an observation" >
+
+                                    </div>
+                                  </div>
+                                  
+                                       
+                                 <!--Diabetes-->
+                                    <div class="form-check form-switch" >
+                                       <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" >
+                                       <label class="form-check-label" for="SwitchCheckDiabetes">Diabetes</label>
+                                   </div>
+                                   
+                                   <div class="col-lg-5">
+                                       <div class="mb-3">
+                                       
+                                          <select class="form-control" id="FamilyMembers" name="familyMemberDiabetes" data-choices data-choices-sorting-false>
+                                              <option value="">Select your family member</option>
+                                              @foreach (var familyMember in Model.FamilyMember)    
+                                              {
+                                                      <option value="@familyMember.CatalogId">@familyMember.CatalogName</option>
+                                              }
+                                          </select>
+                                   
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="col-lg-5">
+                                     <div class="mb-3">
+                                     
+                                         <input type="text" class="form-control" id="observationDiabetes" name="observationDiabetes" placeholder="Enter an observation" >
+                                   
+                                     </div>
+                                   </div>
+
+                                <!--Enfermedad Cardiovacular-->
+                                   <div class="form-check form-switch" >
+                                      <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" >
+                                      <label class="form-check-label" for="SwitchCheckCardiovascular">Cardiovascular Disease</label>
+                                  </div>
+
+                                   <div class="col-lg-5">
+                                      <div class="mb-3">
+                                      
+                                         <select class="form-control" id="FamilyMembers" name="familyMemberCardiovascularDisease" data-choices data-choices-sorting-false>
+                                             <option value="">Select your family member</option>
+                                             @foreach (var familyMember in Model.FamilyMember)    
+                                             {
+                                                     <option value="@familyMember.CatalogId">@familyMember.CatalogName</option>
+                                             }
+                                         </select>
+                                  
+                                      </div>
+                                  </div>
+                                  
+                                  <div class="col-lg-5">
+                                    <div class="mb-3">
+                                    
+                                        <input type="text" class="form-control" id="observationCardiovascularDisease" name="observationCardiovascularDisease" placeholder="Enter an observation" >
+                                  
+                                    </div>
+                                 </div>
+ 
+                                <!-- Hypertension-->
+                                   <div class="form-check form-switch" >
+                                      <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" >
+                                      <label class="form-check-label" for="SwitchCheckHypertension">Hypertension</label>
+                                  </div>   
+        
+                                    <div class="col-lg-5">
+                                       <div class="mb-3">
+                                       
+                                          <select class="form-control" id="FamilyMembers" name="familyMemberHypertension" data-choices data-choices-sorting-false>
+                                              <option value="">Select your family member</option>
+                                              @foreach (var familyMember in Model.FamilyMember)    
+                                              {
+                                                      <option value="@familyMember.CatalogId">@familyMember.CatalogName</option>
+                                              }
+                                          </select>
+                                   
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="col-lg-5">
+                                     <div class="mb-3">
+                                     
+                                         <input type="text" class="form-control" id="observationHypertension" name="observationHypertension" placeholder="Enter an observation" >
+                                   
+                                     </div>
+                                  </div>
+
+                                <!--Cancer-->
+                                   <div class="form-check form-switch" >
+                                      <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" >
+                                      <label class="form-check-label" for="SwitchCheckCancer">Cancer</label>
+                                  </div>  
+
+                                    <div class="col-lg-5">
+                                       <div class="mb-3">
+                                       
+                                          <select class="form-control" id="FamilyMembers" name="familyMemberCancer" data-choices data-choices-sorting-false>
+                                              <option value="">Select your family member</option>
+                                              @foreach (var familyMember in Model.FamilyMember)    
+                                              {
+                                                      <option value="@familyMember.CatalogId">@familyMember.CatalogName</option>
+                                              }
+                                          </select>
+                                   
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="col-lg-5">
+                                     <div class="mb-3">
+                                     
+                                         <input type="text" class="form-control" id="observationCancer" name="observationCancer" placeholder="Enter an observation" >
+                                   
+                                     </div>
+                                  </div>
+                                  
+                                <!-- Tuberculosis-->
+                                   <div class="form-check form-switch" >
+                                      <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" >
+                                      <label class="form-check-label" for="SwitchCheckTuberculosis">Tuberculosis</label>
+                                  </div>   
+        
+                                    <div class="col-lg-5">
+                                       <div class="mb-3">
+                                       
+                                          <select class="form-control" id="FamilyMembers" name="familyMemberTuberculosis" data-choices data-choices-sorting-false>
+                                              <option value="">Select your family member</option>
+                                              @foreach (var familyMember in Model.FamilyMember)    
+                                              {
+                                                      <option value="@familyMember.CatalogId">@familyMember.CatalogName</option>
+                                              }
+                                          </select>
+                                   
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="col-lg-5">
+                                     <div class="mb-3">
+                                     
+                                         <input type="text" class="form-control" id="observationTuberculosis" name="observationTuberculosis" placeholder="Enter an observation" >
+                                   
+                                     </div>
+                                  </div>
+                                <!--Enfermedad Mental-->
+                                   <div class="form-check form-switch" >
+                                      <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" >
+                                      <label class="form-check-label" for="SwitchCheckMentalIllness">Mental Illness</label>
+                                  </div>  
+                                  
+                                    <div class="col-lg-5">
+                                       <div class="mb-3">
+                                       
+                                          <select class="form-control" id="FamilyMembers" name="familyMemberMentalIllness" data-choices data-choices-sorting-false>
+                                              <option value="">Select your family member</option>
+                                              @foreach (var familyMember in Model.FamilyMember)    
+                                              {
+                                                      <option value="@familyMember.CatalogId">@familyMember.CatalogName</option>
+                                              }
+                                          </select>
+                                   
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="col-lg-5">
+                                     <div class="mb-3">
+                                     
+                                         <input type="text" class="form-control" id="observationMentalIllness" name="observationMentalIllness" placeholder="Enter an observation" >
+                                   
+                                     </div>
+                                  </div>
+
+                                <!-- Enfermedad Infecciosa-->
+                                   <div class="form-check form-switch" >
+                                      <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" >
+                                      <label class="form-check-label" for="SwitchCheckInfectious">Infectious Disease</label>
+                                  </div>   
+        
+                                    <div class="col-lg-5">
+                                       <div class="mb-3">
+                                       
+                                          <select class="form-control" id="FamilyMembers" name="familyMemberInfectious" data-choices data-choices-sorting-false>
+                                              <option value="">Select your family member</option>
+                                              @foreach (var familyMember in Model.FamilyMember)    
+                                              {
+                                                      <option value="@familyMember.CatalogId">@familyMember.CatalogName</option>
+                                              }
+                                          </select>
+                                   
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="col-lg-5">
+                                     <div class="mb-3">
+                                     
+                                         <input type="text" class="form-control" id="observationInfectious" name="observationInfectious" placeholder="Enter an observation" >
+                                   
+                                     </div>
+                                  </div>
+
+                                <!--Malformacion-->
+                                   <div class="form-check form-switch" >
+                                      <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" >
+                                      <label class="form-check-label" for="SwitchCheckMalformation">Malformation</label>
+                                  </div>  
+                                  
+                                    <div class="col-lg-5">
+                                       <div class="mb-3">
+                                       
+                                          <select class="form-control" id="FamilyMembers" name="familyMemberMalformation" data-choices data-choices-sorting-false>
+                                              <option value="">Select your family member</option>
+                                              @foreach (var familyMember in Model.FamilyMember)    
+                                              {
+                                                      <option value="@familyMember.CatalogId">@familyMember.CatalogName</option>
+                                              }
+                                          </select>
+                                   
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="col-lg-5">
+                                     <div class="mb-3">
+                                     
+                                         <input type="text" class="form-control" id="observationMalformation" name="observationMalformation" placeholder="Enter an observation" >
+                                   
+                                     </div>
+                                  </div>
+
+                                <!--Otro-->
+                                   <div class="form-check form-switch" >
+                                      <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" >
+                                      <label class="form-check-label" for="SwitchCheckOther">Other</label>
+                                  </div>  
+
+                               <div class="col-lg-5">
+                                  <div class="mb-3">
+                                  
+                                     <select class="form-control" id="FamilyMembers" name="familyMemberOther" data-choices data-choices-sorting-false>
+                                         <option value="">Select your family member</option>
+                                         @foreach (var familyMember in Model.FamilyMember)    
+                                         {
+                                                 <option value="@familyMember.CatalogId">@familyMember.CatalogName</option>
+                                         }
+                                     </select>
+                              
+                                  </div>
+                              </div>
+                              
+                              <div class="col-lg-5">
+                                <div class="mb-3">
+                                
+                                    <input type="text" class="form-control" id="observationOther" name="observationOther" placeholder="Enter an observation" >
+                              
+                                </div>
+                             </div>
+
+                             <!--Fin Antecedentes familiares-->
+                             <div class="divider-with-text">
+                                <i class="las la-notes-medical" id="icons"></i>  <span> Current illness or problem (*)</span>
+                             </div>
+
+                             <div class="col-lg-12">
+                                <div class="mb-3">
+
+                                    <textarea class="form-control" id="exampleFormControlTextarea5" rows="3" placeholder="Enter a brief description, if you want to speak press the microphone" required></textarea>
+                                </div>
+                            </div>
+
+
+                        </div>     
+                 
+
+
+                           </div>
                             <div class="d-flex align-items-start gap-3 mt-4">
-                                <button type="button" class="btn btn-light btn-label previestab" data-previous="steparrow-gen-info-tab"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to General</button>
-                                <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab" data-nexttab="pills-experience-tab"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
+                                <button type="button" class="btn btn-light btn-label previestab" data-previous="steparrow-consultation-data"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to Patient Data</button>
+                                <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab" data-nexttab="steparrow-vital-signs"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Vital Signs</button>
                             </div>
                         </div>
                         <!-- end tab pane -->
 
-                        <div class="tab-pane fade" id="pills-experience" role="tabpanel">
+                        <div class="tab-pane fade" id=steparrow-vital-signs" role="tabpanel">
                             <div class="text-center">
 
                                 <div class="avatar-md mt-5 mb-4 mx-auto">
@@ -360,7 +752,7 @@
                         </div>
                         <!-- end tab pane -->
 
-                                                <div class="tab-pane fade" id="pills-experience" role="tabpanel">
+                       <div class="tab-pane fade" id="pills-experience" role="tabpanel">
                             <div class="text-center">
 
                                 <div class="avatar-md mt-5 mb-4 mx-auto">
@@ -396,23 +788,41 @@
     @await Html.PartialAsync("_vendor_scripts")
 
 <script>
-    document.getElementById('birhdate').addEventListener('input', function() {
-        const birthDate = new Date(this.value);
-        const today = new Date();
+    document.addEventListener("DOMContentLoaded", function () {
+        // Selecciona todos los switches
+        const switches = document.querySelectorAll(".form-check-input");
 
-        // Calculate age
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const month = today.getMonth() - birthDate.getMonth();
+        switches.forEach(switchElement => {
+            // Asocia un evento de cambio a cada switch
+            switchElement.addEventListener("change", function () {
+                // Obtén los campos asociados al switch actual
+                const parentDiv = this.closest(".form-check");
+                const nextSibling = parentDiv.nextElementSibling;
+                const selectField = nextSibling.querySelector("select");
+                const observationField = nextSibling.nextElementSibling.querySelector("input");
 
-        // Adjust age if the birth month hasn't occurred yet this year or if it's before today
-        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
+                // Muestra u oculta los campos según el estado del switch
+                if (this.checked) {
+                    selectField.closest(".col-lg-5").style.display = "block";
+                    observationField.closest(".col-lg-5").style.display = "block";
+                } else {
+                    selectField.closest(".col-lg-5").style.display = "none";
+                    observationField.closest(".col-lg-5").style.display = "none";
+                }
+            });
 
-        // Set the age value
-        document.getElementById('agePatient').value = age;
+            // Oculta inicialmente los campos asociados
+            const parentDiv = switchElement.closest(".form-check");
+            const nextSibling = parentDiv.nextElementSibling;
+            const selectField = nextSibling.querySelector("select");
+            const observationField = nextSibling.nextElementSibling.querySelector("input");
+
+            selectField.closest(".col-lg-5").style.display = "none";
+            observationField.closest(".col-lg-5").style.display = "none";
+        });
     });
 </script>
+
 
     <!-- profile-setting init js -->
     <script src="~/assets/js/pages/profile-setting.init.js"></script>

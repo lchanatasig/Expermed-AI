@@ -85,7 +85,7 @@
                                                    <!-- Si la cita está activa o en seguimiento, mostrar el botón -->
                                                    <a href="#" class="btn btn-sm btn-soft-info"
                                                    data-bs-toggle="modal" data-bs-target="#optionModal" 
-                                                   onclick="openOptionModal(@appointment.AppointmentId)">
+                                                   onclick="openOptionModal(@appointment.AppointmentId,@appointment.AppointmentConsultationid)">
                                                    <i class="ri-edit-line"></i> Review
                                                    </a>
 
@@ -108,6 +108,7 @@
                    <div class="modal-content">
                        <!-- Hidden input to store AppointmentId -->
                        <input type="hidden" id="appointmentIdInput" name="AppointmentId" />
+                       <input type="hidden" id="appointmentConsultationId" name="AppointmenConsultationtId" />
            
                        <div class="modal-header">
                            <h5 class="modal-title" id="optionModal">What do you want to do on this appointment?</h5>
@@ -139,7 +140,7 @@
                                        <i class="ri-secure-payment-line label-icon align-middle fs-16 me-2"></i> Pay appointment
                                    </button>
                                </div>
-
+                               
                                 <div class="col-4">
                                     <button type="button"  class="btn btn-soft-dark  btn-label btn-sm w-100  waves-effect waves-light"
                                             onclick="startConsultation()">
@@ -278,17 +279,20 @@
 
 
         <script>
-                function openOptionModal(appointmentId) {
-                    // Asignar el ID de la cita al campo oculto
-                    document.getElementById('appointmentIdInput').value = appointmentId;
-                
-                    // Opcional: mensaje de depuración
-                    console.log('Appointment ID set in modal:', appointmentId);
-                
-                    // Mostrar el modal de opciones
-                    const optionModal = new bootstrap.Modal(document.getElementById('optionModal'));
-                    optionModal.show();
-                }
+                function openOptionModal(appointmentId, appointmentConsultationId) {
+                // Asignar los valores a los campos ocultos correspondientes
+                document.getElementById('appointmentIdInput').value = appointmentId;
+                document.getElementById('appointmentConsultationIdInput').value = appointmentConsultationId;
+            
+                // Opcional: mensajes de depuración
+                console.log('Appointment ID set in modal:', appointmentId);
+                console.log('Appointment consultation ID set in modal:', appointmentConsultationId);
+            
+                // Mostrar el modal de opciones
+                const optionModal = new bootstrap.Modal(document.getElementById('optionModal'));
+                optionModal.show();
+            }
+
 
             
                  function openRescheduleModal() {
@@ -456,7 +460,28 @@
                      }
                  });
              });
-            });        
+            });  
+            
+
+            //Filtrar boton iniciar cosulta
+            document.addEventListener('DOMContentLoaded', function () {
+            // Obtener el valor del campo oculto
+            const appointmentConsultationId = document.getElementById('appointmentConsultationId').value;
+        
+            // Obtener el botón
+            const startConsultationButton = document.querySelector('.btn-soft-dark');
+        
+            // Verificar si el campo tiene un valor
+            if (!appointmentConsultationId) {
+                // Ocultar el botón si no hay valor
+                startConsultationButton.style.display = 'block';
+            } else {
+                // Mostrar el botón si hay valor
+                startConsultationButton.style.display = 'none';
+            }
+        });
+
+
 
    // Método para desactivar una cita
            function cancelAppointment() {
@@ -553,60 +578,50 @@
     });
 
 
-        // Método para empezar una consulta
-    function startConsultation() {
-        // Obtener el ID de la cita desde el campo oculto
-        const appointmentId = document.getElementById("appointmentIdInput").value;
-        console.log("Appointment ID:", appointmentId);  // Verificar el appointmentId
+  function startConsultation() {
+    // Obtener el ID de la cita desde el campo oculto
+    const appointmentId = document.getElementById("appointmentIdInput").value;
+    console.log("Appointment ID:", appointmentId);
 
-        if (!appointmentId) {
-            alert("No appointment ID found.");
-            return;
-        }
-
-        // Paso 1: Obtener los datos del paciente asociados a la cita
-        const urlGetPatient = '@Url.Action("GetPatientByAppointment", "Appointment")';  // Cambié aquí "Patients" por "Appointment"
-        const apiUrl = `${urlGetPatient}?appointmentId=${appointmentId}`;  // Agregar el appointmentId a la URL generada
-        console.log("API URL to fetch patient data:", apiUrl);  // Verificar la URL
-
-        fetch(apiUrl)
-            .then(response => {
-                console.log("Response status:", response.status);  // Verificar el estado de la respuesta
-                if (!response.ok) {
-                    throw new Error("Failed to fetch patient details.");
-                }
-                return response.json();
-            })
-            .then(patientData => {
-                console.log("Patient data received:", patientData);  // Verificar los datos del paciente
-
-                if (!patientData) {
-                    alert("Patient not found for this appointment.");
-                    return;
-                }
-
-                const patientId = patientData.patientId; // Asegúrate de que `patientId` esté en los datos
-                console.log("Patient ID from data:", patientId);  // Verificar el patientId
-
-                if (!patientId) {
-                    alert("No patient ID found in patient data.");
-                    return;
-                }
-
-                // Redirigir al controlador con el patientId
-                const urlNewConsultation = '@Url.Action("NewConsultation", "Consultation")';
-                const consultationUrl = `${urlNewConsultation}?patientId=${patientId}`; // Construir la URL para la nueva consulta
-                console.log("Redirecting to consultation URL:", consultationUrl);  // Verificar la URL de redirección
-                window.location.href = consultationUrl;
-            })
-            .catch(error => {
-                console.error("Error during consultation start:", error);  // Verificar el error completo
-                alert("An error occurred while starting the consultation.");
-            });
+    if (!appointmentId) {
+        alert("No appointment ID found.");
+        return;
     }
 
+    // Obtener los datos del paciente asociados a la cita, específicamente el PatientId
+    const urlGetPatient = '@Url.Action("AppointmentGetById", "Appointment")';
+    const apiUrl = `${urlGetPatient}?id=${appointmentId}`;
+    console.log("API URL to fetch patient data:", apiUrl);
 
+    fetch(apiUrl)
+        .then(response => {
+            console.log("Response status:", response.status);
+            if (!response.ok) {
+                throw new Error("Failed to fetch patient details.");
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Appointment data received:", data);
 
+            if (!data.patient) {
+                alert("Patient not found for this appointment.");
+                return;
+            }
+
+            // Redirigir a la URL de NewConsultation con el PatientId
+            const urlNewConsultation = '@Url.Action("NewConsultation", "Consultation")';
+                    const consultationUrl = `${urlNewConsultation}?patientId=${data.patient}`;
+            console.log("Redirecting to:", consultationUrl);
+
+            // Redirigir al controlador
+            window.location.href = consultationUrl;
+        })
+        .catch(error => {
+            console.error("Error during consultation start:", error);
+            alert("An error occurred while starting the consultation.");
+        });
+}
 
 
         </script>

@@ -22,19 +22,19 @@ namespace Expermed_AI.Controllers
             return View();
         }
 
-
         [HttpGet]
         public async Task<IActionResult> NewConsultation(int patientId)
         {
             try
             {
                 // Obtener los detalles del paciente
-                var patient = await _patientService.GetPatientDetailsAsync(patientId);
+                var patient = await _patientService.GetPatientDataByIdAsync(patientId);
 
                 // Si el paciente no existe, devolver una respuesta de "No encontrado"
                 if (patient == null)
                 {
-                    return NotFound("Patient not found.");
+                    TempData["ErrorMessage"] = "Patient not found.";
+                    return RedirectToAction("Index", "Home");
                 }
 
                 // Obtener datos adicionales para la vista
@@ -46,11 +46,16 @@ namespace Expermed_AI.Controllers
                 var sureHealthTypes = await _selectService.GetSureHealtTypeAsync();
                 var countries = await _selectService.GetAllCountriesAsync();
                 var provinces = await _selectService.GetAllProvinceAsync();
+                var parents = await _selectService.GetRelationshipTypeAsync();
+                var allergies = await _selectService.GetAllergiesTypeAsync();
+                var surgeries = await _selectService.GetSurgeriesTypeAsync();
+                var familyMember = await _selectService.GetFamiliarTypeAsync();
+
 
                 // Crear el ViewModel
                 var viewModel = new NewPatientViewModel
                 {
-                    Patient = patient,
+                    DetailsPatient = patient,
                     GenderTypes = genderTypes,
                     BloodTypes = bloodTypes,
                     DocumentTypes = documentTypes,
@@ -58,7 +63,11 @@ namespace Expermed_AI.Controllers
                     ProfessionalTrainingTypes = professionalTrainingTypes,
                     SureHealthTypes = sureHealthTypes,
                     Countries = countries,
-                    Provinces = provinces
+                    Provinces = provinces,
+                    Parents = parents,
+                    AllergiesTypes = allergies,
+                    SurgeriesTypes = surgeries,
+                    FamilyMember  = familyMember
 
                 };
 
@@ -67,10 +76,11 @@ namespace Expermed_AI.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Error inesperado: " + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return View();
             }
         }
+
 
 
     }

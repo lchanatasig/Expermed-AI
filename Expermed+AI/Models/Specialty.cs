@@ -15,5 +15,7 @@ public partial class Specialty
 
     public int SpecialityStatus { get; set; }
 
+    public virtual ICollection<Consultation> Consultations { get; set; } = new List<Consultation>();
+
     public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

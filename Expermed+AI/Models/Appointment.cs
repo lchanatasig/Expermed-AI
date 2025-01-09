@@ -23,6 +23,10 @@ public partial class Appointment
 
     public int? AppointmentStatus { get; set; }
 
+    public int? AppointmentConsultationid { get; set; }
+
+    public virtual Consultation? AppointmentConsultation { get; set; }
+
     public virtual User? AppointmentCreateuserNavigation { get; set; }
 
     public virtual User? AppointmentModifyuserNavigation { get; set; }

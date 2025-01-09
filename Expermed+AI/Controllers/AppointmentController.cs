@@ -232,32 +232,5 @@ namespace Expermed_AI.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult GetPatientByAppointment(int appointmentId)
-        {
-            if (appointmentId <= 0)
-            {
-                return BadRequest(new { Message = "El ID de la cita no es válido." });
-            }
-
-            try
-            {
-                // Llamar al servicio para obtener los datos del paciente
-                var patient = _appointmentService.GetPatientDataByAppointment(appointmentId);
-
-                if (patient == null)
-                {
-                    return NotFound(new { Message = "No se encontró el paciente para la cita especificada." });
-                }
-
-                return Ok(patient);
-            }
-            catch (Exception ex)
-            {
-                // Manejo de errores
-                return StatusCode(500, new { Message = "Ocurrió un error al procesar la solicitud.", Error = ex.Message });
-            }
-        }
-
     }
 }

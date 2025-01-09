@@ -303,77 +303,7 @@ namespace Expermed_AI.Services
             }
         }
 
-        // Obtener paciente por cita
-        public DetailsPatientConsult GetPatientDataByAppointment(int appointmentId)
-        {
-            DetailsPatientConsult patientConsult = null;
-
-            using (SqlConnection connection = new SqlConnection(_dbContext.Database.GetConnectionString()))
-            {
-                try
-                {
-                    connection.Open();
-
-                    // Crear el comando para ejecutar el SP
-                    using (SqlCommand cmd = new SqlCommand("GetPatientFullDataByAppointment", connection))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        // Agregar el parámetro
-                        cmd.Parameters.Add(new SqlParameter("@AppointmentID", SqlDbType.Int)).Value = appointmentId;
-
-                        // Ejecutar el procedimiento almacenado y leer los resultados
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                // Mapear los datos del lector al objeto DetailsPatientConsult
-                                patientConsult = new DetailsPatientConsult
-                                {
-                                    PatientId = reader.GetInt32(reader.GetOrdinal("patient_id")),
-                                    PatientCreationdate = reader.GetDateTime(reader.GetOrdinal("patient_creationdate")),
-                                    PatientModificationdate = reader.GetDateTime(reader.GetOrdinal("patient_modificationdate")),
-                                    PatientCreationuser = reader.GetInt32(reader.GetOrdinal("patient_creationuser")),
-                                    PatientModificationuser = reader.GetInt32(reader.GetOrdinal("patient_modificationuser")),
-                                    PatientDocumenttype = reader.GetInt32(reader.GetOrdinal("patient_documenttype")),
-                                    PatientDocumentnumber = reader.GetString(reader.GetOrdinal("patient_documentnumber")),
-                                    PatientFirstname = reader.GetString(reader.GetOrdinal("patient_firstname")),
-                                    PatientMiddlename = reader.GetString(reader.GetOrdinal("patient_middlename")),
-                                    PatientFirstsurname = reader.GetString(reader.GetOrdinal("patient_firstsurname")),
-                                    PatientSecondlastname = reader.GetString(reader.GetOrdinal("patient_secondlastname")),
-                                    PatientGenderName = reader.GetString(reader.GetOrdinal("patient_gender_name")),
-                                    PatientBirthdate = reader.IsDBNull(reader.GetOrdinal("patient_birthdate")) ? (DateOnly?)null : DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("patient_birthdate"))),
-                                    PatientAge = reader.GetInt32(reader.GetOrdinal("patient_age")),
-                                    PatientBloodtypeName = reader.GetString(reader.GetOrdinal("patient_bloodtype_name")),
-                                    PatientDonor = reader.GetString(reader.GetOrdinal("patient_donor")),
-                                    PatientMaritalstatusName = reader.GetString(reader.GetOrdinal("patient_maritalstatus_name")),
-                                    PatientVocationalTrainingName = reader.GetString(reader.GetOrdinal("patient_vocational_training_name")),
-                                    PatientLandlinePhone = reader.GetString(reader.GetOrdinal("patient_landline_phone")),
-                                    PatientCellularPhone = reader.GetString(reader.GetOrdinal("patient_cellular_phone")),
-                                    PatientEmail = reader.GetString(reader.GetOrdinal("patient_email")),
-                                    PatientNationalityName = reader.GetString(reader.GetOrdinal("patient_nationality_name")),
-                                    PatientProvinceName = reader.GetString(reader.GetOrdinal("patient_province_name")),
-                                    PatientAddress = reader.GetString(reader.GetOrdinal("patient_address")),
-                                    PatientOcupation = reader.GetString(reader.GetOrdinal("patient_ocupation")),
-                                    PatientCompany = reader.GetString(reader.GetOrdinal("patient_company")),
-                                    PatientHealthInsuranceName = reader.GetString(reader.GetOrdinal("patient_health_insurance_name")),
-                                    PatientCode = reader.GetString(reader.GetOrdinal("patient_code")),
-                                    PatientStatus = reader.GetInt32(reader.GetOrdinal("patient_status"))
-                                };
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Manejo de errores
-                    Console.WriteLine($"Error al obtener los datos del paciente: {ex.Message}");
-                }
-            }
-
-            return patientConsult;
-        }
-
+        
 
 
     }

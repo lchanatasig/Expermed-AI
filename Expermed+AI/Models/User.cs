@@ -63,6 +63,8 @@ public partial class User
 
     public virtual ICollection<AssistantDoctorRelationship> AssistantDoctorRelationshipDoctorUsers { get; set; } = new List<AssistantDoctorRelationship>();
 
+    public virtual ICollection<Consultation> Consultations { get; set; } = new List<Consultation>();
+
     public virtual ICollection<Loginaudit> Loginaudits { get; set; } = new List<Loginaudit>();
 
     public virtual ICollection<Patient> PatientPatientCreationuserNavigations { get; set; } = new List<Patient>();
