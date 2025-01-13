@@ -42,6 +42,8 @@ if (document.querySelectorAll(".form-steps"))
                         if (elem.value.length > 0 && elem.value.match(validRegex)) {
                             var nextTab = nextButton.getAttribute('data-nexttab');
                             document.getElementById(nextTab).click();
+                            console.log("ID del siguiente tab:", nextTab);
+                            console.log("Elemento encontrado:", document.getElementById(nextTab));
                             form.classList.remove('was-validated');
                         }
                     })
