@@ -1,8 +1,7 @@
-﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http
 @{
-
     ViewBag.Title = "New Consultation";
-    ViewBag.pTitle = "New Conusltation";
+    ViewBag.pTitle = "New Consultation";
     ViewBag.pageTitle = "New Consultation";
     Layout = null;
     var usuarioId = ViewContext.HttpContext.Session.GetInt32("UsuarioId");
@@ -11,102 +10,91 @@
 
 @model NewPatientViewModel
 
-
-<!DOCTYPE html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="light" data-sidebar-size="lg"
     data-sidebar-image="none" data-preloader="disable">
 
 <head>
     @await Html.PartialAsync("_title_meta")
     @await Html.PartialAsync("_head_css")
-    <title></title>
 </head>
 
 <body>
-    <!-- #region Inicio pagina -->
+    <!--Inicio de la pagina-->
     <div id="layout-wrapper">
+
         @await Html.PartialAsync("_menu")
-        <!-- #region  Contenudo en general-->
+
         <div class="main-content">
-            <!-- #region  Inicio del contenido de la pagina-->
+
             <div class="page-content">
-                <!-- #region  Recuadro container-fluid-->
+
                 <div class="container-fluid">
-                    <!-- #region  Titulo princila{-->
+                    <!-- #region Titulo -->
                     <div class="position-relative mx-n4 mt-n4">
-                        <div class="profile-wid-bg profile-setting.img">
-                            <img src="~/assets/images/auth-one-bg.jpg" class="profile-wid-img" alt="img-fondo">
+
+                        <div class="profile-wid-bg profile-setting-img">
+                            <img src="~/assets/images/auth-one-bg.jpg" class="profile-wid-img" alt="" />
                             <div class="overlay-content">
                                 <div class="text-end p-3">
                                     <div class="p-0 ms-auto rounded-circle profile-photo-edit">
-                                        <h1 class="cabeceras"><i class=" ri-survey-fill"></i> NEW CONSULTATION</h1>
+
+                                        <h1 class="cabeceras"> <i class=" ri-survey-fill"></i>NEW CONSULTATION</h1>
+
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- #endregion  Titulo Pirncipal-->
 
-                    <!-- #region  cuerpo general Formulario-->
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- #endregion Titulo-->
+
+
+                    <!-- #region --Inicio -->
                     <div class="col-xxl-9">
                         <div class="card">
                             <div class="card-body">
-                                <!-- #region Formulario (FORM)-->
+                                <!-- Formulario -->
                                 <form action="#" class="form-steps" autocomplete="off">
-                                    <!-- #region Steps -->
+                                    <!-- Steps -->
                                     <div class="step-arrow-nav mb-4">
                                         <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
-                                            <!-- #region Step Uno-->
                                             <li class="nav-item" role="presentation">
                                                 <button class="nav-link active" id="steparrow-gen-info-tab"
                                                     data-bs-toggle="pill" data-bs-target="#steparrow-gen-info"
                                                     type="button" role="tab" aria-controls="steparrow-gen-info"
-                                                    aria-selected="true">Patient Data
-                                                </button>
+                                                    aria-selected="true">Patient Data</button>
                                             </li>
-                                            <!-- #endregion Step Uno-->
-                                            <!-- #region Step Dos-->
                                             <li class="nav-item" role="presentation">
                                                 <button class="nav-link" id="steparrow-consultation-data-tab"
                                                     data-bs-toggle="pill" data-bs-target="#steparrow-consultation-data"
                                                     type="button" role="tab" aria-controls="steparrow-consultation-data"
-                                                    aria-selected="false">Consultation Data
-
-                                                </button>
+                                                    aria-selected="false">Consultation Data</button>
                                             </li>
-                                            <!-- #endregion Step Dos -->
-                                            <!-- #region Step Tres-->
                                             <li class="nav-item" role="presentation">
                                                 <button class="nav-link" id="steparrow-vital-signs-tab"
                                                     data-bs-toggle="pill" data-bs-target="#steparrow-vital-signs"
                                                     type="button" role="tab" aria-controls="steparrow-vital-signs"
-                                                    aria-selected="false">Vital Signs
-                                                </button>
+                                                    aria-selected="false">Vital Signs</button>
                                             </li>
-                                            <!-- #endregion  Step Tres-->
-                                            <!-- #region Step Cuatro-->
                                             <li class="nav-item" role="presentation">
                                                 <button class="nav-link" id="steparrow-diagnostic-tab"
                                                     data-bs-toggle="pill" data-bs-target="#steparrow-diagnostic"
                                                     type="button" role="tab" aria-controls="steparrow-diagnostic"
-                                                    aria-selected="false">Diagnosis
-
-                                                </button>
+                                                    aria-selected="false">Diagnostic</button>
                                             </li>
-                                            <!-- #endregion Step Cuatro-->
-
                                         </ul>
                                     </div>
-                                    <!-- #endregion Steps-->
-                                    <!-- #region Tab Content-->
+
+                                    <!-- Tab Content -->
                                     <div class="tab-content">
-                                        <!-- #region Primer panel-->
+                                        <!-- Primer panel -->
                                         <div class="tab-pane fade show active" id="steparrow-gen-info" role="tabpanel"
                                             aria-labelledby="steparrow-gen-info-tab">
-
                                             <div class="row">
-
-                                                <div class="divider-with text">
+                                                <div class="divider-with-text">
                                                     <i class="ri-user fill" id="icons"></i><span>Personal Data</span>
                                                 </div>
 
@@ -128,6 +116,8 @@
                                                             name="PatientSecondlastname"
                                                             value="@Model.DetailsPatient.PatientSecondlastname"
                                                             disabled>
+
+
                                                     </div>
                                                 </div>
 
@@ -140,7 +130,6 @@
                                                             value="@Model.DetailsPatient.PatientFirstname" disabled>
                                                     </div>
                                                 </div>
-
 
                                                 <div class="col-lg-3">
                                                     <div class="mb-3">
@@ -279,7 +268,6 @@
                                                         Data </span>
                                                 </div>
 
-
                                                 <div class="col-lg-3">
                                                     <div class="mb-3">
                                                         <label for="selectNationality" class="form-label">Select your
@@ -314,7 +302,6 @@
                                                         </select>
                                                     </div>
                                                 </div>
-
 
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
@@ -354,7 +341,6 @@
 
                                                     </div>
                                                 </div>
-
 
                                                 <div class="col-lg-4">
                                                     <div class="mb-3">
@@ -435,12 +421,11 @@
                                                     <button type="button" class="btn btn-success nexttab"
                                                         data-nexttab="steparrow-consultation-data-tab">Next</button>
                                                 </div>
-
                                             </div>
-
                                         </div>
-                                        <!-- #endregion Primer Panel-->
-                                        <!-- #region Segundo Panel -->
+
+
+                                        <!-- Segundo panel -->
                                         <div class="tab-pane fade" id="steparrow-consultation-data" role="tabpanel"
                                             aria-labelledby="steparrow-consultation-data-tab">
 
@@ -450,8 +435,8 @@
                                                     <i class="ri-user-search-fill" id="icons"></i> <span> Contact Data
                                                     </span>
                                                 </div>
+                                                <!-- #region Tabla de  informacion paciente-->
 
-                                                <!-- #region Tabla datos paciente-->
                                                 <table class="table table-striped">
                                                     <tbody>
                                                         <tr>
@@ -514,7 +499,8 @@
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <!-- #endregion Tabla datos paciente-->
+                                                <!-- #region Fin Tabla de  informacion paciente-->
+
 
                                                 <div class="col-lg-4">
                                                     <div class="mb-3">
@@ -578,7 +564,7 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- #region Alergias-->
+                                                <!-- Contenedor del select de alergias -->
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
                                                         <label for="allergiesSelect"> Select the allergies</label>
@@ -598,8 +584,9 @@
 
                                                     </div>
                                                 </div>
-                                                <!-- #endregion Alergias-->
-                                                <!-- #region Cirugias-->
+
+                                                <!-- Contenedor del select de cirugias -->
+
                                                 <div class="col-lg-12" id="surgeriesSelectContainer">
                                                     <!-- Oculto por defecto -->
                                                     <div class="mb-3">
@@ -619,15 +606,13 @@
                                                             name="selectSurgeriesId">
                                                     </div>
                                                 </div>
-                                                <!-- #endregion Cirugias-->
-
-                                                <!-- #region Antecedentes familiares-->
+                                                <!-- #region  Antecedentes Familiares Inicio-->
                                                 <div class="divider-with-text">
                                                     <i class="ri-arrow-go-back-fill" id="icons"></i> <span> Familiary
                                                         background </span>
                                                 </div>
 
-                                                <!-- #region  Cardiopatia-->
+                                                <!-- Region Cardiopatia-->
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
                                                         id="SwitchCheck1">
@@ -661,9 +646,9 @@
 
                                                     </div>
                                                 </div>
-                                                <!-- #endregion Cardiopatia-->
+                                                <!-- #region  Fin Cardiopatia-->
 
-                                                <!-- #region Diabtes-->
+                                                <!-- #region  Diabetes inicio-->
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
                                                         id="SwitchCheck1">
@@ -695,8 +680,9 @@
 
                                                     </div>
                                                 </div>
-                                                <!-- #endregion Diabtees-->
-                                                <!-- #region Enfermedad Cardiovascular-->
+
+                                                <!-- #region  Fin Diabtes-->
+                                                <!-- #region  Enfermedad Cardiovacular -->
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
                                                         id="SwitchCheck1">
@@ -729,8 +715,10 @@
 
                                                     </div>
                                                 </div>
-                                                <!-- #endregion Enfermedad Cardiovascular-->
-                                                <!-- #region Hipertension-->
+
+                                                <!-- #region  Fin Enfermedad Cardiovacular-->
+                                                <!-- #region Inicio Hypertension-->
+
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
                                                         id="SwitchCheck1">
@@ -762,9 +750,9 @@
 
                                                     </div>
                                                 </div>
-                                                <!-- #endregion Hipertension-->
+                                                <!-- #region  Fin Hypertension-->
 
-                                                <!-- #region Cancer-->
+                                                <!-- #region Inicio Cancer-->
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
                                                         id="SwitchCheck1">
@@ -795,8 +783,10 @@
 
                                                     </div>
                                                 </div>
-                                                <!-- #endregion Cancer-->
-                                                <!-- #region Tuberculosis-->
+
+                                                <!-- #region  Fin Cancer-->
+
+                                                <!-- #region Inicio Tuberculosis-->
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
                                                         id="SwitchCheck1">
@@ -828,8 +818,7 @@
 
                                                     </div>
                                                 </div>
-                                                <!-- #endregion Tuberculosis-->
-
+                                                <!-- #region  Fin Tuberculosis-->
                                                 <!-- #region Enfermedad Mental-->
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
@@ -863,9 +852,9 @@
 
                                                     </div>
                                                 </div>
-                                                <!-- #endregion Enfermedad Mental---->
 
-                                                <!-- #region Enfermedad Infecciosa-->
+                                                <!-- #region  Fin Enfermedad Mental-->
+                                                <!-- #region  Enfermedad Infecciosa-->
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
                                                         id="SwitchCheck1">
@@ -897,9 +886,9 @@
 
                                                     </div>
                                                 </div>
-                                                <!-- #endregion Enfermedad Infecciosa-->
 
-                                                <!-- #region Malformacion-->
+                                                <!-- #endregion Fin Enfermedad Infecciosa-->
+                                                <!-- #region  Inicio Malformacion-->
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
                                                         id="SwitchCheck1">
@@ -931,9 +920,9 @@
 
                                                     </div>
                                                 </div>
-                                                <!-- #endregion Malformacion-->
 
-                                                <!-- #region Other-->
+                                                <!-- #endregion Fin Malformacion-->
+                                                <!-- #region  Other-->
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
                                                         id="SwitchCheck1">
@@ -965,8 +954,7 @@
                                                     </div>
                                                 </div>
                                                 <!-- #endregion Other-->
-
-                                                <!-- #endregion Antecedentes familiares-->
+                                                <!-- #endregion Fin Antecedentes Familiares -->
                                                 <div class="divider-with-text">
                                                     <i class="las la-notes-medical" id="icons"></i> <span> Current
                                                         illness or problem (*)</span>
@@ -982,28 +970,27 @@
                                                     </div>
                                                 </div>
 
+
+
                                                 <div class="d-flex align-items-start gap-3 mt-4">
                                                     <button type="button" class="btn btn-light previestab"
                                                         data-previous="steparrow-gen-info-tab">Back</button>
                                                     <button type="button" class="btn btn-success nexttab"
                                                         data-nexttab="steparrow-vital-signs-tab">Next</button>
                                                 </div>
-
                                             </div>
                                         </div>
-                                        <!-- #endregion Segundi Panel-->
-                                        <!-- #region Tercer Panel-->
+
+                                        <!-- Tercer panel -->
                                         <div class="tab-pane fade" id="steparrow-vital-signs" role="tabpanel"
                                             aria-labelledby="steparrow-vital-signs-tab">
-
                                             <div class="row">
-
                                                 <div class="divider-with-text">
                                                     <i class="ri-user-search-fill" id="icons"></i> <span> Contact Data
                                                     </span>
                                                 </div>
+                                                <!-- #region Tabla de  informacion paciente-->
 
-                                                <!-- #region Tabla datos paciente-->
                                                 <table class="table table-striped">
                                                     <tbody>
                                                         <tr>
@@ -1069,8 +1056,7 @@
                                                     </tbody>
                                                 </table>
 
-                                                <!-- #endregion Tabla datos paciente-->
-
+                                                <!-- #region Fin Tabla de  informacion paciente-->
                                                 <div class="divider-with-text">
                                                     <i class="las la-stethoscope" id="icons"></i> <span> Current review
                                                         of
@@ -1078,9 +1064,8 @@
                                                     </span>
                                                 </div>
 
-                                                <!-- #region  Revision de organos y sistemas-->
-
-                                                <!-- #region  organos de los sentidos-->
+                                                <!-- #region  inicio revision de organos y sistemas-->
+                                                <!-- Region Organos de los sentidos-->
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" name="SwitchCheckSenseOrgans"
                                                         type="checkbox" role="switch" id="SwitchCheck1">
@@ -1114,9 +1099,9 @@
 
                                                     </div>
                                                 </div>
-                                                <!-- #endregion  organos de los sentidos-->
+                                                <!-- #region  Fin Organos de los sentidos-->
 
-                                                <!-- #region Respiratory-->
+                                                <!-- Region Inicio Respiratory-->
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
                                                         id="SwitchCheck1" name="SwitchCheckRespiratory">
@@ -1150,9 +1135,9 @@
 
                                                     </div>
                                                 </div>
-                                                <!-- #endregion Respiratory-->
+                                                <!-- #region  Fin Respiratorio-->
 
-                                                <!-- #region Cardiovascular-->
+                                                <!-- Region Inicio Cardiovascular-->
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" name="SwitchCheckCardiovascular1"
                                                         type="checkbox" role="switch" id="SwitchCheck1">
@@ -1188,8 +1173,9 @@
 
                                                     </div>
                                                 </div>
-                                                <!-- #endregion Cardiovascular-->
-                                                <!-- #region Digestivo-->
+                                                <!-- #region  Fin Cardiovascular-->
+
+                                                <!-- Region Inicio Digestive-->
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" name="SwitchCheckDigestive"
                                                         type="checkbox" role="switch" id="SwitchCheck1">
@@ -1223,9 +1209,9 @@
 
                                                     </div>
                                                 </div>
-                                                <!-- #endregion Digestivo-->
+                                                <!-- #region  Fin Digestive-->
 
-                                                <!-- #region Genital-->
+                                                <!-- Region Inicio Genital-->
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" name="SwitchCheckGenital"
                                                         type="checkbox" role="switch" id="SwitchCheck1">
@@ -1259,9 +1245,9 @@
 
                                                     </div>
                                                 </div>
-                                                <!-- #endregion Genital-->
+                                                <!-- #region  Fin Genital-->
 
-                                                <!-- #region Urinaria-->
+                                                <!-- Region Inicio Urinary-->
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" name="SwitchCheckUrinary"
                                                         type="checkbox" role="switch" id="SwitchCheck1">
@@ -1295,9 +1281,9 @@
 
                                                     </div>
                                                 </div>
-                                                <!-- #endregion Urinaria-->
+                                                <!-- #region  Fin Urinary-->
 
-                                                <!-- #region Musculo Esqueletico -->
+                                                <!-- Region Inicio Musculo esqueletico-->
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" name="SwitchCheckSkeletalMuscle"
                                                         type="checkbox" role="switch" id="SwitchCheck1">
@@ -1326,22 +1312,19 @@
                                                     <div class="mb-3">
 
                                                         <input type="text" class="form-control"
-                                                            id="observationSkeletalMuscle"
-                                                            name="observationSkeletalMuscle"
+                                                            id="observationSkeletalMuscle" name="observationSkeletalMuscle"
                                                             placeholder="Enter an observation">
 
                                                     </div>
                                                 </div>
-                                                <!-- #endregion Musculo Esqueletico-->
+                                                <!-- #region  Fin SkeletalMuscle-->
 
-                                                <!-- #region Endocrino-->
+                                                <!-- Region Inicio Endocrino-->
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" name="SwitchCheckEndocrine"
                                                         type="checkbox" role="switch" id="SwitchCheck1">
-
-                                                    <label class="form-check-label" for="SwitchCheckEndocrine">Endocrine
-                                                    </label>
-
+                                                    <label class="form-check-label"
+                                                        for="SwitchCheckEndocrine">Endocrine</label>
                                                 </div>
 
                                                 <div class="col-lg-5">
@@ -1362,39 +1345,621 @@
                                                 </div>
 
                                                 <div class="col-lg-5">
-
                                                     <div class="mb-3">
-                                          <input type="text" class="form-control">
+
+                                                        <input type="text" class="form-control"
+                                                            id="observationEndocrine" name="observationEndocrine"
+                                                            placeholder="Enter an observation">
+
                                                     </div>
+                                                </div>
+                                                <!-- #region  Fin Endocrine-->
 
-
+                                                <!-- Region Inicio Endocrino-->
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" name="SwitchCheckLymphaticHeme"
+                                                        type="checkbox" role="switch" id="SwitchCheck1">
+                                                    <label class="form-check-label"
+                                                        for="SwitchCheckLymphaticHeme">Lymphatic Heme</label>
                                                 </div>
 
-                                                <!-- #endregion Endocrino-->
+                                                <div class="col-lg-5">
+                                                    <div class="mb-3">
 
-                                                <!-- #endregion Revision de organos y sistemas-->
+                                                        <select class="form-control" id="FamilyMembers"
+                                                            name="familyMemberLymphaticHeme" data-choices
+                                                            data-choices-sorting-false>
+                                                            <option value="">Select your family member</option>
+                                                            @foreach (var familyMember in Model.FamilyMember)
+                                                            {
+                                                                <option value="@familyMember.CatalogId">
+                                                                    @familyMember.CatalogName</option>
+                                                            }
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-5">
+                                                    <div class="mb-3">
+
+                                                        <input type="text" class="form-control"
+                                                            id="observationLymphaticHeme" name="observationLymphaticHeme"
+                                                            placeholder="Enter an observation">
+
+                                                    </div>
+                                                </div>
+                                                <!-- #region  Fin  Lymphatic Heme-->
+
+                                                <!-- Region Inicio Nervioso-->
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" name="SwitchCheckHighlystrung"
+                                                        type="checkbox" role="switch" id="SwitchCheck1">
+                                                    <label class="form-check-label"
+                                                        for="SwitchCheckHighlystrung">Highly strung</label>
+                                                </div>
+
+                                                <div class="col-lg-5">
+                                                    <div class="mb-3">
+
+                                                        <select class="form-control" id="FamilyMembers"
+                                                            name="familyMemberHighlystrung" data-choices
+                                                            data-choices-sorting-false>
+                                                            <option value="">Select your family member</option>
+                                                            @foreach (var familyMember in Model.FamilyMember)
+                                                            {
+                                                                <option value="@familyMember.CatalogId">
+                                                                    @familyMember.CatalogName</option>
+                                                            }
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-5">
+                                                    <div class="mb-3">
+
+                                                        <input type="text" class="form-control"
+                                                            id="observationHighlystrung" name="observationHighlystrung"
+                                                            placeholder="Enter an observation">
+
+                                                    </div>
+                                                </div>
+                                                <!-- #region  Fin  Nervioso-->
+
+                                                <!-- #endregion Final revision de organos y sistemas-->
+                                                <br/> <br />
+
+                                                <div class="divider-with-text">
+                                                    <i class="las la-stethoscope" id="icons"></i> <span> Vital signs and anthropometry
+                                                    </span>
+                                                </div>
+
+                                                <!-- Info Alert -->
+                                                
+                                                <div class="alert alert-info" role="alert">
+
+                                                    <strong> Decimal Separator! </strong> <br /> <i class="ri-calculator-line" id="icons"></i>You must use the character <b> <span style="font-size: 25px;" >.</span> </b>to separate decimals
+                                                </div>
+                                                <!-- #region Inicio Signos vitales -->
+
+                                                <div class="col-lg-4">
+                                                   <div class="mb-3">
+                                                     <label for="temperatureInput" class="form-label">Temperature ºC *</label>
+                                                     <input type="text" class="form-control" id="temperatureInput" name="temperatureInput" placeholder="37.5" required>
+                                                   </div>
+                                                </div>
+
+                                                <div class="col-lg-4">
+                                                   <div class="mb-3">
+                                                     <label for="respiratoryRateInput" class="form-label"> Respiratory rate *</label>
+                                                     <input type="text" class="form-control" id="respiratoryRateInput" name="respiratoryRateInput" placeholder="12" required>
+                                                   </div>
+                                                </div>
+
+                                                <div class="col-lg-4">
+                                                   <div class="mb-3">
+                                                     <label for="bloodPressureInput" class="form-label"> Blood pressure * </label>
+                                                     <input type="text" class="form-control" id="bloodPressureInput" name="bloodPressureInput" placeholder="/" required>
+                                                     <span>Si la presión es de dos cifras, anteceda el 0 antes del número. Ej: 046/123 siempre colocar como el ejemplo</span>
+                                                   </div>
+                                                </div>
+
+                                                <div class="col-lg-4">
+                                                   <div class="mb-3">
+                                                     <label for="pulseMinuteInput" class="form-label"> Pulse per minute * </label>
+                                                     <input type="text" class="form-control" id="pulseMinuteInput" name="pulseMinuteInput" placeholder="12" required>
+                                                   </div>
+                                                </div>
+
+                                                <div class="col-lg-4">
+                                                   <div class="mb-3">
+                                                     <label for="weightInput" class="form-label"> Weight * (Kg)</label>
+                                                     <input type="text" class="form-control" id="weightInput" name="weightInput" placeholder="40" required>
+                                                   </div>
+                                                </div>
+
+
+                                                <div class="col-lg-4">
+                                                   <div class="mb-3">
+                                                     <label for="pointofsaleInput" class="form-label"> Size * (cm)</label>
+                                                     <input type="text" class="form-control" id="weightInput" name="weightInput" placeholder="160" required>
+                                                   </div>
+                                                </div>
+
+                                                <!-- #endregion  Fin Signos vitales-->
+                                                
+                                                <!-- #region Inicio de Examen Fisico Regional-->
+                                                <div class="divider-with-text">
+                                                    <i class="las la-stethoscope" id="icons"></i> <span> Regional Physical Exam
+                                                    </span>
+                                                </div>
+
+                                                <!-- #region  Head-->
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" role="switch"
+                                                        id="SwitchCheckHead">
+                                                    <label class="form-check-label" for="SwitchCheckHead">Head</label>
+                                                </div>
+
+
+                                                <div class="col-lg-5">
+                                                    <div class="mb-3">
+                                                        <select class="form-control" id="FamilyMembers"
+                                                            name="familyMemberHead" data-choices
+                                                            data-choices-sorting-false>
+                                                            <option value="">Select your family member</option>
+                                                            @foreach (var familyMember in Model.FamilyMember)
+                                                            {
+                                                                <option value="@familyMember.CatalogId">
+                                                                    @familyMember.CatalogName</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-5">
+                                                    <div class="mb-3">
+
+                                                        <input type="text" class="form-control" id="observationHead"
+                                                            name="observationHead" placeholder="Enter an observation">
+
+                                                    </div>
+                                                </div>
+                                                <!-- #endregion Head-->
+
+                                                  <!-- #region  Neck-->
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" role="switch"
+                                                        id="SwitchCheckNeck">
+                                                    <label class="form-check-label" for="SwitchCheckNeck">Neck</label>
+                                                </div>
+
+
+                                                <div class="col-lg-5">
+                                                    <div class="mb-3">
+                                                        <select class="form-control" id="FamilyMembers"
+                                                            name="familyMemberNeck" data-choices
+                                                            data-choices-sorting-false>
+                                                            <option value="">Select your family member</option>
+                                                            @foreach (var familyMember in Model.FamilyMember)
+                                                            {
+                                                                <option value="@familyMember.CatalogId">
+                                                                    @familyMember.CatalogName</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-5">
+                                                    <div class="mb-3">
+
+                                                        <input type="text" class="form-control" id="observationNeck"
+                                                            name="observationNeck" placeholder="Enter an observation">
+
+                                                    </div>
+                                                </div>
+                                                <!-- #endregion Neck-->
+
+                                                 <!-- #region  Chest-->
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" role="switch"
+                                                        id="SwitchCheckNeck">
+                                                    <label class="form-check-label" for="SwitchCheckNeck">Chest</label>
+                                                </div>
+
+
+                                                <div class="col-lg-5">
+                                                    <div class="mb-3">
+                                                        <select class="form-control" id="FamilyMembers"
+                                                            name="familyMemberChest" data-choices
+                                                            data-choices-sorting-false>
+                                                            <option value="">Select your family member</option>
+                                                            @foreach (var familyMember in Model.FamilyMember)
+                                                            {
+                                                                <option value="@familyMember.CatalogId">
+                                                                    @familyMember.CatalogName</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-5">
+                                                    <div class="mb-3">
+
+                                                        <input type="text" class="form-control" id="observationChest"
+                                                            name="observationChest" placeholder="Enter an observation">
+
+                                                    </div>
+                                                </div>
+                                                <!-- #endregion Chest-->
+
+                                                 <!-- #region  Abdomen-->
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" role="switch"
+                                                        id="SwitchCheckAbdomen">
+                                                    <label class="form-check-label" for="SwitchCheckAbdomen">Abdomen</label>
+                                                </div>
+
+
+                                                <div class="col-lg-5">
+                                                    <div class="mb-3">
+                                                        <select class="form-control" id="FamilyMembers"
+                                                            name="familyMemberAbdomen" data-choices
+                                                            data-choices-sorting-false>
+                                                            <option value="">Select your family member</option>
+                                                            @foreach (var familyMember in Model.FamilyMember)
+                                                            {
+                                                                <option value="@familyMember.CatalogId">
+                                                                    @familyMember.CatalogName</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-5">
+                                                    <div class="mb-3">
+
+                                                        <input type="text" class="form-control" id="observationAbdomen"
+                                                            name="observationAbdomen" placeholder="Enter an observation">
+
+                                                    </div>
+                                                </div>
+                                                <!-- #endregion Abdomen-->
+
+                                                
+                                                 <!-- #region  Pelvis-->
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" role="switch"
+                                                        id="SwitchCheckPelvis">
+                                                    <label class="form-check-label" for="SwitchCheckPelvis">Pelvis</label>
+                                                </div>
+
+
+                                                <div class="col-lg-5">
+                                                    <div class="mb-3">
+                                                        <select class="form-control" id="FamilyMembers"
+                                                            name="familyMemberPelvis" data-choices
+                                                            data-choices-sorting-false>
+                                                            <option value="">Select your family member</option>
+                                                            @foreach (var familyMember in Model.FamilyMember)
+                                                            {
+                                                                <option value="@familyMember.CatalogId">
+                                                                    @familyMember.CatalogName</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-5">
+                                                    <div class="mb-3">
+
+                                                        <input type="text" class="form-control" id="observationPelvis"
+                                                            name="observationPelvis" placeholder="Enter an observation">
+
+                                                    </div>
+                                                </div>
+                                                <!-- #endregion Pelvis-->
+
+                                                    <!-- #region  Extremities-->
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" role="switch"
+                                                        id="SwitchCheckExtremities">
+                                                    <label class="form-check-label" for="SwitchCheckExtremities">Extremities</label>
+                                                </div>
+
+
+                                                <div class="col-lg-5">
+                                                    <div class="mb-3">
+                                                        <select class="form-control" id="FamilyMembers"
+                                                            name="familyMemberExtremities" data-choices
+                                                            data-choices-sorting-false>
+                                                            <option value="">Select your family member</option>
+                                                            @foreach (var familyMember in Model.FamilyMember)
+                                                            {
+                                                                <option value="@familyMember.CatalogId">
+                                                                    @familyMember.CatalogName</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-5">
+                                                    <div class="mb-3">
+
+                                                        <input type="text" class="form-control" id="observationExtremities"
+                                                            name="observationExtremities" placeholder="Enter an observation">
+
+                                                    </div>
+                                                </div>
+                                                <!-- #endregion Extremities-->
+
+                                                <!-- #endregion Fin Examen Fisico Regional-->
+                                                <div class="d-flex align-items-start gap-3 mt-4">
+                                                    <button type="button" class="btn btn-light previestab"
+                                                        data-previous="steparrow-consultation-data-tab">Back</button>
+                                                    <button type="button" class="btn btn-success nexttab"
+                                                        data-nexttab="steparrow-diagnostic-tab">Next</button>
+                                                </div>
 
                                             </div>
-
                                         </div>
-                                        <!-- #endregion Tercer Panel -->
 
+                                        <!-- Cuarto panel -->
+                                        <div class="tab-pane fade" id="steparrow-diagnostic" role="tabpanel"
+                                            aria-labelledby="steparrow-diagnostic-tab">
+
+  <!-- #region Tabla de  informacion paciente-->
+
+                                                <table class="table table-striped">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="font-size: 0.7rem;">
+                                                                <i class="ri-account-circle-fill"></i> <br />
+                                                                Patient <br /> @Model.DetailsPatient.PatientFirstname
+                                                                @Model.DetailsPatient.PatientFirstsurname
+                                                            </td>
+                                                            <td style="font-size: 0.7rem;"><i
+                                                                    class="ri-bank-card-fill"></i>
+                                                                <br /> Document
+                                                                Number <br />
+                                                                @Model.DetailsPatient.PatientDocumentnumber
+                                                            </td>
+                                                            <td style="font-size: 0.7rem;"><i
+                                                                    class="mdi-gender-male-female"></i> <br /> Gender
+                                                                <br /> @Model.DetailsPatient.PatientGenderName
+                                                            </td>
+                                                            <td style="font-size: 0.7rem;"><i class="ri-drop-fill"></i>
+                                                                <br /> Blood Type <br />
+                                                                @Model.DetailsPatient.PatientBloodtypeName
+                                                            </td>
+                                                            <td style="font-size: 0.7rem;"><i
+                                                                    class="ri-calendar-event-fill"></i> <br /> Date of
+                                                                Birthday <br />
+                                                                @((Model.DetailsPatient.PatientBirthdate.HasValue) ?
+                                                                    Model.DetailsPatient.PatientBirthdate.Value.ToString("yyyy-MM-dd")
+                                                                    : string.Empty) </span></td>
+                                                            <td style="font-size: 0.7rem;"><i
+                                                                    class="ri-calendar-event-fill"></i> <br /> Age
+                                                                <br /> @Model.DetailsPatient.PatientAge
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr>
+
+                                                            <td style="font-size: 0.7rem;"> <i
+                                                                    class="ri-file-user-fill"></i><br /> Status maried
+                                                                <br /> @Model.DetailsPatient.PatientMaritalstatusName
+                                                            </td>
+                                                            <td style="font-size: 0.7rem;"> <i
+                                                                    class="ri-honour-fill"></i><br />Professional
+                                                                Training
+                                                                <br />@Model.PatientVocationalTrainingNavigation
+                                                            </td>
+                                                            <td style="font-size: 0.7rem;"> <i
+                                                                    class="ri-flag-fill"></i><br /> Nationality
+                                                                <br />@Model.DetailsPatient.PatientNationalityName
+                                                            </td>
+                                                            <td style="font-size: 0.7rem;"> <i
+                                                                    class="ri-phone-fill"></i><br />Phone
+                                                                <br />@Model.DetailsPatient.PatientLandlinePhone
+                                                            </td>
+                                                            <td style="font-size: 0.7rem;"> <i
+                                                                    class="ri-smartphone-fill"></i><br />Cellphone
+                                                                <br />@Model.DetailsPatient.PatientCellularPhone
+                                                            </td>
+                                                            <td style="font-size: 0.7rem;"> <i
+                                                                    class="ri-mail-fill"></i><br />Email
+                                                                <br />@Model.DetailsPatient.PatientEmail
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                                <!-- #region Fin Tabla de  informacion paciente-->
+
+                                                <!--Inicio Diagnostico-->
+
+                                             <div class="row">
+                                                 <div class="col-xxl-4 col-lg-12">
+                                                     <div class="card">
+                                                         <div class="card-header">
+                                                             <h6 class="card-title mb-0">Diagnosis</h6>
+                                                         </div>
+                                                         <div class="card-body">
+                                                             
+
+                                                            <div class="col-lg-11">
+                                                                <div class="mb-3">
+                                                                    <select class="form-control" id="FamilyMembers"
+                                                                        name="familyMemberExtremities" data-choices
+                                                                        data-choices-sorting-false>
+                                                                        <option value="">Select your family member</option>
+                                                                        @foreach (var familyMember in Model.FamilyMember)
+                                                                        {
+                                                                            <option value="@familyMember.CatalogId">
+                                                                                @familyMember.CatalogName</option>
+                                                                        }
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2">
+                                                                <button type="button" class="btn btn-soft-info waves-effect waves-light">Info</button>
+                                                            </div>
+
+                                                            <table class="table table-nowrap">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col" style="font-size: 12px;">Diagnosis</th>
+                                                                        <th scope="col" style="font-size: 12px;">Presumptive/Definitive</th>
+                                                           
+                                                                    </tr>
+                                                                </thead>
+                                                                 <tbody>
+                                                                     <tr>
+                                                                         <th ></th>
+                                                                         <td>Bobby Davis</td>
+                                                                         <td><button type="button" class="btn btn-outline-danger btn-icon waves-effect waves-light"><i class="ri-delete-bin-5-line"></i></button></td>
+                                                                    </tr>
+                                                             
+                                                                  </tbody>
+                                                            </table>
+
+                                                         </div>
+                                                         <div class="card-footer">
+                                                             <a href="javascript:void(0);" class="link-primary float-end"> Add a diagnosis and indicate if it is presumptive or definitive.</a>
+                                                         </div>
+                                                     </div>
+                                                 </div><!-- end col -->
+                                                
+                                             </div><!-- end row -->
+
+                                               
+                                            <div class="text-center">
+                                                <h5>Final Step!</h5>
+                                                <p class="text-muted">This is the final panel.</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <!-- #endregion Tab Content-->
                                 </form>
-                                <!-- #endregion  Formulario(FORM)-->
                             </div>
                         </div>
                     </div>
-                    <!-- #endregion Formulario-->
+
+
+
+                    <!-- #endregion Final -->
                 </div>
-                <!-- #endregion recuadro container-fluid -->
+
             </div>
-            <!-- #endregion Final del contenido de la pagina -->
+
+
+
         </div>
-        <!-- #endregion Final del contenido en general-->
+
+        @await Html.PartialAsync("_footer")
+
     </div>
-    <!-- #endregion  Final de lang pagina-->
+
+
+
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Selecciona todos los switches
+            const switches = document.querySelectorAll(".form-check-input");
+
+            switches.forEach(switchElement => {
+                // Asocia un evento de cambio a cada switch
+                switchElement.addEventListener("change", function () {
+                    // Obtén los campos asociados al switch actual
+                    const parentDiv = this.closest(".form-check");
+                    const nextSibling = parentDiv.nextElementSibling;
+                    const selectField = nextSibling.querySelector("select");
+                    const observationField = nextSibling.nextElementSibling.querySelector("input");
+
+                    // Muestra u oculta los campos según el estado del switch
+                    if (this.checked) {
+                        selectField.closest(".col-lg-5").style.display = "block";
+                        observationField.closest(".col-lg-5").style.display = "block";
+                    } else {
+                        selectField.closest(".col-lg-5").style.display = "none";
+                        observationField.closest(".col-lg-5").style.display = "none";
+                    }
+                });
+
+                // Oculta inicialmente los campos asociados
+                const parentDiv = switchElement.closest(".form-check");
+                const nextSibling = parentDiv.nextElementSibling;
+                const selectField = nextSibling.querySelector("select");
+                const observationField = nextSibling.nextElementSibling.querySelector("input");
+
+                selectField.closest(".col-lg-5").style.display = "none";
+                observationField.closest(".col-lg-5").style.display = "none";
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            Array.from(document.querySelectorAll(".form-steps")).forEach(function (form) {
+                // Botones "Next"
+                Array.from(form.querySelectorAll(".nexttab")).forEach(function (nextButton) {
+                    nextButton.addEventListener("click", function () {
+                        var currentTab = nextButton.closest(".tab-pane");
+                        var inputs = currentTab.querySelectorAll(".form-control");
+
+                        // Validar campos en el paso actual
+                        var isValid = true;
+                        inputs.forEach(function (input) {
+                            if (!input.checkValidity()) {
+                                input.classList.add("is-invalid");
+                                isValid = false;
+                            } else {
+                                input.classList.remove("is-invalid");
+                                input.classList.add("is-valid");
+                            }
+                        });
+
+                        if (isValid) {
+                            var nextTabId = nextButton.getAttribute('data-nexttab');
+                            var nextTab = document.getElementById(nextTabId);
+                            if (nextTab) {
+                                var tab = new bootstrap.Tab(nextTab);
+                                tab.show();
+                                form.classList.remove("was-validated");
+                            } else {
+                                console.error("No se encontró el siguiente tab:", nextTabId);
+                            }
+                        } else {
+                            form.classList.add("was-validated");
+                        }
+                    });
+                });
+
+                // Botones "Previous"
+                Array.from(form.querySelectorAll(".previestab")).forEach(function (prevButton) {
+                    prevButton.addEventListener("click", function () {
+                        var prevTabId = prevButton.getAttribute('data-previous');
+                        var prevTab = document.getElementById(prevTabId);
+                        if (prevTab) {
+                            var tab = new bootstrap.Tab(prevTab);
+                            tab.show();
+                        } else {
+                            console.error("No se encontró el tab anterior:", prevTabId);
+                        }
+                    });
+                });
+            });
+        });
+
+
+    </script>
+
+
+    @await Html.PartialAsync("_vendor_scripts")
+
 </body>
 
 </html>
