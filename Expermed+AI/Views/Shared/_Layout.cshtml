@@ -28,7 +28,7 @@
     <!-- END layout-wrapper -->
 @*     @Html.Partial("_customizer")
  *@
-    @Html.Partial("_vendor_scripts")
+    @await Html.PartialAsync("_vendor_scripts")
 
     @RenderSection("scripts", required: false)
 </body>

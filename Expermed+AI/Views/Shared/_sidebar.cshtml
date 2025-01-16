@@ -11,8 +11,8 @@
     var rutaImagenPorDefecto = Url.Content("~/assets/images/users/multi-user.jpg");
 
     string fotoPerfilSrc = string.IsNullOrEmpty(fotoPerfilBase64)
-        ? rutaImagenPorDefecto
-        : $"data:image/jpeg;base64,{fotoPerfilBase64}";
+    ? rutaImagenPorDefecto
+    : $"data:image/jpeg;base64,{fotoPerfilBase64}";
 }
 
 <!-- ========== App Menu ========== -->
@@ -49,8 +49,8 @@
             <div id="two-column-menu">
             </div>
             <ul class="navbar-nav" id="navbar-nav">
-              
-                    <li class="menu-title"><span data-key="t-menu">Menu</span></li>
+
+                <li class="menu-title"><span data-key="t-menu">Menu</span></li>
 
 
                 @if (perfilId == 1) // Perfil de Administrador
@@ -117,10 +117,10 @@
                             </ul>
                         </div>
                     </li>
-                   <!--Appointments Menu-->
+                    <!--Appointments Menu-->
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarAppointment" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarAppointment">
+                            aria-expanded="false" aria-controls="sidebarAppointment">
                             <i data-feather="list" class="icon-dual"></i> <span>Medical Appointments</span>
                         </a>
                         <div class="collapse menu-dropdown" id="sidebarAppointment">
@@ -128,7 +128,7 @@
 
                                 <li class="nav-item">
                                     <a href="@Url.Action("AppointmentList", "Appointment")" class="nav-link"
-                                    data-key="t-user"> Appointment list </a>
+                                        data-key="t-user"> Appointment list </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="@Url.Action("UserList", "Users")" class="nav-link" data-key="t-user"> Create
@@ -142,7 +142,7 @@
                     <!--Consultation Menu-->
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarConsultation" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarConsultation">
+                            aria-expanded="false" aria-controls="sidebarConsultation">
                             <i data-feather="file-text" class="icon-dual"></i> <span>Medical Consultation</span>
                         </a>
                         <div class="collapse menu-dropdown" id="sidebarConsultation">
@@ -150,10 +150,11 @@
 
                                 <li class="nav-item">
                                     <a href="@Url.Action("ConsultationList", "Consultation")" class="nav-link"
-                                    data-key="t-user"> Consultation list </a>
+                                        data-key="t-user"> Consultation list </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="@Url.Action("NewConsultation", "Consultation")" class="nav-link" data-key="t-user"> Create
+                                    <a href="@Url.Action("NewConsultation", "Consultation")" class="nav-link"
+                                        data-key="t-user"> Create
                                         New Consultation </a>
                                 </li>
 
@@ -161,21 +162,22 @@
                         </div>
                     </li>
 
-                     <!--Establish Menu-->
+                    <!--Establish Menu-->
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarEstablishments" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarEstablishments">
-                                <i data-feather="home" class="icon-dual"></i> <span>Medical Establishments</span>
+                            aria-expanded="false" aria-controls="sidebarEstablishments">
+                            <i data-feather="home" class="icon-dual"></i> <span>Medical Establishments</span>
                         </a>
-                            <div class="collapse menu-dropdown" id="sidebarEstablishments">
+                        <div class="collapse menu-dropdown" id="sidebarEstablishments">
                             <ul class="nav nav-sm flex-column">
 
                                 <li class="nav-item">
                                     <a href="@Url.Action("EstablishmentList", "Establishment")" class="nav-link"
-                                    data-key="t-user"> Establishments list </a>
+                                        data-key="t-user"> Establishments list </a>
                                 </li>
                                 <li class="nav-item">
-                                            <a href="@Url.Action("NewEstablishment", "Establishment")" class="nav-link" data-key="t-user"> Create
+                                    <a href="@Url.Action("NewEstablishment", "Establishment")" class="nav-link"
+                                        data-key="t-user"> Create
                                         New Establishments </a>
                                 </li>
 
@@ -187,8 +189,9 @@
                 }
 
 
-                  @if (perfilId == 2)
-                { <li class="nav-item">
+                @if (perfilId == 2)
+                {
+                    <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarPatients" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarPatients">
                             <i data-feather="users" class="icon-dual"></i> <span>Patients</span>
@@ -210,10 +213,10 @@
                         </div>
                     </li>
                     <!--Appointments Menu-->
-                    
+
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarAppointment" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarAppointment">
+                            aria-expanded="false" aria-controls="sidebarAppointment">
                             <i data-feather="list" class="icon-dual"></i> <span>Medical Appointments</span>
                         </a>
                         <div class="collapse menu-dropdown" id="sidebarAppointment">
@@ -221,7 +224,7 @@
 
                                 <li class="nav-item">
                                     <a href="@Url.Action("AppointmentList", "Appointment")" class="nav-link"
-                                    data-key="t-user"> Appointment list </a>
+                                        data-key="t-user"> Appointment list </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="@Url.Action("UserList", "Users")" class="nav-link" data-key="t-user"> Create
@@ -235,7 +238,7 @@
                     <!--Consultation Menu-->
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarConsultation" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarConsultation">
+                            aria-expanded="false" aria-controls="sidebarConsultation">
                             <i data-feather="file-text" class="icon-dual"></i> <span>Medical Consultation</span>
                         </a>
                         <div class="collapse menu-dropdown" id="sidebarConsultation">
@@ -243,7 +246,7 @@
 
                                 <li class="nav-item">
                                     <a href="@Url.Action("ConsultationList", "Consultation")" class="nav-link"
-                                    data-key="t-user"> Consultation list </a>
+                                        data-key="t-user"> Consultation list </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="@Url.Action("UserList", "Users")" class="nav-link" data-key="t-user"> Create
@@ -258,30 +261,30 @@
                 }
 
 
-                    @if (perfilId == 3)
+                @if (perfilId == 3)
                 {
-                        <!--Appointments Menu-->
+                    <!--Appointments Menu-->
 
-                        <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarAppointment" data-bs-toggle="collapse" role="button"
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="#sidebarAppointment" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarAppointment">
-                                <i data-feather="list" class="icon-dual"></i> <span>Medical Appointments</span>
-                            </a>
-                            <div class="collapse menu-dropdown" id="sidebarAppointment">
-                                <ul class="nav nav-sm flex-column">
+                            <i data-feather="list" class="icon-dual"></i> <span>Medical Appointments</span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="sidebarAppointment">
+                            <ul class="nav nav-sm flex-column">
 
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("AppointmentList", "Appointment")" class="nav-link"
+                                <li class="nav-item">
+                                    <a href="@Url.Action("AppointmentList", "Appointment")" class="nav-link"
                                         data-key="t-user"> Appointment list </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("UserList", "Users")" class="nav-link" data-key="t-user"> Create
-                                            New Appointment </a>
-                                    </li>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("UserList", "Users")" class="nav-link" data-key="t-user"> Create
+                                        New Appointment </a>
+                                </li>
 
-                                </ul>
-                            </div>
-                        </li>
+                            </ul>
+                        </div>
+                    </li>
 
                 }
             </ul>
