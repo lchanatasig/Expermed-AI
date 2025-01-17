@@ -34,7 +34,6 @@ namespace Expermed_AI.Controllers
             return View();
         }
 
-
         [HttpPost]
         public async Task<IActionResult> SignInBasic([FromForm] string loginUsuario, [FromForm] string claveUsuario)
         {
@@ -51,49 +50,52 @@ namespace Expermed_AI.Controllers
 
             try
             {
-                // Intenta validar al usuario
                 User user = await _userService.ValidateUser(loginUsuario, claveUsuario, ipAddress);
 
-                if (user != null)
+                return Ok(new
                 {
-                    return Ok(new
-                    {
-                        success = true,
-                        message = "Welcome to our system, Expermed wishes you a good day",
-                        redirectUrl = Url.Action("Home", "DashBoard")
-                    });
-                }
-                else
-                {
-                    return Unauthorized(new
-                    {
-                        success = false,
-                        message = "Credenciales inválidas o usuario inactivo."
-                    });
-                }
+                    success = true,
+                    message = "Welcome to our system, Expermed wishes you a good day",
+                    redirectUrl = "/DashBoard/Home"
+                });
             }
             catch (UnauthorizedAccessException ex)
             {
-                // Mensaje específico para credenciales inválidas
+                _logger.LogWarning("UnauthorizedAccessException: {Message}, StackTrace: {StackTrace}", ex.Message, ex.StackTrace);
+
                 return Unauthorized(new
                 {
                     success = false,
-                    message = ex.Message
+                    message = ex.Message,
+                    exceptionType = ex.GetType().Name // Tipo de excepción
+                });
+            }
+            catch (ArgumentException ex)
+            {
+                _logger.LogWarning("ArgumentException: {Message}, StackTrace: {StackTrace}", ex.Message, ex.StackTrace);
+
+                return BadRequest(new
+                {
+                    success = false,
+                    message = ex.Message,
+                    exceptionType = ex.GetType().Name // Tipo de excepción
                 });
             }
             catch (Exception ex)
             {
-                // Loguea el error para diagnóstico
-                _logger.LogError(ex, "Ocurrió un error inesperado durante el inicio de sesión.");
+                _logger.LogError(ex, "Unhandled exception occurred during login.");
 
-                // Mensaje genérico para errores desconocidos
                 return StatusCode(500, new
                 {
                     success = false,
-                    message = "Ocurrió un error inesperado. Por favor, intente nuevamente más tarde."
+                    message = "An unexpected error occurred.",
+                    detailedMessage = ex.Message, // Mensaje del error
+                    exceptionType = ex.GetType().Name, // Tipo de excepción
+                    stackTrace = ex.StackTrace // Trazabilidad completa
                 });
             }
         }
+
 
 
 
